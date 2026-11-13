@@ -1,0 +1,25 @@
+---
+description: Acme UI design system — tokens, themes, responsive layout and components for every UI change
+globs: src/**/*.tsx,src/**/*.ts,src/**/*.scss,index.html
+alwaysApply: true
+---
+
+# Acme UI (Linear-style minimal SaaS)
+
+Full contract: @DESIGN.md · project map: @AGENTS.md
+
+- Colours only via tokens from `src/styles/tokens.scss` (`$card`, `$border`, `$fg-muted`, `$accent`…).
+  No hex/rgb in components. New colour = CSS variable in **both** theme blocks of
+  `src/styles/globals.scss` + alias in `tokens.scss`.
+- Separate surfaces with 1px `$border`; shadows only on modal/drawer/toast.
+- One `Button variant="primary"` per view; statuses with `Count tone` (mint=success, lemon=pending,
+  rose=failed, sky=info, lavender=highlight).
+- Reuse `src/components/ui.tsx` + `primitives.tsx` (Button, Badge, Panel, PageHeader, FormField,
+  Input, Select, SearchBox, Segmented, PillTabs, Switch, Modal, Drawer, Empty, Meter, Sparkline,
+  Avatar, AppChip). Feedback via `useApp().toast(...)` after every mutation.
+- Layout: pages use `<Page>` (left-aligned, full width) → `PageHeader` → KPI row → `Panel`s.
+- Responsive via mixins in `src/styles/_breakpoints.scss`: `bp.phone` (<640: drawer menu, one
+  column, bottom-sheet dialogs, tables in `TableWrap` + `.hideSm`), `bp.tablet` (icon rail),
+  `bp.below-desktop` (stack split grids). No raw media queries.
+- Arrow functions only; `aria-label` on icon buttons; sentence-case copy.
+- Done = `npm run build` passes + checked in light & dark at 390 / 820 / 1440 px, no console errors.

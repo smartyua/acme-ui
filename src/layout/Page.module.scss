@@ -1,0 +1,32 @@
+@use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  background: $main;
+  color: $fg;
+
+  @include bp.phone {
+    overflow: visible;
+  }
+}
+
+.inner {
+  // Content starts right next to the sidebar (no centred column, no dead gutter)
+  margin: 0;
+  padding: 1.5rem 1.75rem 3rem;
+
+  @include bp.tablet {
+    padding: 1.5rem 1.5rem 2.5rem;
+  }
+
+  @include bp.phone {
+    padding: 1.125rem 1rem 2.5rem;
+  }
+}
+
+.wide {
+  max-width: none;
+}

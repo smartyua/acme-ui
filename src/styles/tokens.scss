@@ -1,0 +1,82 @@
+// Acme UI tokens (Linear-style minimal SaaS). Naming follows shacdn/src/styles/variables.scss.
+// Rules for using and extending them: DESIGN.md §2–3.
+
+$font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.8125rem;
+$font-size-base: 0.875rem;
+$font-size-title: 1.75rem;
+
+$radius-xs: 0.375rem;
+$radius-sm: 0.5rem;
+$radius-md: 0.625rem;
+$radius-lg: 0.875rem;
+$radius-xl: 1.25rem;
+
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+$control-h: 2.25rem;
+$field-h: 2.375rem;
+
+// Colours resolve to CSS custom properties so the theme can switch at runtime.
+// Values for each theme live in globals.scss under :root[data-theme=…].
+$backdrop: var(--backdrop);
+$frame: var(--frame);
+$rail: var(--rail);
+$panel: var(--panel);
+$main: var(--main);
+$card: var(--card);
+$card-raised: var(--card-raised);
+$well: var(--well);
+$hover: var(--hover);
+$active: var(--active);
+$border: var(--border);
+$border-strong: var(--border-strong);
+$fg: var(--fg);
+$fg-soft: var(--fg-soft);
+$fg-muted: var(--fg-muted);
+$fg-faint: var(--fg-faint);
+$lavender: var(--lavender);
+$peach: var(--peach);
+$mint: var(--mint);
+$lemon: var(--lemon);
+$rose: var(--rose);
+$sky: var(--sky);
+$ink: var(--ink);
+$accent-text: var(--accent-text);
+$trend-up: var(--trend-up);
+$trend-down: var(--trend-down);
+$switch-off: var(--switch-off);
+$accent: var(--accent);
+$accent-hover: var(--accent-hover);
+$accent-fg: var(--accent-fg);
+$accent-soft: var(--accent-soft);
+$link: var(--link);
+$tag-bg: var(--tag-bg);
+$tint-blue: var(--tint-blue);
+$tint-peach: var(--tint-peach);
+$tint-pink: var(--tint-pink);
+$tint-mint: var(--tint-mint);
+$tint-lavender: var(--tint-lavender);
+$overlay: var(--overlay);
+$success: var(--success);
+$warning: var(--warning);
+$danger: var(--danger);
+$bar: var(--bar);
+$bar-hover: var(--bar-hover);
+$node: var(--node);
+$primary-hover: var(--primary-hover);
+$insights-bg: var(--insights-bg);
+$insights-border: var(--insights-border);
+$focus-soft: var(--focus-soft);
+$shadow-frame: var(--shadow-frame);
+$shadow-card: var(--shadow-card);
+$shadow-float: var(--shadow-float);
+
+$ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+$t-fast: 120ms $ease;
+$t-base: 180ms $ease;
