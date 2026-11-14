@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Entry point for coding agents in **g-design**: a React 19 + TypeScript + Vite app (SCSS modules,
+Entry point for coding agents in **design**: a React 19 + TypeScript + Vite app (SCSS modules,
 `react-router-dom`, `lucide-react`; no Tailwind, no UI libraries) that implements the
 **Acme UI** design system — a Linear-style minimal SaaS look with light and dark themes.
 

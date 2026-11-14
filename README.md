@@ -1,4 +1,4 @@
-# g-design · Acme dashboard
+# Acme dashboard
 
 The Overview dashboard from `~/shacdn`, rebuilt in the **Acme UI** design system (Linear-style
 minimal SaaS, light + dark), plus a **Templates** screen and working screens for every sidebar item.
@@ -13,6 +13,57 @@ npm run dev      # http://localhost:5180
 npm run build    # type-check + production build
 npm run verify   # full quality gate: lint, design lint, tests, build, browser matrix (see AGENTS.md)
 ```
+
+## Design Preview
+
+### Full Dashboard (`Overview` — Dark & Light Themes)
+
+![Acme Dashboard — Dark Theme](./docs/screenshots/overview-dark.png)
+
+<details>
+<summary><strong>View Light Theme (<code>data-theme="light"</code>)</strong></summary>
+
+<br />
+
+![Acme Dashboard — Light Theme](./docs/screenshots/overview-light.png)
+
+</details>
+
+### Component Close-Ups
+
+#### 1. Core Primitives (`Button`, `Count`, `Badge`)
+Sentence-case action verbs, a single primary button per view, and semantic status pills (`Count` for counters/statuses, `Badge` for categories) built strictly on theme tokens (`src/components/ui.tsx`, `src/components/primitives.tsx`).
+
+![Core Primitives — Buttons, Counts, and Badges](./docs/screenshots/components-primitives.png)
+
+#### 2. Key Metrics, Revenue BarChart & Live Insights Hub
+Interactive KPI selector tiles paired with a 7-day `BarChart` and a live relationship graph (`What Acme is tracking`) using `Avatar` and semantic delta pills (`src/pages/OverviewPage.tsx`).
+
+| Key Metrics & 7-Day Revenue Chart | Live Insights Hub & Metric Graph |
+|---|---|
+| ![Key Metrics and Revenue Overview](./docs/screenshots/component-key-metrics.png) | ![What Acme is Tracking Insights Hub](./docs/screenshots/component-insights-hub.png) |
+
+#### 3. Workflow Cards & `AppChip` Integration Monograms
+Featured automation templates using neutral `AppChip` monograms instead of third-party vendor logos (`DESIGN.md §8`), paired with category tabs, `/` keyboard search, and sort controls (`src/pages/TemplatesPage.tsx`).
+
+![Workflow Cards and AppChip Monograms](./docs/screenshots/component-workflow-cards.png)
+
+#### 4. Finance KPI Strip & BESS Telemetry Forecast
+Compact metric cards with inline SVG `Sparkline`, quick action buttons, and 8-hour solar irradiance bars (`src/pages/Finance/FinancePage.tsx`, `src/pages/Bess/BessPage.tsx`).
+
+![Finance KPI Cards with Sparkline](./docs/screenshots/component-finance-kpis.png)
+
+![BESS Weather and PV Forecast](./docs/screenshots/component-bess-forecast.png)
+
+#### 5. Interactive Pipeline Topology
+Live node-and-wire media pipeline diagram with animated packet flow, worker throughput stats, and node inspection (`src/pages/Topology/PipelineTopologyDiagram.tsx`).
+
+![Interactive Media Pipeline Topology](./docs/screenshots/component-topology.png)
+
+#### 6. Data Table with Segmented Filter & Status Pills
+Searchable, filterable orders table with multi-select bulk actions, pastel `Avatar` initials, and semantic `Count` status badges (`src/pages/OrdersPage.tsx`).
+
+![Orders Data Table and Filter Toolbar](./docs/screenshots/component-orders-table.png)
 
 ## Screens (all in the left sidebar)
 
