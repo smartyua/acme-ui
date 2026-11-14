@@ -182,7 +182,7 @@ export const ReportsPage = () => {
               </div>
               <div className={s.rowEnd}>
                 <Badge tone={r.status === 'Ready' ? 'mint' : r.status === 'Generating' ? 'sky' : 'lemon'}>
-                  {r.status === 'Generating' ? <Loader2 size={12} className="spin" aria-hidden /> : null}
+                  {r.status === 'Generating' ? <Loader2 size={14} className="spin" aria-hidden /> : null}
                   {r.status}
                 </Badge>
                 <Button size="sm" disabled={r.status !== 'Ready'} icon={<Download size={14} aria-hidden />} onClick={() => toast({ title: 'Download started', description: `${r.name}.${r.format.toLowerCase()}` })}>

@@ -120,7 +120,7 @@ export const RequestsPage = () => {
         </div>
 
         {rows.length === 0 ? (
-          <Empty icon={<ClipboardList size={18} />} title="No requests match">
+          <Empty icon={<ClipboardList size={18} aria-hidden />} title="No requests match">
             <Button size="sm" onClick={reset}>
               Clear filters
             </Button>

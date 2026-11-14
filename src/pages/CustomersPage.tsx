@@ -111,7 +111,7 @@ export const CustomersPage = () => {
           />
         </div>
         {rows.length === 0 ? (
-          <Empty icon={<Users size={18} />} title="No customers match" />
+          <Empty icon={<Users size={18} aria-hidden />} title="No customers match" />
         ) : (
           <TableWrap>
             <table className={tableClass}>

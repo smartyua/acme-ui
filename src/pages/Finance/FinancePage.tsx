@@ -131,7 +131,7 @@ export const FinancePage = () => {
             return (
               <Panel key={kpi.id} className={s.kpiCard}>
                 <div className={s.kpiIntro}>
-                  <SectionLabel icon={<Icon size={16} />}>{kpi.label}</SectionLabel>
+                  <SectionLabel icon={<Icon size={16} aria-hidden />}>{kpi.label}</SectionLabel>
                   <Badge tone={TONE_BADGE[kpi.tone]}>{kpi.change}</Badge>
                 </div>
                 {kpi.hint ? <p className={s.kpiHint}>{kpi.hint}</p> : null}
@@ -185,7 +185,7 @@ export const FinancePage = () => {
                   <p className={s.incomeTotalValue}>{formatIncome(TOTAL_INCOME)}</p>
                   <span>
                     <Badge tone="mint">
-                      <ArrowUpRight size={12} aria-hidden /> 15.5% compared to last month
+                      <ArrowUpRight size={14} aria-hidden /> 15.5% compared to last month
                     </Badge>
                   </span>
                 </div>

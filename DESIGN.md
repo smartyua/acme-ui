@@ -221,7 +221,8 @@ Charts: simple CSS/SVG bars and donuts (see `FinancePage.tsx`, `BarChart.tsx`). 
   (“You have unsaved changes · Discard · Save changes”). Disable submit until valid; show
   validation as `hint` text under the field, not alerts.
 - **Destructive:** `danger` button; for irreversible ones confirm in a `Modal width="sm"`.
-- **Async:** button shows a spinning `Loader2` + “Generating…”, disabled while running; result
+- **Async:** button shows `<Loader2 className="spin" aria-hidden />` (global `.spin`, never a
+  per-page copy) + “Generating…”, disabled while running; standalone loaders use `Spinner`; result
   arrives as a toast and the row updates in place.
 - **Counters in the sidebar** reflect live state (unread notifications, pending orders) — derive
   them from shared state (`lib/app.tsx`), never hard-code.
@@ -262,7 +263,7 @@ Charts: simple CSS/SVG bars and donuts (see `FinancePage.tsx`, `BarChart.tsx`). 
 | Pastel `Count` for status | Saturated red/green blocks |
 | Left-aligned full-width content | Centred narrow column with empty side gutters |
 | Breakpoint mixins | Raw `@media (max-width: 713px)` |
-| `lucide-react` icons, 14–17px, `aria-hidden` | Mixed icon sets, emoji as icons |
+| `lucide-react` icons, `aria-hidden`; sizes: 14 inline/meta & badges · 15 buttons, controls, section labels · 16 tiles & list rows · 17 nav · 18 empty states & top bar (guarded by `tests/icons.test.ts`) | Mixed icon sets, emoji as icons, hand-drawn `<svg>` glyphs, sizes outside 14–18px |
 | Toast after each mutation | Silent state changes |
 | Monogram chips for third-party apps | Copying brand logos |
 | Badges centred on their label's line | Badges hanging below a label (`align-items: flex-start`) |

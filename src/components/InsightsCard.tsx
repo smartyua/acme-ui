@@ -92,7 +92,7 @@ export const InsightsCard = ({
                 onClick={() => onSelectKpi(k.id)}
               >
                 <span className={styles.whyIcon} aria-hidden>
-                  <Icon size={15} />
+                  <Icon size={15} aria-hidden />
                 </span>
                 <span className={styles.whyText}>
                   <span className={styles.whyReason}>{k.target}</span>

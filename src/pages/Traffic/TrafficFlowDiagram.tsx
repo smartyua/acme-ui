@@ -26,7 +26,7 @@ const FlowNode = ({ id }: { id: FlowNodeId }) => {
     <article className={styles.node} aria-label={`${node.label}: ${status}. Throughput ${node.throughput}. Latency ${node.latency}.`}>
       <div className={styles.nodeTop}>
         <span className={styles.nodeIcon} aria-hidden>
-          <Icon size={15} />
+          <Icon size={15} aria-hidden />
         </span>
         <span className={styles.nodeStatus} data-status={node.status}>
           <i aria-hidden />

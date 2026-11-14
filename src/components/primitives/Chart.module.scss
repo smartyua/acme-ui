@@ -42,20 +42,7 @@
   height: 12rem;
 }
 
-.bar {
-  fill: $accent;
-  opacity: 0.9;
-  transition: opacity $transition-fast;
 
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.axis {
-  stroke: $border;
-  stroke-width: 1;
-}
 
 .grid {
   stroke: $border;
@@ -148,85 +135,15 @@
   stroke-linejoin: round;
 }
 
-.chartTall {
-  height: 16rem;
-}
 
-.gridDashed {
-  stroke: $border;
-  stroke-width: 1;
-  stroke-dasharray: 3 3;
-}
 
-.zeroLine {
-  stroke: $fg-muted;
-  stroke-width: 1.25;
-}
 
-.tick {
-  font-size: 10px;
-  fill: $fg-muted;
-  font-variant-numeric: tabular-nums;
-}
 
-.endLabel {
-  font-size: 11px;
-  font-weight: 600;
-  fill: $fg;
-  font-variant-numeric: tabular-nums;
-}
 
-.barPositive {
-  fill: $success;
-  opacity: 0.9;
 
-  &:hover {
-    opacity: 1;
-  }
-}
 
-.barNegative {
-  fill: $danger;
-  opacity: 0.88;
 
-  &:hover {
-    opacity: 1;
-  }
-}
 
-.barSingle {
-  fill: $chart-3;
-  opacity: 0.92;
 
-  &:hover {
-    opacity: 1;
-  }
-}
 
-.comparisonLine {
-  fill: none;
-  stroke: $fg;
-  stroke-width: 1.5;
-  stroke-dasharray: 4 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  opacity: 0.7;
-}
 
-.swatchPositive {
-  background-color: $success;
-}
-
-.swatchNegative {
-  background-color: $danger;
-}
-
-.swatchSingle {
-  background-color: $chart-3;
-}
-
-.legendDash {
-  width: 0.875rem;
-  border-top: 2px dashed $fg;
-  opacity: 0.7;
-}

@@ -428,7 +428,7 @@ export const PipelineTopologyDiagram = ({ running }: { running: boolean }) => {
               onKeyDown={handleKeyDown}
             >
               <span className={styles.hubIcon} aria-hidden>
-                <Server size={20} />
+                <Server size={18} aria-hidden />
               </span>
               <span className={styles.hubText}>
                 <span className={styles.hubName}>{SERVER_NODE.label}</span>
@@ -468,7 +468,7 @@ export const PipelineTopologyDiagram = ({ running }: { running: boolean }) => {
                         onKeyDown={handleKeyDown}
                       >
                         <span className={styles.workerIcon} aria-hidden>
-                          <Icon size={16} />
+                          <Icon size={16} aria-hidden />
                         </span>
                         <span className={styles.workerName}>{node.label}</span>
                         <Badge tone={STATUS_TONES[status[node.id]]} className={styles.workerStatus}>

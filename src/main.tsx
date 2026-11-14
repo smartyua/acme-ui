@@ -12,6 +12,7 @@ import { ComponentsPage } from './pages/Components/ComponentsPage';
 import { CustomersPage } from './pages/CustomersPage';
 import { FinancePage } from './pages/Finance/FinancePage';
 import { HelpPage } from './pages/HelpPage';
+import { IntegrationsPage } from './pages/Integrations/IntegrationsPage';
 import { NotFoundPage, SignedOutPage } from './pages/SystemPages';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { OrdersPage } from './pages/OrdersPage';
@@ -47,6 +48,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/activity" element={<ActivityPage />} />
             <Route path="/requests" element={<RequestsPage />} />
             <Route path="/audit-log" element={<AuditLogPage />} />
+            <Route path="/integrations" element={<IntegrationsPage />} />
             <Route path="/patterns" element={<PatternsPage />} />
             <Route path="/components" element={<ComponentsPage />} />
             <Route path="/reports" element={<ReportsPage />} />

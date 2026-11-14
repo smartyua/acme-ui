@@ -97,7 +97,7 @@ export const NotificationsPage = () => {
         }
       >
         {groups.length === 0 ? (
-          <Empty icon={<BellOff size={18} />} title="Nothing here">
+          <Empty icon={<BellOff size={18} aria-hidden />} title="Nothing here">
             {filter === 'unread' ? 'Every notification has been read.' : 'No notifications in this category.'}
           </Empty>
         ) : (

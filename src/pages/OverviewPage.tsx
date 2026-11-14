@@ -60,7 +60,7 @@ export const OverviewPage = () => {
 
           <div className={styles.actions}>
             <span className={styles.statusPill}>
-              <Hourglass size={13} aria-hidden />
+              <Hourglass size={14} aria-hidden />
               {RANGE_LABEL[range]} window
             </span>
             <span className={styles.rangeCompact}>
@@ -88,7 +88,7 @@ export const OverviewPage = () => {
             </button>
             <button type="button" className={styles.primaryBtn} onClick={handleRefresh} disabled={refreshing}>
               {refreshing ? (
-                <Loader2 size={14} aria-hidden className={styles.spin} />
+                <Loader2 size={14} aria-hidden className="spin" />
               ) : (
                 <RefreshCw size={14} aria-hidden />
               )}

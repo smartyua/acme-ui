@@ -63,7 +63,7 @@ const Catalog = () => {
         title="Button"
         source="ui.tsx"
         description="Verbs in sentence case. One primary per view, danger only for destructive actions."
-        code={`<Button variant="primary" icon={<Plus size={15} aria-hidden />}>Create</Button>\n<Button variant="ghost" size="icon" aria-label="Edit"><Pencil size={15} /></Button>`}
+        code={`<Button variant="primary" icon={<Plus size={15} aria-hidden />}>Create</Button>\n<Button variant="ghost" size="icon" aria-label="Edit"><Pencil size={15} aria-hidden /></Button>`}
       >
         <Button variant="primary" icon={<Plus size={15} aria-hidden />} onClick={() => toast({ title: 'Primary clicked', tone: 'success' })}>
           Create
@@ -243,7 +243,7 @@ const Catalog = () => {
         title="Loading and empty states"
         source="primitives · ui.tsx"
         description="Skeletons hold the layout while loading; an empty state says what happened and what to do."
-        code={`<Skeleton style={{ height: '1rem', width: '60%' }} />\n<Empty icon={<Inbox size={18} />} title="No requests yet">…</Empty>`}
+        code={`<Skeleton style={{ height: '1rem', width: '60%' }} />\n<Empty icon={<Inbox size={18} aria-hidden />} title="No requests yet">…</Empty>`}
       >
         <div className={c.formStack}>
           <div className={c.loadingRow}>
@@ -253,7 +253,7 @@ const Catalog = () => {
               <Skeleton style={{ height: '0.75rem', width: '85%' }} />
             </div>
           </div>
-          <Empty icon={<Inbox size={18} />} title="No requests yet">
+          <Empty icon={<Inbox size={18} aria-hidden />} title="No requests yet">
             <Button size="sm" onClick={() => toast({ title: 'Request created', tone: 'success' })}>
               Create request
             </Button>
@@ -408,7 +408,7 @@ const MemberList = () => {
         />
       </div>
       {rows.length === 0 ? (
-        <Empty icon={<Users size={18} />} title="No members match">
+        <Empty icon={<Users size={18} aria-hidden />} title="No members match">
           <Button size="sm" onClick={reset}>
             Clear filters
           </Button>

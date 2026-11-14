@@ -100,7 +100,7 @@ export const OrdersPage = () => {
         ) : null}
 
         {rows.length === 0 ? (
-          <Empty icon={<Inbox size={18} />} title="No orders found">
+          <Empty icon={<Inbox size={18} aria-hidden />} title="No orders found">
             Try a different status or search term.
           </Empty>
         ) : (

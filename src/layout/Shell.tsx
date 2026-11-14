@@ -89,7 +89,7 @@ export const Shell = () => {
       {/* Phone top bar */}
       <header className={styles.mobileBar}>
         <button type="button" className={styles.mobileMenuBtn} onClick={() => setMobileOpen(true)} aria-label="Open menu" aria-expanded={mobileOpen}>
-          <Menu size={20} />
+          <Menu size={18} aria-hidden />
         </button>
         <span className={styles.mobileTitle}>{current?.label ?? 'Acme'}</span>
         <button
@@ -98,7 +98,7 @@ export const Shell = () => {
           onClick={() => setThemePref(dark ? 'light' : 'dark')}
           aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
         >
-          {dark ? <Sun size={18} /> : <Moon size={18} />}
+          {dark ? <Sun size={18} aria-hidden /> : <Moon size={18} aria-hidden />}
         </button>
       </header>
 

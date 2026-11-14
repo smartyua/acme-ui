@@ -143,7 +143,7 @@ export const PaymentsPage = () => {
         }
       >
         {rows.length === 0 ? (
-          <Empty icon={<Receipt size={18} />} title="No invoices with this status" />
+          <Empty icon={<Receipt size={18} aria-hidden />} title="No invoices with this status" />
         ) : (
           <TableWrap>
             <table className={tableClass}>

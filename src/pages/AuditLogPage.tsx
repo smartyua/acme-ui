@@ -71,7 +71,7 @@ export const AuditLogPage = () => {
         </div>
 
         {rows.length === 0 ? (
-          <Empty icon={<ScrollText size={18} />} title="No events match">
+          <Empty icon={<ScrollText size={18} aria-hidden />} title="No events match">
             <Button size="sm" onClick={reset}>
               Clear filters
             </Button>

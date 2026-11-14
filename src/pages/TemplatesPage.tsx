@@ -112,7 +112,7 @@ const UseTemplateModal = ({ template, onClose, onCreated }: { template: Template
             <span className={styles.connectName}>{APPS[app].name}</span>
             {connected[app] ? (
               <Badge tone="mint">
-                <Check size={12} aria-hidden /> Connected
+                <Check size={14} aria-hidden /> Connected
               </Badge>
             ) : (
               <Button size="sm" onClick={() => setConnected((c) => ({ ...c, [app]: true }))}>
@@ -306,7 +306,7 @@ export const TemplatesPage = () => {
         </div>
       ) : (
         <div className={styles.emptyWrap}>
-          <Empty icon={<LayoutTemplate size={18} />} title="No templates match">
+          <Empty icon={<LayoutTemplate size={18} aria-hidden />} title="No templates match">
             Try another category or search term.
           </Empty>
           <Button

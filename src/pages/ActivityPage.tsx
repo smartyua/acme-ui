@@ -86,7 +86,7 @@ export const ActivityPage = () => {
 
           <Panel flush title="Recent alerts" description={unread > 0 ? `${unread} unread` : 'All caught up'}>
             {latest.length === 0 ? (
-              <Empty icon={<Inbox size={18} />} title="No alerts">
+              <Empty icon={<Inbox size={18} aria-hidden />} title="No alerts">
                 New alerts will show up here.
               </Empty>
             ) : (

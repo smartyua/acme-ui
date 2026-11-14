@@ -1,6 +1,6 @@
 import { useEffect, useId, type ButtonHTMLAttributes, type Ref, type CSSProperties, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
-import { X } from 'lucide-react';
+import { Search, Sparkles, X } from 'lucide-react';
 
 import { APPS, type AppId } from '../content/templates';
 import { useApp } from '../lib/app';
@@ -137,10 +137,7 @@ export const SearchBox = ({
   className?: string;
 }) => (
   <label className={cx(styles.search, className)}>
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-      <circle cx="11" cy="11" r="7" />
-      <path d="m20 20-3.5-3.5" />
-    </svg>
+    <Search size={15} aria-hidden />
     <input ref={inputRef} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={label ?? placeholder} />
     {shortcut ? <kbd className={styles.kbd}>{shortcut}</kbd> : null}
   </label>
@@ -181,11 +178,7 @@ export const AppChip = ({ app, size = 'md' }: { app: AppId; size?: 'sm' | 'md' |
   if (app === 'ai') {
     return (
       <span className={cx(styles.appChip, styles[`appChip-${size}`], styles.appChipAi)} title={meta.name}>
-        <svg viewBox="0 0 24 24" width="55%" height="55%" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-          <path d="M12 3v4M12 17v4M3 12h4M17 12h4" strokeLinecap="round" />
-          <path d="M12 8.5 13.2 11l2.3 1-2.3 1L12 15.5 10.8 13l-2.3-1 2.3-1z" fill="currentColor" stroke="none" />
-          <circle cx="18.5" cy="5.5" r="1.2" fill="currentColor" stroke="none" />
-        </svg>
+        <Sparkles size="55%" strokeWidth={1.8} aria-hidden />
         <span className={styles.srOnly}>{meta.name}</span>
       </span>
     );
@@ -241,7 +234,7 @@ export const Modal = ({
             {description ? <p>{description}</p> : null}
           </div>
           <button type="button" className={styles.iconBtn} onClick={onClose} aria-label="Close">
-            <X size={16} />
+            <X size={16} aria-hidden />
           </button>
         </header>
         <div className={styles.modalBody}>{children}</div>
@@ -273,7 +266,7 @@ export const Drawer = ({
         <header className={styles.modalHeader}>
           <h2>{title}</h2>
           <button type="button" className={styles.iconBtn} onClick={onClose} aria-label="Close">
-            <X size={16} />
+            <X size={16} aria-hidden />
           </button>
         </header>
         <div className={styles.drawerBody}>{children}</div>
@@ -296,7 +289,7 @@ export const Toaster = () => {
             {t.description ? <span>{t.description}</span> : null}
           </div>
           <button type="button" className={styles.iconBtn} onClick={() => dismissToast(t.id)} aria-label="Dismiss">
-            <X size={14} />
+            <X size={14} aria-hidden />
           </button>
         </div>
       ))}

@@ -93,7 +93,7 @@ export const Checkbox = ({
   <label className={styles.checkRow}>
     <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className={styles.checkInput} />
     <span className={cx(styles.checkBox, checked && styles.checkBoxOn)} aria-hidden>
-      {checked ? <Check size={13} strokeWidth={3} /> : null}
+      {checked ? <Check size={14} strokeWidth={3} aria-hidden /> : null}
     </span>
     <span className={styles.checkText}>
       <span>{label}</span>

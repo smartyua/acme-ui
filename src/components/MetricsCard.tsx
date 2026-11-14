@@ -48,7 +48,7 @@ export const MetricsCard = ({ range, status, onStatus, selectedKpi, onSelectKpi 
     <section className={styles.card} aria-labelledby="metrics-title">
       <header className={styles.cardHeader}>
         <span className={styles.cardIcon} aria-hidden>
-          <LayoutGrid size={17} />
+          <LayoutGrid size={17} aria-hidden />
         </span>
         <div className={styles.cardHeading}>
           <h2 id="metrics-title">Key metrics</h2>
@@ -75,7 +75,7 @@ export const MetricsCard = ({ range, status, onStatus, selectedKpi, onSelectKpi 
                   <Icon size={15} aria-hidden />
                   <span className={styles.kpiValue}>{k.value}</span>
                   <span className={`${styles.trend} ${k.trend === 'up' ? styles.trendUp : styles.trendDown}`}>
-                    <Trend size={12} aria-hidden />
+                    <Trend size={14} aria-hidden />
                     {k.change}
                   </span>
                 </Field>

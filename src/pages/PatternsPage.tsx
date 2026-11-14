@@ -118,7 +118,7 @@ export const PatternsPage = () => {
         ) : null}
 
         {demo === 'empty' ? (
-          <Empty icon={<Layers size={18} />} title="Nothing here yet">
+          <Empty icon={<Layers size={18} aria-hidden />} title="Nothing here yet">
             <Button size="sm" onClick={() => navigate('/requests')}>
               Go to requests
             </Button>
