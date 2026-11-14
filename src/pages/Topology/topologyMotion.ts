@@ -5,10 +5,18 @@ const STORAGE_KEY = 'topology-flow-motion';
 
 export const readStoredPaused = (): boolean => {
   if (typeof window === 'undefined') return false;
-  return window.localStorage.getItem(STORAGE_KEY) === 'off';
+  try {
+    return window.localStorage.getItem(STORAGE_KEY) === 'off';
+  } catch {
+    return false;
+  }
 };
 
 export const persistPaused = (paused: boolean): void => {
   if (typeof window === 'undefined') return;
-  window.localStorage.setItem(STORAGE_KEY, paused ? 'off' : 'on');
+  try {
+    window.localStorage.setItem(STORAGE_KEY, paused ? 'off' : 'on');
+  } catch {
+    /* ignore */
+  }
 };

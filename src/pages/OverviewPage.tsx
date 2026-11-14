@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ChevronRight, Download, Hourglass, Loader2, Radio, RefreshCw } from 'lucide-react';
 
 import { InsightsCard } from '../components/InsightsCard';
@@ -20,10 +20,19 @@ export const OverviewPage = () => {
   const [live, setLive] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [synced, setSynced] = useState('Jul 13, 2026, 10:16 AM');
+  const refreshTimerRef = useRef<number | undefined>(undefined);
+
+  useEffect(
+    () => () => {
+      if (refreshTimerRef.current !== undefined) window.clearTimeout(refreshTimerRef.current);
+    },
+    []
+  );
 
   const handleRefresh = () => {
     setRefreshing(true);
-    window.setTimeout(() => {
+    if (refreshTimerRef.current !== undefined) window.clearTimeout(refreshTimerRef.current);
+    refreshTimerRef.current = window.setTimeout(() => {
       setRefreshing(false);
       setSynced(stamp());
       toast({ title: 'Data refreshed', description: 'Dashboard metrics updated successfully.', tone: 'success' });

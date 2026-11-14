@@ -34,7 +34,9 @@ export const Shell = () => {
   const { theme, setThemePref, unread, transactions } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpenPath, setMobileOpenPath] = useState<string | null>(null);
+  const mobileOpen = mobileOpenPath === location.pathname;
+  const setMobileOpen = (open: boolean) => setMobileOpenPath(open ? location.pathname : null);
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(() => {
     try {
@@ -55,9 +57,6 @@ export const Shell = () => {
     });
   };
 
-  // Close the phone drawer on navigation
-  useEffect(() => setMobileOpen(false), [location.pathname]);
-
   // The rail scrolls on short screens — keep the current item in view after navigation and when the drawer opens.
   useEffect(() => {
     document.querySelector('nav[aria-label="Workspace navigation"] a[aria-current="page"]')?.scrollIntoView({ block: 'nearest' });
@@ -65,7 +64,7 @@ export const Shell = () => {
 
   useEffect(() => {
     if (!mobileOpen) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMobileOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMobileOpenPath(null);
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
   }, [mobileOpen]);

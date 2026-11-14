@@ -3,9 +3,12 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
+import { A11Y_KNOWN_DEBT } from '../e2e/a11y-debt';
 import { ALL_ROUTES, RAIL_PRIMARY, RAIL_SECONDARY } from '../src/data';
 
 const main = readFileSync(new URL('../src/main.tsx', import.meta.url), 'utf8');
+const eslintSuppressions = JSON.parse(readFileSync(new URL('../eslint-suppressions.json', import.meta.url), 'utf8'));
+const stylelintSuppressions = JSON.parse(readFileSync(new URL('../stylelint-suppressions.json', import.meta.url), 'utf8'));
 
 // Routes declared inside the <Shell> layout in main.tsx (the catch-all is not a screen).
 const shellRoutes = [...main.slice(main.indexOf('<Route element={<Shell />}>')).matchAll(/<Route path="(\/[^"*]*)"/g)]
@@ -28,5 +31,11 @@ describe('route wiring', () => {
   it('has unique paths and non-empty labels', () => {
     expect(new Set(listed).size).toBe(listed.length);
     expect(ALL_ROUTES.filter((r) => !r.label.trim())).toEqual([]);
+  });
+
+  it('keeps lint and accessibility debt files at zero entries', () => {
+    expect(Object.keys(eslintSuppressions)).toEqual([]);
+    expect(Object.keys(stylelintSuppressions)).toEqual([]);
+    expect(Object.keys(A11Y_KNOWN_DEBT)).toEqual([]);
   });
 });

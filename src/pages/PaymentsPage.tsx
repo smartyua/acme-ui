@@ -23,7 +23,7 @@ export const PaymentsPage = () => {
   const rows = useMemo(() => invoices.filter((i) => filter === 'all' || i.status === filter), [invoices, filter]);
 
   const digits = card.number.replace(/\D/g, '');
-  const cardValid = digits.length >= 15 && /^\d{2}\/\d{2}$/.test(card.exp) && /^\d{3,4}$/.test(card.cvc);
+  const cardValid = digits.length >= 15 && /^(0[1-9]|1[0-2])\/\d{2}$/.test(card.exp) && /^\d{3,4}$/.test(card.cvc);
 
   const addCard = () => {
     const m: PaymentMethod = { id: `pm_${Date.now()}`, brand: digits.startsWith('5') ? 'Mastercard' : 'Visa', last4: digits.slice(-4), exp: card.exp, isDefault: false };
@@ -178,7 +178,9 @@ export const PaymentsPage = () => {
                           size="sm"
                           variant="primary"
                           onClick={() => {
-                            setInvoices((list) => list.map((x) => (x.id === i.id ? { ...x, status: 'paid', method: 'Visa ···· 4242' } : x)));
+                            const def = methods.find((m) => m.isDefault) ?? methods[0];
+                            const methodLabel = def ? `${def.brand} ···· ${def.last4}` : i.method;
+                            setInvoices((list) => list.map((x) => (x.id === i.id ? { ...x, status: 'paid', method: methodLabel } : x)));
                             toast({ title: 'Payment successful', description: `${i.id} · ${i.amount}`, tone: 'success' });
                           }}
                         >

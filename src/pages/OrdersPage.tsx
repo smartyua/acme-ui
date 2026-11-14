@@ -53,7 +53,16 @@ export const OrdersPage = () => {
 
       <div className={s.kpis}>
         {(['completed', 'pending', 'failed', 'refunded'] as TxStatus[]).map((st) => (
-          <button key={st} type="button" className={`${s.stat} ${s.statBtn}`} aria-pressed={filter === st} onClick={() => setFilter(st)}>
+          <button
+            key={st}
+            type="button"
+            className={`${s.stat} ${s.statBtn}`}
+            aria-pressed={filter === st}
+            onClick={() => {
+              setFilter(st);
+              setSelected([]);
+            }}
+          >
             <span className={s.statLabel}>{STATUS_META[st].label}</span>
             <span className={s.statValue}>{counts(st)}</span>
             <span className={s.statHint}>

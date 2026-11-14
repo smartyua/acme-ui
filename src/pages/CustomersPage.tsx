@@ -38,8 +38,9 @@ export const CustomersPage = () => {
   const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email);
 
   const invite = () => {
+    const nextNum = Math.max(109, ...customers.map((item) => Number(item.id.replace('CU-', '')) || 0)) + 1;
     const c: Customer = {
-      id: `CU-${110 + customers.length}`,
+      id: `CU-${nextNum}`,
       name: form.name.trim(),
       initials: initialsOf(form.name) || '??',
       email: form.email.trim(),

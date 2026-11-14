@@ -1,17 +1,1 @@
-{
-  "src/layout/Shell.tsx": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  },
-  "src/pages/SettingsPage.tsx": {
-    "react-hooks/static-components": {
-      "count": 5
-    }
-  },
-  "src/pages/TemplatesPage.tsx": {
-    "react-hooks/set-state-in-effect": {
-      "count": 1
-    }
-  }
-}
+{}

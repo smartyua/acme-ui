@@ -1,9 +1,10 @@
-import { useEffect, useId, type ButtonHTMLAttributes, type Ref, type CSSProperties, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
+import { useEffect, useId, useRef, type ButtonHTMLAttributes, type CSSProperties, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes, type TextareaHTMLAttributes } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, Sparkles, X } from 'lucide-react';
 
 import { APPS, type AppId } from '../content/templates';
-import { useApp } from '../lib/app';
+import { useApp, useToasts } from '../lib/app';
+import { useBodyScrollLock, useModalDismiss, useModalFocus, useRestoreFocusOnClose } from './primitives/modalLayer';
 import styles from './ui.module.scss';
 
 export const cx = (...parts: Array<string | false | undefined | null>) => parts.filter(Boolean).join(' ');
@@ -124,7 +125,6 @@ export const SearchBox = ({
   onChange,
   placeholder,
   shortcut,
-  inputRef,
   label,
   className,
 }: {
@@ -132,16 +132,32 @@ export const SearchBox = ({
   onChange: (v: string) => void;
   placeholder: string;
   shortcut?: string;
-  inputRef?: Ref<HTMLInputElement>;
   label?: string;
   className?: string;
-}) => (
-  <label className={cx(styles.search, className)}>
-    <Search size={15} aria-hidden />
-    <input ref={inputRef} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={label ?? placeholder} />
-    {shortcut ? <kbd className={styles.kbd}>{shortcut}</kbd> : null}
-  </label>
-);
+}) => {
+  const localRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented) return;
+      const el = e.target as HTMLElement | null;
+      if (el && (['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName) || el.isContentEditable)) return;
+      if (document.querySelector('[role="dialog"], [role="alertdialog"]')) return;
+      e.preventDefault();
+      localRef.current?.focus();
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
+
+  return (
+    <label className={cx(styles.search, className)}>
+      <Search size={15} aria-hidden />
+      <input ref={localRef} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} aria-label={label ?? placeholder} />
+      {shortcut ? <kbd className={styles.kbd}>{shortcut}</kbd> : null}
+    </label>
+  );
+};
 
 // ── Pill tabs (with counts) ──────────────────────────────────────────────
 export const PillTabs = <T extends string>({
@@ -192,18 +208,13 @@ export const AppChip = ({ app, size = 'md' }: { app: AppId; size?: 'sm' | 'md' |
 };
 
 // ── Overlays ─────────────────────────────────────────────────────────────
-const useEscape = (open: boolean, onClose: () => void) => {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
-    document.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
-    };
-  }, [open, onClose]);
+const useOverlayLayer = <T extends HTMLElement>(open: boolean, onClose: () => void) => {
+  const contentRef = useRef<T | null>(null);
+  useBodyScrollLock(open);
+  useRestoreFocusOnClose(open);
+  useModalFocus(open, contentRef as unknown as React.RefObject<HTMLDivElement | null>, false);
+  useModalDismiss(open, onClose, true);
+  return contentRef;
 };
 
 export const Modal = ({
@@ -223,11 +234,11 @@ export const Modal = ({
   footer?: ReactNode;
   width?: 'sm' | 'md' | 'lg';
 }) => {
-  useEscape(open, onClose);
+  const contentRef = useOverlayLayer<HTMLDivElement>(open, onClose);
   if (!open) return null;
   return createPortal(
     <div className={styles.overlay} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <div className={cx(styles.modal, styles[`modal-${width}`])} role="dialog" aria-modal="true" aria-label={title}>
+      <div ref={contentRef} className={cx(styles.modal, styles[`modal-${width}`])} role="dialog" aria-modal="true" aria-label={title}>
         <header className={styles.modalHeader}>
           <div>
             <h2>{title}</h2>
@@ -258,11 +269,11 @@ export const Drawer = ({
   children: ReactNode;
   footer?: ReactNode;
 }) => {
-  useEscape(open, onClose);
+  const contentRef = useOverlayLayer<HTMLElement>(open, onClose);
   if (!open) return null;
   return createPortal(
     <div className={styles.overlay} onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-      <aside className={styles.drawer} role="dialog" aria-modal="true" aria-label={title}>
+      <aside ref={contentRef} className={styles.drawer} role="dialog" aria-modal="true" aria-label={title}>
         <header className={styles.modalHeader}>
           <h2>{title}</h2>
           <button type="button" className={styles.iconBtn} onClick={onClose} aria-label="Close">
@@ -279,7 +290,8 @@ export const Drawer = ({
 
 // ── Toasts ───────────────────────────────────────────────────────────────
 export const Toaster = () => {
-  const { toasts, dismissToast } = useApp();
+  const { dismissToast } = useApp();
+  const toasts = useToasts();
   return createPortal(
     <div className={styles.toaster} aria-live="polite">
       {toasts.map((t) => (
@@ -314,9 +326,10 @@ export const Meter = ({ value, max, tone = 'accent', label }: { value: number; m
 );
 
 export const Sparkline = ({ data, up = true }: { data: number[]; up?: boolean }) => {
+  if (data.length === 0) return null;
   const max = Math.max(...data);
   const min = Math.min(...data);
-  const pts = data.map((v, i) => `${(i / (data.length - 1)) * 100},${30 - ((v - min) / (max - min || 1)) * 26 - 2}`).join(' ');
+  const pts = data.map((v, i) => `${data.length <= 1 ? 50 : (i / (data.length - 1)) * 100},${30 - ((v - min) / (max - min || 1)) * 26 - 2}`).join(' ');
   return (
     <svg className={cx(styles.spark, up ? styles.sparkUp : styles.sparkDown)} viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden>
       <polyline points={pts} fill="none" strokeWidth="2" vectorEffect="non-scaling-stroke" />

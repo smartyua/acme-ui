@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ArrowDownWideNarrow, ArrowRight, Check, Clock, LayoutTemplate, Plus, Upload, Users } from 'lucide-react';
 
 import {
@@ -59,20 +59,11 @@ const Meta = ({ t, compact }: { t: Template; compact?: boolean }) => (
 );
 
 // ── Use-template flow ────────────────────────────────────────────────────
-const UseTemplateModal = ({ template, onClose, onCreated }: { template: Template | null; onClose: () => void; onCreated: (t: Template, name: string) => void }) => {
-  const [name, setName] = useState('');
+const UseTemplateModal = ({ template, onClose, onCreated }: { template: Template; onClose: () => void; onCreated: (t: Template, name: string) => void }) => {
+  const [name, setName] = useState(template.title);
   const [schedule, setSchedule] = useState('realtime');
-  const [connected, setConnected] = useState<Record<string, boolean>>({});
+  const [connected, setConnected] = useState<Record<string, boolean>>({ gmail: true, slack: true, ai: true });
 
-  useEffect(() => {
-    if (template) {
-      setName(template.title);
-      setSchedule('realtime');
-      setConnected({ gmail: true, slack: true, ai: true });
-    }
-  }, [template]);
-
-  if (!template) return null;
   const apps = template.apps.filter((a, i, arr) => arr.indexOf(a) === i);
   const missing = apps.filter((a) => !connected[a]);
 
@@ -174,20 +165,6 @@ export const TemplatesPage = () => {
   const [using, setUsing] = useState<Template | null>(null);
   const [submitOpen, setSubmitOpen] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
-
-  // "/" focuses search, like the hint in the field
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const el = e.target as HTMLElement;
-      if (e.key === '/' && !['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName)) {
-        e.preventDefault();
-        searchRef.current?.focus();
-      }
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -238,7 +215,8 @@ export const TemplatesPage = () => {
         <div className={styles.featuredGrid}>
           {featured.map((t, i) => (
             <article key={t.id} className={styles.featuredCard}>
-              <button type="button" className={cx(styles.featuredHero, styles[`tint_${TINTS[i % TINTS.length]}`])} onClick={() => setDetail(t)} aria-label={`Preview ${t.title}`}>
+              <button type="button" className={cx(styles.featuredHero, styles[`tint_${TINTS[i % TINTS.length]}`])} onClick={() => setDetail(t)}>
+                <span className={styles.srOnlyLabel}>Preview {t.title}</span>
                 <Flow apps={t.apps} />
               </button>
               <div className={styles.featuredBody}>
@@ -270,7 +248,7 @@ export const TemplatesPage = () => {
           items={TABS.map((t) => ({ value: t, label: t, count: CATEGORY_TOTALS[t] }))}
         />
         <div className={styles.toolbarEnd}>
-          <SearchBox value={query} onChange={setQuery} placeholder="Search templates" shortcut="/" inputRef={searchRef} className={styles.search} />
+          <SearchBox value={query} onChange={setQuery} placeholder="Search templates" shortcut="/" className={styles.search} />
           <label className={styles.sort}>
             <ArrowDownWideNarrow size={15} aria-hidden />
             <span className={styles.srOnlyLabel}>Sort by</span>
@@ -325,8 +303,16 @@ export const TemplatesPage = () => {
         Showing {results.length} most-used of {CATEGORY_TOTALS[tab]} {tab === 'All' ? '' : `${tab} `}templates
       </p>
 
-      <TemplateDetails template={detail} onClose={() => setDetail(null)} onUse={(t) => setUsing(t)} inUse={Boolean(detail && installed[detail.id])} />
-      <UseTemplateModal template={using} onClose={() => setUsing(null)} onCreated={handleCreated} />
+      <TemplateDetails
+        template={detail}
+        onClose={() => setDetail(null)}
+        onUse={(t) => {
+          setDetail(null);
+          setUsing(t);
+        }}
+        inUse={Boolean(detail && installed[detail.id])}
+      />
+      {using ? <UseTemplateModal key={using.id} template={using} onClose={() => setUsing(null)} onCreated={handleCreated} /> : null}
 
       <SubmitTemplateModal open={submitOpen} onClose={() => setSubmitOpen(false)} onSubmitted={() => toast({ title: 'Template submitted', description: 'Our team reviews new templates within 2 business days.', tone: 'success' })} />
       <CreateWorkflowModal

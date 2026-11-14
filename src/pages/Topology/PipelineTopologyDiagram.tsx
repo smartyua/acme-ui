@@ -113,7 +113,7 @@ const PacketsLayer = ({
   useEffect(reportFlows, [reportFlows, selectedNodeId]);
 
   useEffect(() => {
-    if (!running) return undefined;
+    if (!running || !geometry) return undefined;
     let frame = 0;
     let last: number | null = null;
     let sinceSpawn = 0;
@@ -151,7 +151,7 @@ const PacketsLayer = ({
 
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [running, reportFlows]);
+  }, [running, geometry, reportFlows]);
 
   if (!geometry) return null;
 
@@ -275,7 +275,7 @@ export const PipelineTopologyDiagram = ({ running }: { running: boolean }) => {
     tip.style.top = `${Math.max(edge, Math.min(top, maxTop))}px`;
   }, []);
 
-  useLayoutEffect(placeTip);
+  useLayoutEffect(placeTip, [placeTip, tipNodeId, geometry, hoverNode, focusNode]);
 
   useEffect(() => {
     if (!tipNodeId) return undefined;

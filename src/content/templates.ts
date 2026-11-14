@@ -18,20 +18,20 @@ export type AppId =
 
 // Integration chips are drawn as neutral monograms, not vendor marks.
 export const APPS: Record<AppId, { name: string; mono: string; hue: string }> = {
-  gmail: { name: 'Gmail', mono: 'Gm', hue: '#e5483b' },
+  gmail: { name: 'Gmail', mono: 'Gm', hue: '#c53024' },
   netsuite: { name: 'NetSuite', mono: 'NS', hue: '#2d4a8a' },
   zendesk: { name: 'Zendesk', mono: 'Zd', hue: '#1f6b5a' },
-  stripe: { name: 'Stripe', mono: 'St', hue: '#6457e8' },
-  hubspot: { name: 'HubSpot', mono: 'Hs', hue: '#f06b35' },
-  salesforce: { name: 'Salesforce', mono: 'Sf', hue: '#1c96d8' },
+  stripe: { name: 'Stripe', mono: 'St', hue: '#5145cd' },
+  hubspot: { name: 'HubSpot', mono: 'Hs', hue: '#b84414' },
+  salesforce: { name: 'Salesforce', mono: 'Sf', hue: '#0e6da3' },
   slack: { name: 'Slack', mono: 'Sl', hue: '#7b3f86' },
-  sheets: { name: 'Google Sheets', mono: 'Gs', hue: '#1e9a55' },
-  quickbooks: { name: 'QuickBooks', mono: 'Qb', hue: '#2c9f3c' },
-  shopify: { name: 'Shopify', mono: 'Sh', hue: '#5e9a3a' },
-  jira: { name: 'Jira', mono: 'Ji', hue: '#2b6fd6' },
+  sheets: { name: 'Google Sheets', mono: 'Gs', hue: '#15753f' },
+  quickbooks: { name: 'QuickBooks', mono: 'Qb', hue: '#1e762a' },
+  shopify: { name: 'Shopify', mono: 'Sh', hue: '#3e6f21' },
+  jira: { name: 'Jira', mono: 'Ji', hue: '#1d5bbf' },
   notion: { name: 'Notion', mono: 'No', hue: '#55555b' },
-  docusign: { name: 'DocuSign', mono: 'Ds', hue: '#d29b1c' },
-  ai: { name: 'AI step', mono: 'AI', hue: '#1f8af0' },
+  docusign: { name: 'DocuSign', mono: 'Ds', hue: '#8a6209' },
+  ai: { name: 'AI step', mono: 'AI', hue: '#1366ba' },
 };
 
 export type Category = 'Finance' | 'Sales' | 'Support' | 'Operations' | 'HR' | 'IT';

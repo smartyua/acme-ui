@@ -1,4 +1,5 @@
 @use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
 
 // ── Card shell ───────────────────────────────────────────────────────────
 .card {
@@ -44,7 +45,7 @@
   p {
     margin: 0.125rem 0 0;
     font-size: $font-size-sm;
-    color: $fg-faint;
+    color: $fg-muted;
   }
 }
 
@@ -76,7 +77,7 @@
 
 .note {
   font-size: $font-size-xs;
-  color: $fg-faint;
+  color: $fg-muted;
 }
 
 .cardFoot {
@@ -86,7 +87,7 @@
   margin-top: auto;
   padding: 0.875rem 1rem 1rem;
   font-size: $font-size-sm;
-  color: $fg-faint;
+  color: $fg-muted;
 }
 
 // ── KPI fields ───────────────────────────────────────────────────────────
@@ -95,7 +96,7 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.875rem 0.75rem;
 
-  @media (max-width: 640px) {
+  @include bp.phone {
     grid-template-columns: 1fr;
   }
 }
@@ -259,7 +260,7 @@
 
 .txMeta {
   font-size: $font-size-xs;
-  color: $fg-faint;
+  color: $fg-muted-strong;
 }
 
 .txAmount {
@@ -271,7 +272,7 @@
 .txEmpty {
   padding: 0.75rem;
   font-size: $font-size-sm;
-  color: $fg-faint;
+  color: $fg-muted-strong;
 }
 
 // ── Insights card (right) ────────────────────────────────────────────────
@@ -295,12 +296,12 @@
     margin: 0;
     font-size: $font-size-sm;
     font-weight: 500;
-    color: $accent-text;
+    color: $accent-text-strong;
   }
 
   span {
     font-size: $font-size-xs;
-    color: $fg-faint;
+    color: $fg-muted;
   }
 }
 
@@ -450,7 +451,7 @@
 .whyLabel {
   margin: 0.25rem 0 0;
   font-size: $font-size-xs;
-  color: $fg-faint;
+  color: $fg-muted;
 }
 
 .whyList {

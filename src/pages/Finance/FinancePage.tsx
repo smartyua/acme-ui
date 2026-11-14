@@ -92,8 +92,13 @@ export const FinancePage = () => {
   const [overlay, setOverlay] = useState<OverlayId>(null);
   const [transferAmount, setTransferAmount] = useState('500');
   const [requestAmount, setRequestAmount] = useState('250');
+  const [cards, setCards] = useState(WALLET_CARDS);
   const [cardName, setCardName] = useState('Travel Card');
   const [cardLast4, setCardLast4] = useState('4421');
+
+  const transferValid = Number(transferAmount) > 0;
+  const requestValid = Number(requestAmount) > 0;
+  const cardValid = cardName.trim().length > 0 && /^\d{4}$/.test(cardLast4.trim());
 
   const notify = (title: string, description: string) => {
     toast({ title, description });
@@ -134,6 +139,7 @@ export const FinancePage = () => {
                   <SectionLabel icon={<Icon size={16} aria-hidden />}>{kpi.label}</SectionLabel>
                   <Badge tone={TONE_BADGE[kpi.tone]}>{kpi.change}</Badge>
                 </div>
+                <p className={s.kpiValue}>{kpi.value}</p>
                 {kpi.hint ? <p className={s.kpiHint}>{kpi.hint}</p> : null}
                 {kpi.id === 'balance' ? (
                   <div className={s.kpiActions}>
@@ -324,7 +330,7 @@ export const FinancePage = () => {
           <section aria-labelledby="wallet-heading">
             <Panel
               title="My Wallet"
-              description={`A total of ${WALLET_CARDS.length} cards are listed`}
+              description={`A total of ${cards.length} cards are listed`}
               actions={
                 <Button size="sm" onClick={() => setOverlay('addCard')}>
                   Add New
@@ -332,7 +338,7 @@ export const FinancePage = () => {
               }
             >
               <ul className={s.walletList}>
-                {WALLET_CARDS.map((card) => (
+                {cards.map((card) => (
                   <li key={card.id} className={s.walletRow}>
                     <div className={`${s.walletCardFace} ${walletToneClass(card.tone)}`} aria-hidden>
                       <NetworkMark network={card.network} />
@@ -369,9 +375,10 @@ export const FinancePage = () => {
             <Button onClick={() => setOverlay(null)}>Cancel</Button>
             <Button
               variant="primary"
+              disabled={!transferValid}
               onClick={() => {
                 setOverlay(null);
-                notify('Transfer requested', `$${transferAmount} is queued from your primary balance.`);
+                notify('Transfer requested', `$${transferAmount.trim()} is queued from your primary balance.`);
               }}
             >
               Transfer
@@ -397,9 +404,10 @@ export const FinancePage = () => {
             <Button onClick={() => setOverlay(null)}>Cancel</Button>
             <Button
               variant="primary"
+              disabled={!requestValid}
               onClick={() => {
                 setOverlay(null);
-                notify('Request sent', `Payment request for $${requestAmount} was sent.`);
+                notify('Request sent', `Payment request for $${requestAmount.trim()} was sent.`);
               }}
             >
               Send request
@@ -425,9 +433,23 @@ export const FinancePage = () => {
             <Button onClick={() => setOverlay(null)}>Cancel</Button>
             <Button
               variant="primary"
+              disabled={!cardValid}
               onClick={() => {
+                const name = cardName.trim();
+                const last4 = cardLast4.trim();
+                setCards((prev) => [
+                  ...prev,
+                  {
+                    id: `card-${prev.length + 1}-${last4}`,
+                    name,
+                    last4,
+                    network: 'visa',
+                    balance: '$0',
+                    tone: 'primary',
+                  },
+                ]);
                 setOverlay(null);
-                notify('Card added', `${cardName} ···· ${cardLast4} was saved to your wallet.`);
+                notify('Card added', `${name} ···· ${last4} was saved to your wallet.`);
               }}
             >
               Add card

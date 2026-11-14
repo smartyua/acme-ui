@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Copy, Download, ScrollText } from 'lucide-react';
 
 import { Avatar } from '../components/primitives';
@@ -16,19 +16,6 @@ export const AuditLogPage = () => {
   const [query, setQuery] = useState('');
   const [action, setAction] = useState<Filter>('all');
   const [open, setOpen] = useState<AuditEntry | null>(null);
-  const searchRef = useRef<HTMLInputElement>(null);
-
-  // DESIGN.md §7: "/" focuses the main search on list pages.
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const target = e.target as HTMLElement | null;
-      if (e.key !== '/' || (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName))) return;
-      e.preventDefault();
-      searchRef.current?.focus();
-    };
-    document.addEventListener('keydown', onKey);
-    return () => document.removeEventListener('keydown', onKey);
-  }, []);
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -59,7 +46,7 @@ export const AuditLogPage = () => {
 
       <Panel flush title="Workspace operations" description={`${rows.length} event${rows.length === 1 ? '' : 's'} · retention 90 days`}>
         <div className={s.toolbar}>
-          <SearchBox value={query} onChange={setQuery} placeholder="Search actor, target or detail" shortcut="/" inputRef={searchRef} className={s.toolbarSearch} />
+          <SearchBox value={query} onChange={setQuery} placeholder="Search actor, target or detail" shortcut="/" className={s.toolbarSearch} />
           <Select aria-label="Filter by action" value={action} onChange={(e) => setAction(e.target.value as Filter)}>
             <option value="all">All actions</option>
             {(Object.keys(AUDIT_ACTION_META) as AuditAction[]).map((key) => (

@@ -8,7 +8,7 @@
   padding: 1.5rem;
 
   // Full-bleed below wide desktop: no floating frame, every pixel for content
-  @media (max-width: 1279px) {
+  @include bp.below-desktop {
     padding: 0;
   }
 }
@@ -26,7 +26,7 @@
   background: $frame;
   box-shadow: $shadow-frame;
 
-  @media (max-width: 1279px) {
+  @include bp.below-desktop {
     max-width: none;
     border-radius: 0;
     box-shadow: none;

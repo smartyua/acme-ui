@@ -24,6 +24,16 @@ npm run verify   # full quality gate: lint, design lint, tests, build, browser m
 | `/customers` | Search, plan filter, inline plan change, invite (validated), remove |
 | `/finance` | KPI sparklines, expenses chart (3/6 months), income donut, income/expense filter |
 | `/payments` | Plan meters, change plan, add card (formatted & validated), default/remove card, invoices with *Pay now* |
+| `/analytics` | Conversion funnel, cohort retention, channel attribution, experiment breakdown |
+| `/traffic` | Live traffic sources, latency percentiles, edge PoP status, geographic distribution |
+| `/topology` | Interactive pipeline topology diagram with live packet flow, pause/resume, node inspection |
+| `/bess` | Battery Energy Storage System (BESS) telemetry, power flow, inverter matrix, 24h schedule |
+| `/activity` | Live workspace activity feed, severity filter, alert thresholds |
+| `/requests` | Access & change requests queue, status filter, approval drawer |
+| `/audit-log` | Immutable security & workspace audit log, action filter, event inspection drawer |
+| `/integrations` | Connected apps catalog, category filter, configuration drawer |
+| `/patterns` | Reusable SaaS UI patterns (empty states, onboarding checklists, danger zones) |
+| `/components` | Interactive Acme UI component gallery and token reference |
 | `/reports` | Generate report (async), scheduled digests on/off, download/delete |
 | `/notifications` | Grouped inbox, filters, mark read / all read, dismiss — rail badge = unread |
 | `/settings` | Workspace, appearance (Light/Dark/System), notifications, security; sticky save bar |

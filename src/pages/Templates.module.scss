@@ -90,6 +90,7 @@
 }
 
 .featuredHero {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -288,10 +289,6 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
 
-  @media (max-width: 1279px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
   @include bp.below-desktop {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -401,7 +398,7 @@
   margin: 1.25rem 0 0;
   text-align: center;
   font-size: $font-size-sm;
-  color: $fg-faint;
+  color: $fg-muted-strong;
 }
 
 // ── Modals ───────────────────────────────────────────────────────────────

@@ -4,8 +4,9 @@ import styles from './Cards.module.scss';
 const fmt = (n: number) => `$${n.toLocaleString('en-US')}`;
 
 export const BarChart = ({ data, label }: { data: Point[]; label: string }) => {
-  const max = Math.max(...data.map((d) => d.value));
-  const peak = data.find((d) => d.value === max);
+  const max = Math.max(0, ...data.map((d) => d.value));
+  const safeMax = max > 0 ? max : 1;
+  const peak = max > 0 ? data.find((d) => d.value === max) : undefined;
 
   return (
     <figure className={styles.chart} aria-label={label}>
@@ -15,7 +16,7 @@ export const BarChart = ({ data, label }: { data: Point[]; label: string }) => {
             <div className={styles.chartTrack}>
               <div
                 className={`${styles.chartBar} ${d === peak ? styles.chartBarPeak : ''}`}
-                style={{ height: `${Math.max(6, (d.value / max) * 100)}%` }}
+                style={{ height: `${Math.max(6, (d.value / safeMax) * 100)}%` }}
                 title={`${d.label}: ${fmt(d.value)}`}
               >
                 <span className={styles.chartTip}>{fmt(d.value)}</span>

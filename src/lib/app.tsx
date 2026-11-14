@@ -37,12 +37,12 @@ type AppState = {
   transactions: Transaction[];
   updateTransactions: (ids: string[], patch: Partial<Transaction>) => void;
 
-  toasts: Toast[];
   toast: (t: Omit<Toast, 'id'>) => void;
   dismissToast: (id: number) => void;
 };
 
 const AppContext = createContext<AppState | null>(null);
+const ToastContext = createContext<Toast[]>([]);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [themePref, setThemePrefState] = useState<ThemePref>(readPref);
@@ -87,14 +87,33 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const [toasts, setToasts] = useState<Toast[]>([]);
   const nextId = useRef(1);
-  const dismissToast = useCallback((id: number) => setToasts((l) => l.filter((t) => t.id !== id)), []);
+  const timersRef = useRef<Map<number, number>>(new Map());
+
+  const dismissToast = useCallback((id: number) => {
+    const timer = timersRef.current.get(id);
+    if (timer !== undefined) {
+      window.clearTimeout(timer);
+      timersRef.current.delete(id);
+    }
+    setToasts((l) => l.filter((t) => t.id !== id));
+  }, []);
+
   const toast = useCallback(
     (t: Omit<Toast, 'id'>) => {
       const id = nextId.current++;
       setToasts((l) => [...l.slice(-2), { ...t, id }]);
-      window.setTimeout(() => dismissToast(id), 3600);
+      const timer = window.setTimeout(() => dismissToast(id), 3600);
+      timersRef.current.set(id, timer);
     },
     [dismissToast]
+  );
+
+  useEffect(
+    () => () => {
+      timersRef.current.forEach((timer) => window.clearTimeout(timer));
+      timersRef.current.clear();
+    },
+    []
   );
 
   const value = useMemo<AppState>(
@@ -109,14 +128,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       removeNotification,
       transactions,
       updateTransactions,
-      toasts,
       toast,
       dismissToast,
     }),
-    [themePref, theme, setThemePref, notifications, unread, markRead, markAllRead, removeNotification, transactions, updateTransactions, toasts, toast, dismissToast]
+    [themePref, theme, setThemePref, notifications, unread, markRead, markAllRead, removeNotification, transactions, updateTransactions, toast, dismissToast]
   );
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={value}>
+      <ToastContext.Provider value={toasts}>{children}</ToastContext.Provider>
+    </AppContext.Provider>
+  );
 };
 
 export const useApp = () => {
@@ -124,3 +146,5 @@ export const useApp = () => {
   if (!ctx) throw new Error('useApp must be used inside <AppProvider>');
   return ctx;
 };
+
+export const useToasts = () => useContext(ToastContext);

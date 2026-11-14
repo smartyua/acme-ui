@@ -84,7 +84,7 @@
 .rangeCompact {
   display: none;
 
-  @media (max-width: 1180px) {
+  @include bp.below-desktop {
     display: inline-flex;
   }
 }
@@ -155,7 +155,7 @@
   gap: 1rem;
   align-items: stretch;
 
-  @media (max-width: 1024px) {
+  @include bp.below-desktop {
     grid-template-columns: 1fr;
   }
 }

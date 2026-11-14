@@ -47,3 +47,18 @@ for (const route of ROUTES) {
     });
   });
 }
+
+test.describe('system routes', () => {
+  for (const sysPath of ['/signed-out', '/non-existent-route']) {
+    test(`${sysPath} renders cleanly with no WCAG A/AA violations`, async ({ page, theme, problems }) => {
+      await page.goto(sysPath);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+      await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
+      expect(problems).toEqual([]);
+      const { violations } = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+        .analyze();
+      expect(violations.map((v) => v.id)).toEqual([]);
+    });
+  }
+});

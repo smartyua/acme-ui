@@ -988,11 +988,12 @@ export type HourlyExchange = {
   elapsed: boolean;
 };
 
-export const getHourlyExchange = (minute: number): HourlyExchange[] => {
-  const steps = day();
-  const current = clampMinute(minute);
+let cachedHourlyBase: Array<Omit<HourlyExchange, 'elapsed'>> | null = null;
 
-  return Array.from({ length: 24 }, (_, hour) => {
+const getHourlyBase = (): Array<Omit<HourlyExchange, 'elapsed'>> => {
+  if (cachedHourlyBase) return cachedHourlyBase;
+  const steps = day();
+  cachedHourlyBase = Array.from({ length: 24 }, (_, hour) => {
     const from = Math.floor((hour * 60) / STEP_MINUTES);
     const to = Math.floor(((hour + 1) * 60) / STEP_MINUTES);
     let importKwh = 0;
@@ -1023,9 +1024,17 @@ export const getHourlyExchange = (minute: number): HourlyExchange[] => {
       peakExportKw,
       evKwh,
       pvKwh,
-      elapsed: hour * 60 <= current,
     };
   });
+  return cachedHourlyBase;
+};
+
+export const getHourlyExchange = (minute: number): HourlyExchange[] => {
+  const current = clampMinute(minute);
+  return getHourlyBase().map((item) => ({
+    ...item,
+    elapsed: item.hour * 60 <= current,
+  }));
 };
 
 export const INITIAL_MINUTE = 13 * 60 + 20;

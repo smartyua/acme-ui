@@ -42,7 +42,7 @@ export const NotificationsPage = () => {
           <span className={s.muted} style={{ fontSize: '0.75rem' }}>
             {n.time}
           </span>
-          {!n.read ? <span className={s.unreadDot} aria-label="Unread" /> : null}
+          {!n.read ? <span className={s.unreadDot} role="img" aria-label="Unread" /> : null}
           <Button
             size="sm"
             variant="ghost"

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import {
   ChevronUp,
   Circle,
@@ -10,6 +10,7 @@ import {
   Users,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { CUSTOMERS } from '../content/business';
 import { useApp } from '../lib/app';
 
 import {
@@ -49,6 +50,7 @@ const TREE_TONES = ['peach', 'lavender', 'mint', 'lavender'] as const;
 
 export const ListPanel = ({ range, onRange, selectedKpi, onSelectKpi, status, onStatus }: ListPanelProps) => {
   const [query, setQuery] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { transactions } = useApp();
   const q = query.trim().toLowerCase();
@@ -57,6 +59,18 @@ export const ListPanel = ({ range, onRange, selectedKpi, onSelectKpi, status, on
     status: s,
     count: transactions.filter((t) => t.status === s).length,
   }));
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        if (document.querySelector('[role="dialog"], [role="alertdialog"]')) return;
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, []);
 
   return (
     <aside className={styles.panel} aria-label="Overview sections">
@@ -76,6 +90,7 @@ export const ListPanel = ({ range, onRange, selectedKpi, onSelectKpi, status, on
       <label className={styles.search}>
         <Search size={15} aria-hidden />
         <input
+          ref={searchRef}
           placeholder="Search metrics…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
@@ -144,7 +159,7 @@ export const ListPanel = ({ range, onRange, selectedKpi, onSelectKpi, status, on
         <button type="button" className={styles.flatItem} onClick={() => navigate('/customers')}>
           <Users size={15} aria-hidden />
           <span>Customers</span>
-          <Count value={7} />
+          <Count value={CUSTOMERS.length} />
         </button>
       </div>
 

@@ -38,22 +38,36 @@ const THEMES: Array<{ value: ThemePref; label: string; swatch: string }> = [
   { value: 'system', label: 'System', swatch: s.swatchSystem },
 ];
 
+type ToggleKey = 'emailDigest' | 'paymentAlerts' | 'productNews' | 'requireSso' | 'enforce2fa';
+
+const SettingToggle = ({
+  k,
+  title,
+  hint,
+  checked,
+  onChange,
+}: {
+  k: ToggleKey;
+  title: string;
+  hint: string;
+  checked: boolean;
+  onChange: (v: boolean) => void;
+}) => (
+  <div className={s.settingRow}>
+    <div>
+      <strong>{title}</strong>
+      <span>{hint}</span>
+    </div>
+    <Switch id={`set-${k}`} label={title} hideLabel checked={checked} onChange={onChange} />
+  </div>
+);
+
 export const SettingsPage = () => {
   const { themePref, setThemePref, toast } = useApp();
   const [saved, setSaved] = useState(INITIAL);
   const [form, setForm] = useState(INITIAL);
   const dirty = JSON.stringify(saved) !== JSON.stringify(form);
   const set = <K extends keyof Prefs>(k: K, v: Prefs[K]) => setForm((f) => ({ ...f, [k]: v }));
-
-  const Toggle = ({ k, title, hint }: { k: 'emailDigest' | 'paymentAlerts' | 'productNews' | 'requireSso' | 'enforce2fa'; title: string; hint: string }) => (
-    <div className={s.settingRow}>
-      <div>
-        <strong>{title}</strong>
-        <span>{hint}</span>
-      </div>
-      <Switch id={`set-${k}`} label={title} hideLabel checked={form[k]} onChange={(v) => set(k, v)} />
-    </div>
-  );
 
   return (
     <Page>
@@ -103,16 +117,16 @@ export const SettingsPage = () => {
 
         <Panel title="Email notifications">
           <div>
-            <Toggle k="emailDigest" title="Weekly digest" hint="Revenue, signups and template usage every Monday." />
-            <Toggle k="paymentAlerts" title="Payment alerts" hint="Failed payments and disputes as they happen." />
-            <Toggle k="productNews" title="Product news" hint="New templates and features, about once a month." />
+            <SettingToggle k="emailDigest" title="Weekly digest" hint="Revenue, signups and template usage every Monday." checked={form.emailDigest} onChange={(v) => set('emailDigest', v)} />
+            <SettingToggle k="paymentAlerts" title="Payment alerts" hint="Failed payments and disputes as they happen." checked={form.paymentAlerts} onChange={(v) => set('paymentAlerts', v)} />
+            <SettingToggle k="productNews" title="Product news" hint="New templates and features, about once a month." checked={form.productNews} onChange={(v) => set('productNews', v)} />
           </div>
         </Panel>
 
         <Panel title="Security">
           <div>
-            <Toggle k="requireSso" title="Require single sign-on" hint="Members must sign in with your identity provider." />
-            <Toggle k="enforce2fa" title="Enforce two-factor authentication" hint="Applies to everyone with admin access." />
+            <SettingToggle k="requireSso" title="Require single sign-on" hint="Members must sign in with your identity provider." checked={form.requireSso} onChange={(v) => set('requireSso', v)} />
+            <SettingToggle k="enforce2fa" title="Enforce two-factor authentication" hint="Applies to everyone with admin access." checked={form.enforce2fa} onChange={(v) => set('enforce2fa', v)} />
             <div className={s.settingRow}>
               <div>
                 <strong>Session timeout</strong>
