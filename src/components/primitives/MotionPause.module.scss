@@ -1,0 +1,28 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.pause {
+  min-height: $control-h-sm;
+  padding: 0 $spacing-sm;
+  border-radius: $radius-sm;
+  border: $border-width solid $border;
+  background: $card;
+  color: $fg;
+  font-family: $font-sans;
+  font-size: $font-size-xs;
+  letter-spacing: $tracking-ui;
+  cursor: pointer;
+  transition: background-color $transition-fast, color $transition-fast;
+
+  &:focus-visible {
+    outline: $focus-ring-width solid $accent-text;
+    outline-offset: $focus-ring-offset;
+  }
+}
+
+@media (hover: hover) {
+  .pause:hover {
+    background: $accent;
+    color: $accent-foreground;
+  }
+}

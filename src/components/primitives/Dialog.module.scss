@@ -1,0 +1,123 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.dialogRoot {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay-backdrop;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-overlay-backdrop;
+  background-color: var(--overlay);
+  animation: shacdn-overlay-enter $overlay-enter;
+}
+
+.dialogContent {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: $z-overlay;
+  transform: translate(-50%, -50%);
+  background: $card;
+  border: $border-width solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  width: 100%;
+  max-width: 32rem;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: $shadow-float;
+  animation: contentShow 150ms $ease-spring;
+
+  @include phone {
+    width: 90vw;
+    max-width: calc(100% - #{$spacing-xl});
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  > :where(* + *) {
+    margin-top: $spacing-md;
+  }
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.dialogClose {
+  position: absolute;
+  top: $spacing-md;
+  right: $spacing-md;
+  background: transparent;
+  border: none;
+  padding: $spacing-xs;
+  cursor: pointer;
+  border-radius: $radius-sm;
+  color: $fg-muted;
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    opacity $transition-fast;
+
+  &:hover {
+    color: $fg;
+    background: $hover;
+  }
+
+  &:focus-visible {
+    outline: $focus-ring-width solid $accent-text;
+    outline-offset: $focus-ring-offset;
+  }
+}
+
+.dialogHeader {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  margin-bottom: $spacing-md;
+}
+
+.dialogFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+  margin-top: $spacing-lg;
+
+  @include phone {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
+
+.dialogTitle {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: $tracking-tight;
+  color: $fg;
+  margin: 0;
+}
+
+.dialogDescription {
+  font-size: $font-size-sm;
+  color: $fg-muted;
+  margin: 0;
+  line-height: 1.5;
+}

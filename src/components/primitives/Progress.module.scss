@@ -1,0 +1,20 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.progress {
+  position: relative;
+  height: var(--progress-height, 0.5rem);
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: $bar;
+}
+
+.indicator {
+  height: 100%;
+  width: 100%;
+  flex: 1 1 0%;
+  background-color: var(--progress-indicator, #{$accent});
+  transition: transform $transition-base;
+  transform-origin: left;
+}

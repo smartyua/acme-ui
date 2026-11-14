@@ -1,0 +1,87 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.callout {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  width: 100%;
+  border-radius: $radius-md;
+  border: $border-width solid $border;
+  border-left-width: 0.25rem;
+  border-left-color: $border;
+  padding: $spacing-md;
+  background-color: $muted;
+  color: $fg;
+  font-size: $font-size-sm;
+  font-family: $font-sans;
+  line-height: 1.5;
+
+  > svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    color: $fg-muted;
+  }
+}
+
+.info {
+  border-left-color: $accent;
+  background-color: color-mix(in srgb, #{$accent} 6%, transparent);
+
+  > svg {
+    color: $accent;
+  }
+
+  .title {
+    color: $fg;
+  }
+}
+
+.warning {
+  border-left-color: $warning;
+  background-color: color-mix(in srgb, #{$warning} 8%, transparent);
+
+  > svg {
+    color: $warning;
+  }
+}
+
+.success {
+  border-left-color: $success;
+  background-color: color-mix(in srgb, #{$success} 8%, transparent);
+
+  > svg {
+    color: $success;
+  }
+}
+
+.danger {
+  border-left-color: $danger;
+  background-color: color-mix(in srgb, #{$danger} 6%, transparent);
+
+  > svg {
+    color: $danger;
+  }
+
+  .title {
+    color: $danger;
+  }
+}
+
+.title {
+  margin: 0 0 $spacing-xs;
+  font-weight: 500;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+  color: $fg;
+}
+
+.description {
+  margin: 0;
+  font-size: $font-size-sm;
+  color: $fg-muted-strong;
+  line-height: 1.5;
+}

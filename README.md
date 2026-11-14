@@ -11,6 +11,7 @@ minimal SaaS, light + dark), plus a **Templates** screen and working screens for
 npm install
 npm run dev      # http://localhost:5180
 npm run build    # type-check + production build
+npm run verify   # full quality gate: lint, design lint, tests, build, browser matrix (see AGENTS.md)
 ```
 
 ## Screens (all in the left sidebar)

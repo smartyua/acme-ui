@@ -6,8 +6,11 @@ import styles from './primitives.module.scss';
 
 const cx = (...parts: Array<string | false | undefined | null>) => parts.filter(Boolean).join(' ');
 
+// Numbers stay a tight counter; word labels (statuses) get a roomier pill.
 export const Count = ({ value, tone }: { value: ReactNode; tone?: Tone | 'muted' | 'alert' }) => (
-  <span className={cx(styles.count, tone && styles[`tone-${tone}`])}>{value}</span>
+  <span className={cx(styles.count, typeof value === 'string' && /[a-z]/i.test(value) && styles.countLabel, tone && styles[`tone-${tone}`])}>
+    {value}
+  </span>
 );
 
 export const Avatar = ({ initials, size = 'md' }: { initials: string; size?: 'sm' | 'md' }) => (

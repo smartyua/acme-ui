@@ -1,0 +1,72 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: $radius-lg;
+  border: $border-width solid $border;
+  background: $card;
+  overflow: hidden;
+}
+
+.item {
+  border-bottom: $border-width solid $border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.trigger {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-md;
+  font-size: $font-size-sm;
+  font-family: $font-sans;
+  font-weight: 500;
+  color: $fg;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background: $hover;
+  }
+
+  &:focus-visible {
+    outline: $focus-ring-width solid $accent-text;
+    outline-offset: $focus-ring-offset;
+    border-radius: $radius-sm;
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}
+
+.triggerLabel {
+  flex: 1;
+  text-align: left;
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform $transition-fast;
+  color: $fg-muted;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding: 0 $spacing-md $spacing-md;
+  color: $fg;
+}

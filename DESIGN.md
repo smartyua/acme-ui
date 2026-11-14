@@ -42,20 +42,23 @@ All colours are CSS custom properties defined per theme in `src/styles/globals.s
 |---|---|---|---|
 | `$backdrop` | `#e7e7e9` | `#3a3e45` | Page behind the app frame |
 | `$frame` | `#ffffff` | `#1b1b1c` | App frame; also “inverse ink” on `$fg` fills |
-| `$rail` | `#f7f7f8` | `#1f1f20` | Sidebar, phone top bar |
-| `$panel` | `#f2f2f4` | `#222223` | Secondary column |
-| `$main` | `#ffffff` | `#1a1a1b` | Page content area |
+| `$rail` | `#f9f9fa` | `#1f1f20` | Sidebar, phone top bar |
+| `$panel` | `#fbfbfc` | `#222223` | Secondary column |
+| `$main` | `#f4f4f5` | `#1a1a1b` | Page content area — one step below `$card` in both themes, so cards read as raised |
 | `$card` | `#ffffff` | `#262627` | Panels, cards, inputs, modals |
 | `$card-raised` | `#f1f1f3` | `#2e2e30` | Icon tiles, nested chips |
-| `$well` | `#f6f6f7` | `#141415` | Inset areas (chart wells, read-only fields) |
+| `$well` | `#efeff1` | `#141415` | Inset areas (chart wells, read-only fields) |
 | `$hover` | `rgba(0,0,0,.045)` | `rgba(255,255,255,.05)` | Hover fill |
 | `$active` | `#e7e7ea` | `#3a3a3c` | Selected nav item, muted counters |
 | `$border` | `rgba(0,0,0,.08)` | `rgba(255,255,255,.08)` | Default hairline |
 | `$border-strong` | `rgba(0,0,0,.14)` | `rgba(255,255,255,.14)` | Inputs, buttons, hover borders |
 | `$fg` | `#18181b` | `#f4f4f5` | Primary text |
 | `$fg-soft` | `#3f3f46` | `#d4d4d8` | Labels, nav items |
-| `$fg-muted` | `#71717a` | `#9b9ba1` | Descriptions, table headers |
+| `$fg-muted` | `#6b6b73` | `#9b9ba1` | Descriptions, table headers |
 | `$fg-faint` | `#a1a1aa` | `#6e6e74` | Placeholders, timestamps, counts |
+| `$fg-muted-strong` | derived | derived | Muted text on tinted or inset surfaces (`$well`, callouts, segmented tracks), where `$fg-muted` falls under 4.5:1. `color-mix` of `$fg-muted` and `$fg`, no new literal |
+
+Both themes use the same surface ladder, lowest to highest: `$well` → `$main` → `$rail` → `$panel` → `$card`. Cards are never the same colour as the page behind them.
 
 ### 2.2 Accent & semantic
 
@@ -70,6 +73,7 @@ All colours are CSS custom properties defined per theme in `src/styles/globals.s
 | `$warning` | `#a16207` | `#f2c94c` | Warnings in text |
 | `$tag-bg` | `#f2f2f4` | `#2c2c2f` | Neutral tag, pill-tab track, meter track |
 | `$overlay` | `rgba(20,22,28,.35)` | `rgba(0,0,0,.55)` | Modal/drawer scrim |
+| `$solar` `$battery` `$grid` `$load` `$ev` `$import-color` `$export-color` | see `globals.scss` | see `globals.scss` | Energy series on the BESS screen only (chart lines, flow branches, progress bars). Badges there still use the pastel tones |
 
 ### 2.3 Pastel tones (status, categories, charts)
 
@@ -141,6 +145,16 @@ Large soft backgrounds use `--tint-blue|peach|pink|mint|lavender` (≈5% tint in
 - **Grids:** KPI 4 → 2 columns; split 2 → 1; card grids 4 → 3 (<1280) → 2 (<1024) → 1 (<640).
 - Nav items: 36px tall (44px on phone), icon 17px `lucide-react`, label, optional `Count` badge
   right-aligned. Active item = `$active` fill + inset 1px `$border`.
+- **Alignment in a row.** A badge, `Count` or chip next to a label, icon or title sits on the
+  same vertical centre: the row uses `align-items: center` (with `flex-wrap: wrap` if the badge can
+  be long), never `flex-start` with a taller badge. The browser matrix fails when a pill is more
+  than 2px off its neighbour (`e2e/alignment.ts`).
+- **Groups of controls match.** Buttons side by side share `size` and icon treatment — either all
+  carry an icon or none do. A field label sits above its control with a 0.375rem gap (`FormField`
+  or `Input label`), never touching the input or its focus ring.
+- **Hover details follow the pointer.** Details revealed by hovering a diagram node open as a
+  floating card next to the cursor (flipping at the viewport edge) and next to the node on keyboard
+  focus — not in a panel elsewhere on the page.
 
 ---
 
@@ -152,6 +166,7 @@ Breakpoints in `src/styles/_breakpoints.scss` — use the mixins, never ad-hoc w
 |---|---|---|
 | `@include bp.phone` | < 640px | Top bar (menu · title · theme). Sidebar = off-canvas drawer (86vw, scrim, Esc closes, closes on navigation). |
 | `@include bp.tablet` | 640–1023px | Sidebar collapses to 68px icon rail; counters become corner dots. |
+| `@include bp.from-tablet` | ≥ 640px | Same shell as tablet/desktop; use for “everything that is not a phone”. |
 | `@include bp.below-desktop` | < 1024px | Split grids stack; card rows may become swipe carousels (`scroll-snap`). |
 | `@include bp.desktop` | ≥ 1024px | Full sidebar (user-collapsible). |
 
@@ -250,12 +265,15 @@ Charts: simple CSS/SVG bars and donuts (see `FinancePage.tsx`, `BarChart.tsx`). 
 | `lucide-react` icons, 14–17px, `aria-hidden` | Mixed icon sets, emoji as icons |
 | Toast after each mutation | Silent state changes |
 | Monogram chips for third-party apps | Copying brand logos |
+| Badges centred on their label's line | Badges hanging below a label (`align-items: flex-start`) |
 
 ---
 
 ## 11. Definition of done (every UI change)
 
-1. `npm run build` passes (tsc + vite), no new warnings.
+1. `npm run verify` passes (typecheck, lint, design lint, unit tests, build, browser matrix) with no
+   new suppressions and no new warnings. It checks items 2–4 below for every route as it loads;
+   anything behind a click (dialogs, drawers, forms) is still checked by hand or by a spec in `e2e/`.
 2. Checked in **light and dark**.
 3. Checked at **390px, 820px, 1440px** (and ≥1920px for full-width layouts): no horizontal page
    scroll, nothing clipped, menu reachable.

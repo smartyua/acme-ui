@@ -57,21 +57,21 @@ export const PaymentsPage = () => {
               <strong>Seats</strong>
               <span>7 of {current.seats}</span>
             </div>
-            <Meter value={7} max={current.seats} tone={7 / current.seats > 0.85 ? 'danger' : 'accent'} />
+            <Meter label="Seats used" value={7} max={current.seats} tone={7 / current.seats > 0.85 ? 'danger' : 'accent'} />
           </div>
           <div className={s.usage}>
             <div>
               <strong>Workflow runs</strong>
               <span>{plan === 'business' ? '18,240 · unlimited' : `18,240 of ${plan === 'starter' ? '1,000' : '25,000'}`}</span>
             </div>
-            <Meter value={plan === 'business' ? 18 : 18240} max={plan === 'business' ? 100 : plan === 'starter' ? 1000 : 25000} tone={plan === 'starter' ? 'danger' : 'warning'} />
+            <Meter label="Workflow runs used" value={plan === 'business' ? 18 : 18240} max={plan === 'business' ? 100 : plan === 'starter' ? 1000 : 25000} tone={plan === 'starter' ? 'danger' : 'warning'} />
           </div>
           <div className={s.usage}>
             <div>
               <strong>API quota</strong>
               <span>400k of 500k</span>
             </div>
-            <Meter value={400} max={500} tone="warning" />
+            <Meter label="API quota used" value={400} max={500} tone="warning" />
           </div>
         </Panel>
 

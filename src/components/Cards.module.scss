@@ -13,7 +13,7 @@
 
 .cardHeader {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
   padding: 1rem 1rem 0.25rem;
 }
@@ -219,7 +219,7 @@
 
 .chartLabel {
   font-size: 0.6875rem;
-  color: $fg-faint;
+  color: $fg-muted-strong;
 }
 
 .chartCaption {

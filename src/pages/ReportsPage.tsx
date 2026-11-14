@@ -1,15 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
-import { CalendarClock, Download, FileText, Loader2, Trash2 } from 'lucide-react';
+import { CalendarClock, Download, FileText, Loader2, Paperclip, Trash2, X } from 'lucide-react';
 
 import { Switch } from '../components/primitives';
-import { Badge, Button, FormField, PageHeader, Panel, Select } from '../components/ui';
+import { Badge, Button, Empty, FormField, PageHeader, Panel, Select } from '../components/ui';
 import { REPORTS, SCHEDULES, type Report } from '../content/business';
 import { Page } from '../layout/Page';
 import { useApp } from '../lib/app';
+import i from './Insights.module.scss';
 import s from './pages.module.scss';
 
 const TYPES = ['Revenue summary', 'Transaction export', 'Customer growth', 'Failed payments', 'Template usage'];
 const RANGES = { '7d': 'Last 7 days', '30d': 'Last 30 days', q: 'This quarter', ytd: 'Year to date' } as const;
+
+type Attachment = { id: string; name: string; meta: string; uploading: boolean };
+
+const INITIAL_ATTACHMENTS: Attachment[] = [
+  { id: 'a1', name: 'q2-revenue-summary.pdf', meta: 'PDF · 1.2 MB', uploading: false },
+  { id: 'a2', name: 'june-transactions.csv', meta: 'CSV · 340 KB', uploading: false },
+];
+
+const fileName = (name: string, format: Report['format']) =>
+  `${name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}.${format.toLowerCase()}`;
 
 const today = () => new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
@@ -17,6 +28,7 @@ export const ReportsPage = () => {
   const { toast } = useApp();
   const [reports, setReports] = useState<Report[]>(REPORTS);
   const [schedules, setSchedules] = useState(SCHEDULES);
+  const [attachments, setAttachments] = useState<Attachment[]>(INITIAL_ATTACHMENTS);
   const [type, setType] = useState(TYPES[0]);
   const [range, setRange] = useState<keyof typeof RANGES>('30d');
   const [format, setFormat] = useState<Report['format']>('PDF');
@@ -29,10 +41,13 @@ export const ReportsPage = () => {
   const generate = () => {
     const id = `r${Date.now()}`;
     const report: Report = { id, name: `${type} · ${RANGES[range]}`, status: 'Generating', date: today(), format, size: '—' };
+    const size = format === 'CSV' ? '212 KB' : '864 KB';
     setReports((list) => [report, ...list]);
+    setAttachments((list) => [{ id, name: fileName(report.name, format), meta: `${format} · uploading…`, uploading: true }, ...list]);
     timers.current.push(
       window.setTimeout(() => {
-        setReports((list) => list.map((r) => (r.id === id ? { ...r, status: 'Ready', size: format === 'CSV' ? '212 KB' : '864 KB' } : r)));
+        setReports((list) => list.map((r) => (r.id === id ? { ...r, status: 'Ready', size } : r)));
+        setAttachments((list) => list.map((a) => (a.id === id ? { ...a, meta: `${format} · ${size}`, uploading: false } : a)));
         toast({ title: 'Report ready', description: report.name, tone: 'success' });
       }, 1800)
     );
@@ -106,7 +121,55 @@ export const ReportsPage = () => {
         </Panel>
       </div>
 
+      <Panel flush title="Attachments" description="Files included with the latest report runs" className={i.block}>
+        {attachments.length === 0 ? (
+          <Empty icon={<Paperclip size={18} aria-hidden />} title="No attachments">
+            Generate a report and its file appears here.
+          </Empty>
+        ) : (
+          <ul className={s.list}>
+            {attachments.map((a) => (
+              <li key={a.id} className={s.row}>
+                <span className={s.iconTile}>{a.uploading ? <Loader2 size={16} className="spin" aria-hidden /> : <FileText size={16} aria-hidden />}</span>
+                <div className={s.rowMain}>
+                  <strong>{a.name}</strong>
+                  <span>{a.meta}</span>
+                </div>
+                <div className={s.rowEnd}>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    disabled={a.uploading}
+                    aria-label={`Download ${a.name}`}
+                    icon={<Download size={14} aria-hidden />}
+                    onClick={() => toast({ title: 'Download started', description: a.name })}
+                  />
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    aria-label={`Remove ${a.name}`}
+                    icon={<X size={14} aria-hidden />}
+                    onClick={() => {
+                      setAttachments((list) => list.filter((x) => x.id !== a.id));
+                      toast({ title: 'Attachment removed', description: a.name });
+                    }}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </Panel>
+
       <Panel flush title="Generated reports" description={`${reports.length} files`}>
+        {reports.length === 0 ? (
+          <Empty icon={<FileText size={18} aria-hidden />} title="No reports yet">
+            Generate a revenue or transaction summary to see download links here.
+            <Button size="sm" onClick={generate}>
+              Create report
+            </Button>
+          </Empty>
+        ) : (
         <ul className={s.list}>
           {reports.map((r) => (
             <li key={r.id} className={s.row}>
@@ -139,6 +202,7 @@ export const ReportsPage = () => {
             </li>
           ))}
         </ul>
+        )}
       </Panel>
     </Page>
   );

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { CircleHelp, LogOut, Menu, Moon, PanelLeft, Sun, X } from 'lucide-react';
 
-import { Button, Modal, Toaster, cx } from '../components/ui';
+import { Button, Modal, Toaster, cx, srOnly } from '../components/ui';
 import { Count, Switch } from '../components/primitives';
 import { ALL_ROUTES, RAIL_PRIMARY, RAIL_SECONDARY, type RailItem } from '../data';
 import { CATEGORY_TOTALS } from '../content/templates';
@@ -58,6 +58,11 @@ export const Shell = () => {
   // Close the phone drawer on navigation
   useEffect(() => setMobileOpen(false), [location.pathname]);
 
+  // The rail scrolls on short screens — keep the current item in view after navigation and when the drawer opens.
+  useEffect(() => {
+    document.querySelector('nav[aria-label="Workspace navigation"] a[aria-current="page"]')?.scrollIntoView({ block: 'nearest' });
+  }, [location.pathname, mobileOpen]);
+
   useEffect(() => {
     if (!mobileOpen) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMobileOpen(false);
@@ -105,10 +110,15 @@ export const Shell = () => {
           aria-label="Workspace navigation"
         >
           <div className={styles.brand}>
-            <span className={styles.brandMark} aria-hidden>
-              A
-            </span>
-            <span className={styles.brandName}>Acme</span>
+            {/* The name comes from the content, so it always contains the visible text (axe
+                label-content-name-mismatch) and still exists when the rail hides "Acme". */}
+            <Link to="/overview" className={styles.brandLink}>
+              <span className={styles.brandMark} aria-hidden>
+                A
+              </span>
+              <span className={styles.brandName}>Acme</span>
+              <span className={srOnly}>Go to overview</span>
+            </Link>
             <button type="button" className={cx(styles.iconBtn, styles.collapseBtn)} onClick={toggleCollapsed} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
               <PanelLeft size={15} aria-hidden />
             </button>

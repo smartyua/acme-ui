@@ -1,19 +1,27 @@
 // Data lifted from shacdn/src/screens/Dashboard/dashboardData.ts (Overview page)
 // and regrouped into the Vetted layout: rail → list panel → details card → "what we check" card.
 import {
+  Activity,
   BarChart3,
+  BatteryCharging,
   Bell,
+  Blocks,
+  ClipboardList,
   CreditCard,
   FileText,
   LayoutDashboard,
   LayoutTemplate,
   LineChart,
+  Network,
   Receipt,
+  ScrollText,
   Settings,
+  Shapes,
   TrendingUp,
   UserRound,
   Users,
   Wallet,
+  Workflow,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -29,10 +37,19 @@ export const RAIL_PRIMARY: RailItem[] = [
   { id: 'finance', label: 'Finance', icon: Wallet, path: '/finance' },
   { id: 'payments', label: 'Payments', icon: Receipt, path: '/payments' },
   { id: 'reports', label: 'Reports', icon: LineChart, path: '/reports' },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics' },
+  { id: 'traffic', label: 'Traffic', icon: Network, path: '/traffic' },
+  { id: 'topology', label: 'Topology', icon: Workflow, path: '/topology' },
+  { id: 'bess', label: 'BESS & solar', icon: BatteryCharging, path: '/bess' },
 ];
 
 export const RAIL_SECONDARY: RailItem[] = [
   { id: 'notifications', label: 'Notifications', icon: Bell, path: '/notifications' },
+  { id: 'activity', label: 'Activity', icon: Activity, path: '/activity' },
+  { id: 'requests', label: 'Requests', icon: ClipboardList, path: '/requests' },
+  { id: 'audit-log', label: 'Audit log', icon: ScrollText, path: '/audit-log' },
+  { id: 'patterns', label: 'Patterns', icon: Shapes, path: '/patterns' },
+  { id: 'components', label: 'Components', icon: Blocks, path: '/components' },
   { id: 'settings', label: 'Settings', icon: Settings, path: '/settings' },
   { id: 'profile', label: 'Profile', icon: UserRound, path: '/profile' },
 ];
@@ -197,6 +214,8 @@ export const REPORTS = [
 ];
 
 export const AVATAR_TONE: Record<string, Tone> = {
+  AM: 'lavender',
+  AK: 'lemon',
   SC: 'lavender',
   MW: 'peach',
   ER: 'mint',

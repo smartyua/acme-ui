@@ -7,20 +7,43 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json",
+    "lint": "eslint . --max-warnings 0",
+    "lint:design": "stylelint \"src/**/*.scss\"",
+    "format": "prettier --check src",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run lint && npm run lint:design && npm run test",
+    "e2e": "playwright test",
+    "e2e:update": "playwright test --update-snapshots",
+    "verify": "npm run check && npm run build && npm run e2e"
   },
   "dependencies": {
-    "lucide-react": "^1.72.0",
+    "lucide-react": "^1.73.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.65.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
+    "eslint": "^10.15.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "jsdom": "^31.0.1",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.10.1",
     "sass": "^1.108.2",
+    "stylelint": "^18.0.0",
     "typescript": "~6.0.3",
-    "vite": "^8.3.8"
+    "typescript-eslint": "^8.72.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
   }
 }

@@ -1,0 +1,42 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as *;
+
+.wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ring {
+  display: block;
+  transform: rotate(0deg);
+}
+
+.track {
+  stroke: $bar;
+}
+
+.indicator {
+  stroke: var(--progress-indicator, #{$accent});
+  transition: stroke-dashoffset $transition-base;
+  stroke-linecap: round;
+}
+
+.label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.05rem;
+  line-height: 1.05;
+  text-align: center;
+  font-family: $font-sans;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $fg;
+  pointer-events: none;
+}

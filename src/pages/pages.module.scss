@@ -497,15 +497,15 @@
 }
 
 .swatchLight {
-  background: linear-gradient(90deg, #f4f4f5 0 28%, #ffffff 28%);
+  background: linear-gradient(90deg, $swatch-light 0 28%, $swatch-light-alt 28%);
 }
 
 .swatchDark {
-  background: linear-gradient(90deg, #1f1f20 0 28%, #1a1a1b 28%);
+  background: linear-gradient(90deg, $swatch-dark 0 28%, $swatch-dark-alt 28%);
 }
 
 .swatchSystem {
-  background: linear-gradient(135deg, #ffffff 0 50%, #1a1a1b 50%);
+  background: linear-gradient(135deg, $swatch-light-alt 0 50%, $swatch-dark-alt 50%);
 }
 
 .saveBar {

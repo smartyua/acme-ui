@@ -40,6 +40,9 @@ $fg: var(--fg);
 $fg-soft: var(--fg-soft);
 $fg-muted: var(--fg-muted);
 $fg-faint: var(--fg-faint);
+// Muted text on tinted or inset surfaces ($well, callouts, segmented tracks): plain $fg-muted
+// drops below 4.5:1 there in the light theme (DESIGN.md §9).
+$fg-muted-strong: color-mix(in srgb, var(--fg-muted) 78%, var(--fg));
 $lavender: var(--lavender);
 $peach: var(--peach);
 $mint: var(--mint);
@@ -48,6 +51,8 @@ $rose: var(--rose);
 $sky: var(--sky);
 $ink: var(--ink);
 $accent-text: var(--accent-text);
+// Accent text on $accent-soft: plain $accent-text is 4.3:1 there in the light theme (DESIGN.md §9).
+$accent-text-strong: color-mix(in srgb, var(--accent-text) 85%, var(--fg));
 $trend-up: var(--trend-up);
 $trend-down: var(--trend-down);
 $switch-off: var(--switch-off);
@@ -80,3 +85,64 @@ $shadow-float: var(--shadow-float);
 $ease: cubic-bezier(0.25, 0.1, 0.25, 1);
 $t-fast: 120ms $ease;
 $t-base: 180ms $ease;
+
+// — Aliases with shadcn naming for ported shacdn primitives (see DESIGN.md §2).
+// shadcn grey hover surfaces map to $hover/$active; the Acme blue stays $accent.
+$border-width: 1px;
+$font-size-lg: 1.125rem;
+$tracking-ui: -0.01em;
+$tracking-tight: -0.022em;
+$control-h-sm: 1.75rem;
+$control-h-md: $control-h;
+$transition-fast: $t-fast;
+$transition-base: $t-base;
+$transition-slow: 260ms $ease;
+$ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+$overlay-enter: 150ms $ease-spring;
+$overlay-exit: 120ms $ease;
+$content-enter: 150ms $ease-spring;
+$focus-ring-width: 2px;
+$focus-ring-offset: 2px;
+$z-floating: 200;
+$z-overlay-backdrop: 1000;
+$z-overlay: 1001;
+$background: var(--card);
+$foreground: var(--fg);
+$muted: var(--well);
+$muted-foreground: var(--fg-muted);
+$primary: var(--accent);
+$secondary: var(--bar);
+$destructive: var(--danger);
+$ring: var(--accent-text);
+$accent-foreground: var(--accent-fg);
+$chart-1: var(--chart-1);
+$chart-2: var(--chart-2);
+$chart-3: var(--chart-3);
+$chart-4: var(--chart-4);
+$chart-5: var(--chart-5);
+$mint-glow: var(--mint-glow);
+// Energy-domain series for the BESS screen (DESIGN.md §2.2)
+$solar: var(--solar);
+$battery: var(--battery);
+$grid: var(--grid);
+$load: var(--load);
+$ev: var(--ev);
+$import-color: var(--import);
+$export-color: var(--export);
+$font-size-xl: 1.25rem;
+$ease-standard: $ease;
+$thumb-shadow: var(--thumb-shadow);
+$btn-primary-shadow-inset: var(--btn-primary-shadow-inset);
+$card-shadow-hairline: var(--card-shadow-hairline);
+$mono-shadow: var(--mono-shadow);
+$pop-shadow: var(--pop-shadow);
+$swatch-light: var(--swatch-light);
+$swatch-light-alt: var(--swatch-light-alt);
+$swatch-dark: var(--swatch-dark);
+$swatch-dark-alt: var(--swatch-dark-alt);
+
+// shacdn helper: alpha($color, 18%) — needed by Chart.module.scss
+@function alpha($color, $amount) {
+  @return color-mix(in srgb, #{$color} $amount, transparent);
+}
+

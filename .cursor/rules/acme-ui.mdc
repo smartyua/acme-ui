@@ -22,4 +22,5 @@ Full contract: @DESIGN.md · project map: @AGENTS.md
   column, bottom-sheet dialogs, tables in `TableWrap` + `.hideSm`), `bp.tablet` (icon rail),
   `bp.below-desktop` (stack split grids). No raw media queries.
 - Arrow functions only; `aria-label` on icon buttons; sentence-case copy.
-- Done = `npm run build` passes + checked in light & dark at 390 / 820 / 1440 px, no console errors.
+- Done = `npm run verify` passes (check + build + browser matrix) + interactions checked in light &
+  dark at 390 / 820 / 1440 px, no console errors. Agent team and gate rules: AGENTS.md.

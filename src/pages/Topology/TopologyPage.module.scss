@@ -1,0 +1,536 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+// Height of a group title; the wiring canvas starts below it so the hub centres on the rows.
+$group-title-h: 1.75rem;
+
+// ── Header: live state + pause ───────────────────────────────────────────
+.headerStatus {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.livePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: $control-h-sm;
+  padding: 0 0.625rem;
+  border: 1px solid $border;
+  border-radius: 9999px;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted-strong;
+
+  i {
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 50%;
+    background-color: $fg-muted-strong;
+  }
+}
+
+.liveOn {
+  border-color: alpha($success, 35%);
+  color: color-mix(in srgb, #{$success} 80%, #{$fg});
+
+  i {
+    background-color: $success;
+    animation: livePulse 1.8s $ease infinite;
+  }
+}
+
+// ── KPI row ──────────────────────────────────────────────────────────────
+// Four short numbers fit in one row on a tablet too; the shared grid would stack them 2 × 2.
+.kpis {
+  @include bp.tablet {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.statOf {
+  font-size: $font-size-base;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: $fg-muted;
+}
+
+// ── Diagram: workers | hub and connectors | workers ──────────────────────
+.diagram {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(6rem, 0.6fr) minmax(0, 1fr);
+  grid-template-areas: 'adbreak canvas transcode';
+  min-width: 0;
+
+  @include bp.phone {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'canvas' 'adbreak' 'transcode';
+    gap: $spacing-md;
+  }
+}
+
+.group {
+  min-width: 0;
+
+  &[data-group='adbreak'] {
+    grid-area: adbreak;
+  }
+
+  &[data-group='transcode'] {
+    grid-area: transcode;
+  }
+}
+
+.groupTitle {
+  display: flex;
+  align-items: flex-start;
+  height: $group-title-h;
+  margin: 0;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  line-height: 1.3;
+  color: $fg-muted;
+}
+
+.workers {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.worker {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'icon name status'
+    'icon meta meta';
+  align-items: center;
+  gap: 0.125rem 0.625rem;
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.4375rem 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $card;
+  color: $fg;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color $t-fast,
+    background-color $t-fast;
+
+  &:focus-visible {
+    outline: $focus-ring-width solid $accent-text;
+    outline-offset: $focus-ring-offset;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $border-strong;
+    }
+  }
+}
+
+.workerSelected,
+.workerSelected:hover {
+  border-color: $accent;
+  background: alpha($accent, 5%);
+}
+
+.workerIcon {
+  grid-area: icon;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: $radius-sm;
+  background: $well;
+  color: $fg-soft;
+}
+
+.workerName {
+  grid-area: name;
+  overflow: hidden;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workerStatus {
+  grid-area: status;
+  justify-self: end;
+  height: 1.25rem;
+}
+
+.workerMeta {
+  grid-area: meta;
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  min-width: 0;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.workerRates {
+  min-width: 0;
+  overflow: hidden;
+  color: $fg-muted;
+  text-overflow: ellipsis;
+
+  abbr {
+    text-decoration: none;
+  }
+}
+
+.workerTotal {
+  font-weight: 600;
+  color: $fg-soft;
+}
+
+// ── Hub and connectors ───────────────────────────────────────────────────
+.canvas {
+  position: relative;
+  grid-area: canvas;
+  min-width: 0;
+  margin-top: $group-title-h;
+
+  @include bp.phone {
+    margin-top: 0;
+  }
+}
+
+.wires {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+
+  @include bp.phone {
+    display: none;
+  }
+}
+
+.wire {
+  fill: none;
+  stroke: $border-strong;
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    stroke $t-base,
+    stroke-width $t-base;
+}
+
+.wireActive {
+  stroke: alpha($accent, 30%);
+}
+
+.wireSelected {
+  stroke: $accent;
+  stroke-width: 1.5;
+}
+
+// Dashes run from the hub to every worker that is doing something; idle links stay still.
+.wireFlow {
+  fill: none;
+  stroke: $accent;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 6 10;
+  animation: wireFlow 0.9s linear infinite;
+}
+
+.diagram[data-paused='true'] .wireFlow {
+  animation-play-state: paused;
+}
+
+.packetHalo {
+  opacity: 0.22;
+}
+
+.packetCore {
+  stroke: $card;
+  stroke-width: 1;
+}
+
+// One element in both layouts: centred on the canvas from tablet up, a full-width row on phones.
+.hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: $fg;
+  font: inherit;
+  cursor: pointer;
+  transform: translate(-50%, -1.5rem); // half of .hubIcon: the icon, not the label, is the centre
+
+  &:focus-visible {
+    outline: none;
+
+    .hubIcon {
+      outline: $focus-ring-width solid $accent-text;
+      outline-offset: $focus-ring-offset;
+    }
+  }
+
+  @include bp.phone {
+    position: static;
+    flex-direction: row;
+    gap: 0.625rem;
+    width: 100%;
+    padding: 0.4375rem 0.75rem;
+    border: 1px solid $border;
+    border-radius: $radius-md;
+    text-align: left;
+    transform: none;
+  }
+}
+
+.hubIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid alpha($accent, 40%);
+  border-radius: 50%;
+  background: color-mix(in srgb, #{$accent} 8%, #{$card});
+  color: $accent-text;
+  transition:
+    border-color $t-fast,
+    background-color $t-fast;
+
+  @include bp.phone {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+.hubSelected .hubIcon {
+  border-color: $accent;
+  background: color-mix(in srgb, #{$accent} 16%, #{$card});
+}
+
+.hubText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.hubName {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// The lanes run close to the hub, so the second line only shows where the hub is a row.
+.hubSub {
+  display: none;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+
+  @include bp.phone {
+    display: block;
+  }
+}
+
+// ── Legend ───────────────────────────────────────────────────────────────
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm $spacing-md;
+  padding-top: 0.875rem;
+  border-top: 1px solid $border;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.legendTitle {
+  font-weight: 600;
+}
+
+.legendItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs 0.875rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendItem,
+.tipFlow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+
+  i {
+    width: 0.4375rem;
+    height: 0.4375rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: currentColor;
+  }
+}
+
+.legendHint {
+  margin-left: auto;
+
+  @include bp.phone {
+    display: none;
+  }
+}
+
+// Packet types. `color` feeds the legend dot (currentColor) and `fill` the packets on the canvas;
+// the label next to a dot keeps the text colour.
+@each $name,
+  $tone
+    in (
+      'Job': $chart-2,
+      'Result': $success,
+      'Chunk': $chart-3,
+      'Status': $chart-1,
+      'Ack': $fg-faint,
+      'Retry': $chart-5
+    )
+{
+  .tone#{$name} {
+    fill: $tone;
+
+    i {
+      color: $tone;
+    }
+  }
+}
+
+// ── Detail card (follows the pointer) ────────────────────────────────────
+.tip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $z-overlay;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 15rem;
+  padding: 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background-color: $card;
+  box-shadow: $shadow-float;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+  pointer-events: none;
+
+  b {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: $fg;
+  }
+}
+
+.tipHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+
+  strong {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $fg;
+  }
+}
+
+.tipKind {
+  margin: -0.5rem 0 0;
+}
+
+.tipSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid $border;
+}
+
+.tipMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+}
+
+.tipRow {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.bar {
+  display: block;
+  height: 0.25rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: $well;
+
+  i {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    transition: width $t-base;
+  }
+}
+
+.barRead {
+  background-color: $chart-2;
+}
+
+.barWrite {
+  background-color: $chart-3;
+}
+
+@keyframes wireFlow {
+  to {
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes livePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.35;
+  }
+}
+
+// Flow dashes, packets and the live dot carry meaning and keep running (pause is in the header);
+// only the decorative easing below follows the OS setting.
+@media (prefers-reduced-motion: reduce) {
+  .wire,
+  .worker,
+  .hubIcon,
+  .bar i {
+    transition: none;
+  }
+}

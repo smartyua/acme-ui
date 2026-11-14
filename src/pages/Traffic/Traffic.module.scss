@@ -1,0 +1,271 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+// Request-flow diagram: users → edge → load balancer → backend column.
+// Ported from shacdn TrafficPage.module.scss; node cards use hairlines instead of fills.
+.diagram {
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+  min-width: 0;
+
+  @include bp.phone {
+    padding: 0.75rem;
+  }
+}
+
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+// Users → edge → load balancer, left to right (top to bottom on phones).
+.mainTrack {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+
+  @include bp.phone {
+    flex-direction: column;
+  }
+}
+
+.backendLabel {
+  margin-bottom: 0.5rem;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $fg-muted-strong;
+}
+
+// The backend layer the load balancer fans out to.
+.backendTrack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  min-width: 0;
+
+  @include bp.phone {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+.backendItem {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  .connector {
+    display: none;
+
+    @include bp.phone {
+      display: flex;
+    }
+  }
+}
+
+.node {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $card;
+}
+
+.mainTrack > .node {
+  flex: 1 1 0;
+}
+
+.nodeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.nodeIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card-raised;
+  color: $fg-soft;
+}
+
+.nodeStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $fg-muted;
+
+  i {
+    width: 0.5rem;
+    height: 0.5rem;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: $fg-faint;
+  }
+
+  &[data-status='healthy'] i {
+    background: $success;
+  }
+
+  &[data-status='degraded'] i {
+    background: $warning;
+  }
+
+  &[data-status='incident'] i {
+    background: $danger;
+  }
+}
+
+.nodeTitle {
+  margin: 0;
+  font-size: $font-size-base;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.nodeSubtitle {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.nodeMetrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 0.5rem;
+  margin: 0.375rem 0 0;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  dt {
+    font-size: $font-size-xs;
+    color: $fg-muted;
+  }
+
+  dd {
+    margin: 0;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.connector {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  min-width: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 1.5rem;
+    overflow: visible;
+  }
+
+  @include bp.phone {
+    width: 100%;
+    height: 1.75rem;
+
+    svg {
+      width: 1.5rem;
+      height: 100%;
+      transform: rotate(90deg);
+    }
+  }
+}
+
+// Hop from the load balancer down to the backend row.
+.connectorDown {
+  width: 100%;
+  height: 2rem;
+
+  svg {
+    width: 1.5rem;
+    height: 100%;
+    transform: rotate(90deg);
+  }
+
+  .connectorLabel {
+    left: calc(50% + 0.875rem);
+    transform: translateY(-50%);
+  }
+}
+
+.line {
+  fill: none;
+  stroke: $border-strong;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-dasharray: 5 7;
+  animation: flowDash 2s linear infinite;
+}
+
+.connectorLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0.125rem 0.25rem;
+  border-radius: $radius-xs;
+  background: $well;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  line-height: 1.2;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  transform: translate(-50%, -135%);
+  pointer-events: none;
+
+  @include bp.phone {
+    left: calc(50% + 0.875rem);
+    transform: translateY(-50%);
+  }
+}
+
+.caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+// The dash direction shows where requests go, so it ignores the OS reduced-motion setting and
+// stops through the panel's pause button instead (WCAG 2.2.2).
+.diagram[data-paused='true'] .line {
+  animation-play-state: paused;
+}

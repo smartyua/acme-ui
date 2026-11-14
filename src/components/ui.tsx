@@ -11,7 +11,7 @@ export const cx = (...parts: Array<string | false | undefined | null>) => parts.
 // ── Button ───────────────────────────────────────────────────────────────
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'icon';
   icon?: ReactNode;
   block?: boolean;
 };
@@ -75,15 +75,26 @@ export const Panel = ({
   </section>
 );
 
-// Horizontal-scroll wrapper so wide tables never break the layout on phones
-export const TableWrap = ({ children }: { children: ReactNode }) => <div className={styles.tableWrap}>{children}</div>;
+// Horizontal-scroll wrapper so wide tables never break the layout on phones.
+// Pass `label` when the table has no focusable cells, so keyboard users can still scroll it.
+export const TableWrap = ({ children, label }: { children: ReactNode; label?: string }) =>
+  label ? (
+    <div className={styles.tableWrap} role="region" aria-label={label} tabIndex={0}>
+      {children}
+    </div>
+  ) : (
+    <div className={styles.tableWrap}>{children}</div>
+  );
 
 export const tableClass = styles.table;
 
 // ── Form controls ────────────────────────────────────────────────────────
-export const Input = ({ className, ...rest }: InputHTMLAttributes<HTMLInputElement>) => (
-  <input className={cx(styles.input, className)} {...rest} />
-);
+export const Input = ({ className, label, ...rest }: InputHTMLAttributes<HTMLInputElement> & { label?: string }) =>
+  label ? (
+    <label className={styles.fieldLabel}>{label}<input className={cx(styles.input, className)} {...rest} /></label>
+  ) : (
+    <input className={cx(styles.input, className)} {...rest} />
+  );
 
 export const Textarea = ({ className, ...rest }: TextareaHTMLAttributes<HTMLTextAreaElement>) => (
   <textarea className={cx(styles.input, styles.textarea, className)} {...rest} />
@@ -303,8 +314,8 @@ export const Empty = ({ icon, title, children }: { icon?: ReactNode; title: stri
   </div>
 );
 
-export const Meter = ({ value, max, tone = 'accent' }: { value: number; max: number; tone?: 'accent' | 'warning' | 'danger' }) => (
-  <div className={styles.meter} role="meter" aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
+export const Meter = ({ value, max, tone = 'accent', label }: { value: number; max: number; tone?: 'accent' | 'warning' | 'danger'; label?: string }) => (
+  <div className={styles.meter} role="meter" aria-label={label} aria-valuenow={value} aria-valuemin={0} aria-valuemax={max}>
     <span className={cx(styles.meterFill, styles[`meter-${tone}`])} style={{ width: `${Math.min(100, (value / max) * 100)}%` }} />
   </div>
 );

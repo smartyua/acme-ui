@@ -55,25 +55,49 @@
   --shadow-frame: 0 0 0 1px rgba(0, 0, 0, 0.4), 0 30px 80px rgba(0, 0, 0, 0.45);
   --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 12px 32px rgba(0, 0, 0, 0.25);
   --shadow-float: 0 6px 18px rgba(0, 0, 0, 0.35);
+  --chart-1: #c7b8f5;
+  --chart-2: #3d9bff;
+  --chart-3: #f6bb8a;
+  --chart-4: #a8e2c2;
+  --chart-5: #f07c78;
+  --mint-glow: rgba(168, 226, 194, 0.18);
+  --thumb-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --btn-primary-shadow-inset: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+  --card-shadow-hairline: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --mono-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --pop-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --swatch-light: #f4f4f5;
+  --swatch-light-alt: #ffffff;
+  --swatch-dark: #1f1f20;
+  --swatch-dark-alt: #1a1a1b;
+
+  // Energy-domain series (BESS monitoring): solar, battery, grid, load, EV, import/export
+  --solar: #faaf2e;
+  --battery: #2cc98f;
+  --grid: #a871f4;
+  --load: #3ebaf4;
+  --ev: #2cddcb;
+  --import: #f25a73;
+  --export: #a871f4;
 }
 
 :root[data-theme='light'] {
   color-scheme: light;
   --backdrop: #e7e7e9;
   --frame: #ffffff;
-  --rail: #f7f7f8;
-  --panel: #f2f2f4;
-  --main: #ffffff;
+  --rail: #f9f9fa;
+  --panel: #fbfbfc;
+  --main: #f4f4f5;
   --card: #ffffff;
   --card-raised: #f1f1f3;
-  --well: #f6f6f7;
+  --well: #efeff1;
   --hover: rgba(0, 0, 0, 0.045);
   --active: #e7e7ea;
   --border: rgba(0, 0, 0, 0.08);
   --border-strong: rgba(0, 0, 0, 0.14);
   --fg: #18181b;
   --fg-soft: #3f3f46;
-  --fg-muted: #71717a;
+  --fg-muted: #6b6b73;
   --fg-faint: #a1a1aa;
   --lavender: #cbbcf7;
   --peach: #f8c49a;
@@ -111,6 +135,30 @@
   --shadow-frame: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 30px 80px rgba(20, 24, 33, 0.18);
   --shadow-card: 0 1px 2px rgba(20, 24, 33, 0.04), 0 8px 24px rgba(20, 24, 33, 0.06);
   --shadow-float: 0 6px 18px rgba(20, 24, 33, 0.12);
+  --chart-1: #cbbcf7;
+  --chart-2: #1f8af0;
+  --chart-3: #f8c49a;
+  --chart-4: #ade6c6;
+  --chart-5: #f4908c;
+  --mint-glow: rgba(173, 230, 198, 0.28);
+  --thumb-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --btn-primary-shadow-inset: 0 1px 0 rgba(255, 255, 255, 0.25) inset;
+  --card-shadow-hairline: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --mono-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --pop-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --swatch-light: #f4f4f5;
+  --swatch-light-alt: #ffffff;
+  --swatch-dark: #1f1f20;
+  --swatch-dark-alt: #1a1a1b;
+
+  // Energy-domain series (BESS monitoring): solar, battery, grid, load, EV, import/export
+  --solar: #d77b09;
+  --battery: #17825b;
+  --grid: #762fda;
+  --load: #0a78b8;
+  --ev: #0f8a82;
+  --import: #d61f3d;
+  --export: #762fda;
 }
 
 *,

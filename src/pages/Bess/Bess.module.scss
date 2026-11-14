@@ -1,0 +1,802 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+// Live status cluster rendered into PageHeader actions.
+.headerStatus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.livePill {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  padding: 0.1875rem $spacing-sm;
+  border-radius: 9999px;
+  border: $border-width solid $border;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted-strong;
+
+  i {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $fg-muted-strong;
+  }
+}
+
+.liveOn {
+  color: $success;
+  border-color: alpha($success, 35%);
+
+  i {
+    background-color: $success;
+    animation: pulse 1.8s $ease-standard infinite;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.35;
+    transform: scale(0.75);
+  }
+}
+
+.clock {
+  font-size: $font-size-sm;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: $tracking-tight;
+}
+
+// KPI tiles reuse .metricTile / .metricTileBody from Dashboard.module.scss for the surface;
+// only the telemetry-specific label, value and caption live here.
+.kpiLabel {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  min-width: 0;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  line-height: 1.3;
+  color: $foreground;
+
+  // Only the four-column layout is narrow enough for a label plus badge to wrap, so that is
+  // the only place worth reserving two lines to keep values aligned across a row.
+  @include bp.desktop {
+    min-height: calc(2 * 1.3 * #{$font-size-sm});
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    margin-top: 0.0625rem;
+    color: $fg-muted-strong;
+  }
+}
+
+// Labels wrap rather than truncate — at four columns "PV generation" plus a badge does
+// not fit on one line.
+.kpiLabelText {
+  min-width: 0;
+}
+
+.kpiValue {
+  font-variant-numeric: tabular-nums;
+}
+
+.kpiNote {
+  font-size: $font-size-xs;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panelStack {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.bankGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-lg;
+
+  @include bp.from-tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include bp.desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.bankBody {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.ringValue {
+  display: block;
+  font-size: $font-size-xl;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.ringLabel {
+  display: block;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  line-height: 1.2;
+  color: $fg-muted-strong;
+}
+
+.bankStats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: $spacing-sm $spacing-md;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  dt {
+    font-size: $font-size-xs;
+    color: $fg-muted-strong;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  dd {
+    margin: 0;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabsContent {
+  padding: $spacing-md;
+
+  @include bp.from-tablet {
+    padding: $spacing-lg;
+  }
+}
+
+.tabHint {
+  margin: 0 0 $spacing-md;
+  font-size: $font-size-sm;
+  color: $fg-muted-strong;
+}
+
+.inverterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: $spacing-md;
+}
+
+.inverterCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background-color: $card-raised;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  border: none;
+  font-family: $font-sans;
+  color: inherit;
+  transition: background-color $transition-fast, transform $transition-fast;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background-color: $border;
+  }
+
+  &:hover {
+    background-color: $hover;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: $focus-ring-width solid $ring;
+    outline-offset: $focus-ring-offset;
+  }
+
+  &[data-status='fault'] {
+    background-color: alpha($destructive, 12%);
+
+    &::before {
+      background-color: $destructive;
+    }
+  }
+
+  &[data-status='derated'] {
+    background-color: alpha($warning, 12%);
+
+    &::before {
+      background-color: $warning;
+    }
+  }
+}
+
+.inverterHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.inverterId {
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.inverterPower {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  font-variant-numeric: tabular-nums;
+}
+
+.inverterMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.temp {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+
+  svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}
+
+.stringBars {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+
+  i {
+    flex: 1;
+    height: 5px;
+    border-radius: 2px;
+    background-color: $secondary;
+  }
+}
+
+.gridExchange {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-lg;
+  align-items: start;
+
+  @include bp.desktop {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+  }
+}
+
+.gridStats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-md;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include bp.from-tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include bp.desktop {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  li {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    min-width: 0;
+  }
+
+  span {
+    font-size: $font-size-xs;
+    color: $fg-muted-strong;
+  }
+
+  strong {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: $tracking-tight;
+    font-variant-numeric: tabular-nums;
+    color: $foreground;
+  }
+
+  small {
+    font-size: $font-size-xs;
+    line-height: 1.4;
+    color: $fg-muted-strong;
+    font-variant-numeric: tabular-nums;
+  }
+
+  // Nested so these outrank the `.gridStats dd` colour without needing !important.
+  .importValue {
+    color: $import-color;
+  }
+
+  .exportValue {
+    color: $export-color;
+  }
+}
+
+.chartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs $spacing-md;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  // The card header reserves a column for the legend, so keep it narrow on phones and leave
+  // the title and description room to breathe.
+  @include bp.phone {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: $fg-muted-strong;
+
+    i {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background-color: currentcolor;
+    }
+  }
+}
+
+.legendImport i {
+  color: $import-color;
+}
+
+.legendExport i {
+  color: $export-color;
+}
+
+.chargerGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: $spacing-md;
+}
+
+.chargerCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+  background-color: $card-raised;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background-color: $border;
+  }
+
+  &[data-status='fault'] {
+    background-color: alpha($destructive, 12%);
+
+    &::before {
+      background-color: $destructive;
+    }
+  }
+
+  &[data-status='charging'] {
+    background-color: alpha($ev, 10%);
+
+    &::before {
+      background-color: $ev;
+    }
+  }
+}
+
+.chargerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.chargerTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $spacing-sm;
+}
+
+.chargerRated {
+  font-size: $font-size-xs;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.connectorList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin: 0;
+  padding: $spacing-sm 0 0;
+  border-top: $border-width solid $border;
+  list-style: none;
+}
+
+.connector {
+  display: flex;
+  align-items: flex-start;
+  gap: $spacing-sm;
+  min-width: 0;
+
+  &[data-status='fault'] .connectorId {
+    background-color: alpha($destructive, 18%);
+    color: $destructive;
+  }
+
+  &[data-status='charging'] .connectorId {
+    background-color: alpha($ev, 18%);
+    color: $ev;
+  }
+}
+
+.connectorId {
+  flex-shrink: 0;
+  padding: 0.0625rem 0.3125rem;
+  border-radius: $radius-xs;
+  background-color: $secondary;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.connectorBody {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  flex: 1;
+  min-width: 0;
+}
+
+.connectorTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  min-width: 0;
+
+  b {
+    font-size: $font-size-xs;
+    font-weight: 500;
+    color: $foreground;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  em {
+    flex-shrink: 0;
+    font-style: normal;
+    font-size: $font-size-xs;
+    font-weight: 600;
+    color: $fg-muted-strong;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.connectorMeta {
+  font-size: $font-size-xs;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.healthLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-xs $spacing-md;
+  margin: 0 0 $spacing-md;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: $fg-muted-strong;
+
+    &::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+  }
+}
+
+.matrixScroller {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.matrix {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 41rem;
+}
+
+.matrixRow {
+  display: grid;
+  grid-template-columns: 4.5rem repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  align-items: stretch;
+}
+
+.matrixLabel {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.matrixCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: $spacing-xs 0.4375rem;
+  border-radius: $radius-xs;
+  line-height: 1.3;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+
+  b {
+    font-weight: 600;
+  }
+
+  small {
+    font-size: inherit;
+    opacity: 0.75;
+  }
+}
+
+.matrixEmpty {
+  border-radius: $radius-xs;
+  border: $border-width dashed $border;
+  opacity: 0.4;
+}
+
+.stringBars i[data-health='good'],
+.healthLegend li[data-health='good']::before {
+  background-color: $battery;
+}
+
+.stringBars i[data-health='fair'],
+.healthLegend li[data-health='fair']::before {
+  background-color: $solar;
+}
+
+.stringBars i[data-health='watch'],
+.healthLegend li[data-health='watch']::before {
+  background-color: $warning;
+}
+
+.stringBars i[data-health='poor'],
+.healthLegend li[data-health='poor']::before {
+  background-color: $destructive;
+}
+
+.matrixCell[data-health='good'] {
+  background-color: alpha($battery, 16%);
+  color: $battery;
+}
+
+.matrixCell[data-health='fair'] {
+  background-color: alpha($solar, 16%);
+  color: $solar;
+}
+
+.matrixCell[data-health='watch'] {
+  background-color: alpha($warning, 18%);
+  color: $warning;
+}
+
+.matrixCell[data-health='poor'] {
+  background-color: alpha($destructive, 18%);
+  color: $destructive;
+}
+
+.mono {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.stringDialogMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-md;
+  padding-bottom: $spacing-sm;
+  margin-bottom: $spacing-sm;
+  border-bottom: $border-width solid $border;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+  color: $fg-muted-strong;
+}
+
+// Progress and ProgressRing both read --progress-indicator for the filled part and
+// --progress-height for the track, so one tone class drives the bar and the ring alike.
+.progressXs {
+  --progress-height: 0.1875rem;
+}
+
+.progressSm {
+  --progress-height: 0.25rem;
+}
+
+.progressMd {
+  --progress-height: 0.5rem;
+}
+
+.toneSolar {
+  --progress-indicator: #{$solar};
+  --tone-surface: alpha($solar, 14%);
+  --tone-foreground: #{$solar};
+}
+
+.toneBattery {
+  --progress-indicator: #{$battery};
+  --tone-surface: alpha($battery, 14%);
+  --tone-foreground: #{$battery};
+}
+
+.toneGrid {
+  --progress-indicator: #{$grid};
+  --tone-surface: alpha($grid, 14%);
+  --tone-foreground: #{$grid};
+}
+
+.toneLoad {
+  --progress-indicator: #{$load};
+  --tone-surface: alpha($load, 14%);
+  --tone-foreground: #{$load};
+}
+
+.toneEv {
+  --progress-indicator: #{$ev};
+  --tone-surface: alpha($ev, 14%);
+  --tone-foreground: #{$ev};
+}
+
+.toneImport {
+  --progress-indicator: #{$import-color};
+  --tone-surface: alpha($import-color, 14%);
+  --tone-foreground: #{$import-color};
+}
+
+.toneExport {
+  --progress-indicator: #{$export-color};
+  --tone-surface: alpha($export-color, 14%);
+  --tone-foreground: #{$export-color};
+}
+
+.toneSuccess {
+  --progress-indicator: #{$success};
+  --tone-surface: alpha($success, 14%);
+  --tone-foreground: #{$success};
+}
+
+.toneWarning {
+  --progress-indicator: #{$warning};
+  --tone-surface: alpha($warning, 14%);
+  --tone-foreground: #{$warning};
+}
+
+.toneDestructive {
+  --progress-indicator: #{$destructive};
+  --tone-surface: alpha($destructive, 14%);
+  --tone-foreground: #{$destructive};
+}
+
+.toneBadge {
+  background-color: var(--tone-surface);
+  color: var(--tone-foreground);
+}
+
+// ── Acme layout additions ────────────────────────────────────────────────
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+// Eight live tiles: 4 × 2 on desktop, 2 × 4 below.
+.kpis {
+  margin-bottom: 0;
+}
+
+.kpiHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.375rem 0.5rem;
+  min-height: 1.5rem;
+}
+
+// Tile labels follow the Acme stat tile: regular weight, muted.
+.kpiLabel {
+  margin: 0;
+  color: $fg-muted;
+}
+
+// Labels stay on one line; the badge wraps under them on narrow tiles instead.
+.kpiLabelText {
+  font-size: $font-size-sm;
+  font-weight: 400;
+  color: $fg-muted;
+  white-space: nowrap;
+}

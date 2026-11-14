@@ -1,0 +1,529 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  min-width: 0;
+  margin-bottom: 1rem;
+
+  @include bp.phone {
+    gap: $spacing-sm;
+  }
+
+  @include bp.desktop {
+    gap: $spacing-lg;
+  }
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  color: $fg;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: $spacing-md;
+  min-width: 0;
+
+  @include bp.tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-lg;
+  }
+
+  @include bp.desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.kpiCard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+}
+
+.kpiIntro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-sm;
+  min-width: 0;
+}
+
+.kpiBlock {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+  min-width: 0;
+}
+
+.iconTile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: $radius-md;
+  flex-shrink: 0;
+}
+
+// Icon-tile and legend tints, derived from the semantic tokens so both themes stay in range.
+.toneIncome {
+  background-color: color-mix(in srgb, #{$success} 14%, transparent);
+  color: $success;
+}
+
+.toneExpense {
+  background-color: color-mix(in srgb, #{$fg-muted} 14%, transparent);
+  color: $fg-muted;
+}
+
+.kpiLabel {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.kpiValue {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  line-height: 1.2;
+  color: $fg;
+}
+
+.kpiHint {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.kpiActions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: $spacing-sm;
+  margin-top: $spacing-xs;
+}
+
+.sparkline {
+  width: 100%;
+  height: 3rem;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+// Progress bars in the Summary list sit inside their own scroller.
+.progressList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.chartsRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-md;
+  min-width: 0;
+  margin-bottom: 1rem;
+
+  @include bp.desktop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $spacing-lg;
+  }
+}
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-md;
+  min-width: 0;
+
+  @include bp.desktop {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: $spacing-lg;
+  }
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  min-width: 0;
+
+  @include bp.desktop {
+    gap: $spacing-lg;
+  }
+}
+
+.cardFill {
+  height: 100%;
+  min-width: 0;
+}
+
+// Income donut slices — greyscale ramps per theme, so the mix keeps var(--chart-N) resolution.
+.incomeChart {
+  --chart-1: #{$fg};
+  --chart-2: #{$fg-muted};
+  --chart-3: #{$fg-faint};
+  --chart-4: #{$bar};
+
+  width: 100%;
+  min-width: 0;
+
+  :global(:root[data-theme='light']) & {
+    --chart-1: #{$fg};
+    --chart-2: #{$fg-muted};
+    --chart-3: #{$fg-faint};
+    --chart-4: #{$bar};
+  }
+
+  :global(:root[data-theme='dark']) & {
+    --chart-1: #{$fg};
+    --chart-2: #{$fg-faint};
+    --chart-3: #{$fg-muted};
+    --chart-4: #{$bar};
+  }
+}
+
+.donutCenter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.donutCenterLabel {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.donutCenterValue {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  color: $fg;
+}
+
+.incomeLegend {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  min-width: 0;
+  width: 100%;
+}
+
+.incomeLegendHead {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.incomeTotalLabel {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.incomeTotalValue {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+  color: $fg;
+}
+
+.incomeLegendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  font-size: $font-size-sm;
+}
+
+.incomeLegendName {
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-sm;
+  color: $fg;
+  min-width: 0;
+}
+
+.swatch {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--chart-color, #{$fg});
+  flex-shrink: 0;
+}
+
+.incomeLegendAmount {
+  color: $fg-muted;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.expensesBody {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: $spacing-md;
+  min-width: 0;
+
+  @include bp.tablet {
+    grid-template-columns: minmax(0, 1.4fr) minmax(9rem, 0.8fr);
+    align-items: start;
+  }
+}
+
+// Series colours of the grouped bars, one per theme (chart-1 = bars, chart-2 = comparison).
+.expensesChart {
+  --chart-1: #{$fg};
+  --chart-2: #{$fg-muted};
+  min-width: 0;
+
+  :global(:root[data-theme='dark']) & {
+    --chart-1: #{$fg};
+    --chart-2: #{$fg-faint};
+  }
+}
+
+.chartFoot {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+}
+
+.chartFootTitle {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: $fg;
+}
+
+.chartFootHint {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.summaryTitle {
+  margin: 0 0 $spacing-sm;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted;
+}
+
+.summaryList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.summaryRow {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xs;
+
+  > span:first-child {
+    color: $fg-muted;
+  }
+}
+
+.summaryMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.txRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm 0;
+  min-width: 0;
+
+  & + & {
+    border-top: $border-width solid $border;
+  }
+}
+
+.party {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  min-width: 0;
+}
+
+.partyName {
+  font-weight: 500;
+  color: $fg;
+}
+
+.amountIncome {
+  color: $success;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.amountExpense {
+  color: $fg;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.savingBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+  text-align: center;
+}
+
+.savingAmount {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+}
+
+.savingCaption {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  letter-spacing: $tracking-tight;
+}
+
+.savingTarget {
+  color: $fg-muted;
+  font-weight: 500;
+}
+
+.walletList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}
+
+.walletRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm;
+  border-radius: $radius-md;
+  background: $well;
+  min-width: 0;
+}
+
+.walletCardFace {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 2.15rem;
+  border-radius: $radius-sm;
+  flex-shrink: 0;
+}
+
+.walletDark {
+  background-color: $fg;
+  color: $card;
+}
+
+.walletMuted {
+  background-color: $well;
+  color: $fg;
+  border: $border-width solid $border;
+}
+
+.walletAccent {
+  background-color: $bar;
+  color: $fg;
+  border: $border-width solid $border;
+}
+
+// Deepened so the tiny white network mark keeps 4.5:1 in both themes.
+.walletPrimary {
+  background-color: color-mix(in srgb, #{$accent} 70%, #{$ink});
+  color: $accent-fg;
+}
+
+.walletMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.walletName {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: 500;
+}
+
+.walletNumber {
+  margin: 0;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+.walletBalance {
+  margin: 0;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.networkMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.mastercard {
+  position: relative;
+  width: 1.35rem;
+  height: 0.85rem;
+}
+
+.mastercardCircle {
+  position: absolute;
+  top: 0;
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 9999px;
+  opacity: 0.92;
+  background-color: currentColor;
+
+  &:first-child {
+    left: 0;
+    opacity: 0.55;
+  }
+
+  &:last-child {
+    right: 0;
+  }
+}
