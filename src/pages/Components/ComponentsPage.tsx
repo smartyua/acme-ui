@@ -2,8 +2,15 @@ import { useMemo, useState, type ReactNode } from 'react';
 import { Bell, Inbox, Pencil, Plus, Trash2, Users } from 'lucide-react';
 
 import { BarChart } from '../../components/BarChart';
+import { EstimateCard } from '../../components/EstimateCard';
+import { AvatarStack, KanbanColumn, OnboardingCard } from '../../components/OnboardingBoard';
 import { Avatar, Checkbox, Count, Segmented, Switch } from '../../components/primitives';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../components/primitives/Accordion';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '../../components/primitives/Accordion';
 import { Callout, CalloutDescription, CalloutTitle } from '../../components/primitives/Callout';
 import { Skeleton } from '../../components/primitives/Skeleton';
 import { Spinner } from '../../components/primitives/Spinner';
@@ -29,14 +36,31 @@ import {
 } from '../../components/ui';
 import { Page } from '../../layout/Page';
 import { useApp } from '../../lib/app';
+import { INITIAL_ESTIMATES } from '../Estimates/estimatesData';
 import s from '../pages.module.scss';
+import { INITIAL_VENDORS } from '../Vendors/vendorsData';
 import { KPIS, MEMBERS, STATUS_TONE, WEEKLY, type Member, type MemberStatus } from './componentsData';
 import c from './Components.module.scss';
 
 type Section = 'catalog' | 'compositions';
 type StatusFilter = MemberStatus | 'all';
 
-const Demo = ({ title, source, description, code, children }: { title: string; source: string; description: string; code: string; children: ReactNode }) => (
+const SAMPLE_ONBOARDING = INITIAL_VENDORS[0];
+const SAMPLE_ESTIMATE = INITIAL_ESTIMATES[0];
+
+const Demo = ({
+  title,
+  source,
+  description,
+  code,
+  children,
+}: {
+  title: string;
+  source: string;
+  description: string;
+  code: string;
+  children: ReactNode;
+}) => (
   <Panel title={title} description={description} actions={<Badge tone="muted">{source}</Badge>}>
     <div className={c.stage}>{children}</div>
     <pre className={c.code}>
@@ -65,20 +89,33 @@ const Catalog = () => {
         description="Verbs in sentence case. One primary per view, danger only for destructive actions."
         code={`<Button variant="primary" icon={<Plus size={15} aria-hidden />}>Create</Button>\n<Button variant="ghost" size="icon" aria-label="Edit"><Pencil size={15} aria-hidden /></Button>`}
       >
-        <Button variant="primary" icon={<Plus size={15} aria-hidden />} onClick={() => toast({ title: 'Primary clicked', tone: 'success' })}>
+        <Button
+          variant="primary"
+          icon={<Plus size={15} aria-hidden />}
+          onClick={() => toast({ title: 'Primary clicked', tone: 'success' })}
+        >
           Create
         </Button>
         <Button onClick={() => toast({ title: 'Secondary clicked' })}>Secondary</Button>
         <Button variant="ghost" onClick={() => toast({ title: 'Ghost clicked' })}>
           Ghost
         </Button>
-        <Button variant="danger" icon={<Trash2 size={15} aria-hidden />} onClick={() => toast({ title: 'Danger clicked', tone: 'danger' })}>
+        <Button
+          variant="danger"
+          icon={<Trash2 size={15} aria-hidden />}
+          onClick={() => toast({ title: 'Danger clicked', tone: 'danger' })}
+        >
           Delete
         </Button>
         <Button size="sm" onClick={() => toast({ title: 'Small clicked' })}>
           Small
         </Button>
-        <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => toast({ title: 'Icon button clicked' })}>
+        <Button
+          variant="ghost"
+          size="icon"
+          aria-label="Edit"
+          onClick={() => toast({ title: 'Icon button clicked' })}
+        >
           <Pencil size={15} aria-hidden />
         </Button>
         <Button disabled>Disabled</Button>
@@ -187,7 +224,12 @@ const Catalog = () => {
               toast({ title: next ? 'Alerts on' : 'Alerts off', tone: 'success' });
             }}
           />
-          <Checkbox label="Weekly digest" hint="Summary every Monday at 9:00" checked={digest} onChange={setDigest} />
+          <Checkbox
+            label="Weekly digest"
+            hint="Summary every Monday at 9:00"
+            checked={digest}
+            onChange={setDigest}
+          />
         </div>
       </Demo>
 
@@ -287,7 +329,12 @@ const Catalog = () => {
       >
         <Button onClick={() => setModalOpen(true)}>Open modal</Button>
         <Button onClick={() => setDrawerOpen(true)}>Open drawer</Button>
-        <Button variant="ghost" onClick={() => toast({ title: 'Changes saved', description: 'Toasts close by themselves.', tone: 'success' })}>
+        <Button
+          variant="ghost"
+          onClick={() =>
+            toast({ title: 'Changes saved', description: 'Toasts close by themselves.', tone: 'success' })
+          }
+        >
           Show toast
         </Button>
       </Demo>
@@ -300,6 +347,48 @@ const Catalog = () => {
       >
         <div className={c.full}>
           <BarChart label="Weekly revenue" data={WEEKLY} />
+        </div>
+      </Demo>
+
+      <Demo
+        title="Kanban column and OnboardingCard"
+        source="components/OnboardingBoard"
+        description="Stage header with Count, vendor monogram, priority, progress bar, AvatarStack and activity counters."
+        code={`<KanbanColumn title="Blocked" count={3} tone="rose">\n  <OnboardingCard card={card} onSelect={…} />\n</KanbanColumn>`}
+      >
+        <div className={c.formStack}>
+          <AvatarStack initials={['AM', 'SC', 'MW', 'ER']} extra={3} />
+          <KanbanColumn
+            title="Blocked"
+            count={3}
+            tone="rose"
+            onMoreAction={() => toast({ title: 'Column sorted' })}
+          >
+            <OnboardingCard
+              card={SAMPLE_ONBOARDING}
+              selected
+              onSelect={() => toast({ title: 'Opened Lanternfish', tone: 'success' })}
+              onMenu={() => toast({ title: 'Vendor menu opened' })}
+            />
+          </KanbanColumn>
+        </div>
+      </Demo>
+
+      <Demo
+        title="EstimateCard"
+        source="components/EstimateCard"
+        description="Financial summary band, multi-segment breakdown bar, itemized draw rows and action button."
+        code={`<EstimateCard estimate={estimate} onSelect={…} onAction={…} />`}
+      >
+        <div className={c.full}>
+          <EstimateCard
+            estimate={SAMPLE_ESTIMATE}
+            onSelect={(est) => toast({ title: `Opened ${est.code}`, description: est.client })}
+            onAction={(est) =>
+              toast({ title: 'Invoice draw started', description: est.client, tone: 'success' })
+            }
+            onMore={(est) => toast({ title: `Options for ${est.code}` })}
+          />
         </div>
       </Demo>
 
@@ -382,7 +471,9 @@ const MemberList = () => {
 
   const rows = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return MEMBERS.filter((m) => status === 'all' || m.status === status).filter((m) => !q || `${m.name} ${m.email}`.toLowerCase().includes(q));
+    return MEMBERS.filter((m) => status === 'all' || m.status === status).filter(
+      (m) => !q || `${m.name} ${m.email}`.toLowerCase().includes(q),
+    );
   }, [query, status]);
 
   const reset = () => {
@@ -391,9 +482,18 @@ const MemberList = () => {
   };
 
   return (
-    <Panel flush title="List panel" description="Panel flush → toolbar (SearchBox + Segmented) → table in TableWrap → row click opens a Drawer">
+    <Panel
+      flush
+      title="List panel"
+      description="Panel flush → toolbar (SearchBox + Segmented) → table in TableWrap → row click opens a Drawer"
+    >
       <div className={s.toolbar}>
-        <SearchBox value={query} onChange={setQuery} placeholder="Search name or email" className={s.toolbarSearch} />
+        <SearchBox
+          value={query}
+          onChange={setQuery}
+          placeholder="Search name or email"
+          className={s.toolbarSearch}
+        />
         <Segmented
           label="Filter by status"
           size="sm"
@@ -437,7 +537,10 @@ const MemberList = () => {
                     </div>
                   </td>
                   <td>
-                    <Count tone={STATUS_TONE[m.status]} value={m.status[0].toUpperCase() + m.status.slice(1)} />
+                    <Count
+                      tone={STATUS_TONE[m.status]}
+                      value={m.status[0].toUpperCase() + m.status.slice(1)}
+                    />
                   </td>
                   <td className={s.hideSm}>{m.role}</td>
                   <td className={`${s.num} ${s.hideSm}`}>{m.seats}</td>
@@ -472,7 +575,10 @@ const MemberList = () => {
             <dd>{open.email}</dd>
             <dt>Status</dt>
             <dd>
-              <Count tone={STATUS_TONE[open.status]} value={open.status[0].toUpperCase() + open.status.slice(1)} />
+              <Count
+                tone={STATUS_TONE[open.status]}
+                value={open.status[0].toUpperCase() + open.status.slice(1)}
+              />
             </dd>
             <dt>Role</dt>
             <dd>{open.role}</dd>
@@ -496,16 +602,40 @@ const SettingsForm = () => {
   const valid = draft.name.trim() !== '' && draft.email.includes('@');
 
   return (
-    <Panel title="Settings form" description="FormField grid + Switch row; a save bar appears only when the draft differs">
+    <Panel
+      title="Settings form"
+      description="FormField grid + Switch row; a save bar appears only when the draft differs"
+    >
       <div className={s.formGrid}>
         <FormField label="Company name" hint={draft.name.trim() ? undefined : 'Name is required.'}>
-          {(id) => <Input id={id} value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />}
+          {(id) => (
+            <Input
+              id={id}
+              value={draft.name}
+              onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+            />
+          )}
         </FormField>
-        <FormField label="Billing email" hint={draft.email.includes('@') ? undefined : 'Enter a valid email.'}>
-          {(id) => <Input id={id} type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />}
+        <FormField
+          label="Billing email"
+          hint={draft.email.includes('@') ? undefined : 'Enter a valid email.'}
+        >
+          {(id) => (
+            <Input
+              id={id}
+              type="email"
+              value={draft.email}
+              onChange={(e) => setDraft({ ...draft, email: e.target.value })}
+            />
+          )}
         </FormField>
       </div>
-      <Switch id="compose-alerts" label="Send failed-payment alerts" checked={draft.alerts} onChange={(alerts) => setDraft({ ...draft, alerts })} />
+      <Switch
+        id="compose-alerts"
+        label="Send failed-payment alerts"
+        checked={draft.alerts}
+        onChange={(alerts) => setDraft({ ...draft, alerts })}
+      />
       {dirty ? (
         <div className={s.saveBar}>
           <span>You have unsaved changes</span>
@@ -532,7 +662,9 @@ const SettingsForm = () => {
 
 const Compositions = () => (
   <>
-    <p className={c.lead}>Page anatomy from DESIGN.md §4: PageHeader → KPI row → split grid of panels → list panel.</p>
+    <p className={c.lead}>
+      Page anatomy from DESIGN.md §4: PageHeader → KPI row → split grid of panels → list panel.
+    </p>
     <KpiRow />
     <div className={s.split}>
       <MemberList />

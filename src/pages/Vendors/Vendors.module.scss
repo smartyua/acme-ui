@@ -1,0 +1,758 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+// ── Contextual left Overview panel ───────────────────────────────────────
+.sidePanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  width: 14.5rem;
+  flex-shrink: 0;
+  padding: 1.25rem 0.75rem 0.75rem;
+  background: $panel;
+  border-right: 1px solid $border;
+  min-height: 0;
+
+  @include bp.below-desktop {
+    display: none;
+  }
+}
+
+.sidePanelTitle {
+  margin: 0 0 0.25rem;
+  padding: 0 0.25rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: $fg;
+}
+
+.sideSearch {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 2.25rem;
+  padding: 0 0.375rem 0 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+  color: $fg-muted-strong;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: $fg;
+    font: inherit;
+    font-size: $font-size-sm;
+
+    &::placeholder {
+      color: $fg-faint;
+    }
+  }
+
+  &:focus-within {
+    border-color: $border-strong;
+  }
+}
+
+.kbd {
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.3rem;
+  background: $active;
+  color: $fg-soft;
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.panelScroll {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+}
+
+.groupHeader,
+.flatItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  height: 2.125rem;
+  padding: 0 0.375rem;
+  border: 0;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $fg-soft;
+  font-size: $font-size-sm;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    color $t-fast;
+
+  > svg {
+    flex-shrink: 0;
+    color: $fg-muted;
+  }
+
+  > span:first-of-type {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.flatItemActive {
+  background: $active;
+  color: $fg;
+  box-shadow: inset 0 0 0 1px $border-strong;
+
+  > svg {
+    color: $fg-soft;
+  }
+}
+
+.groupChevron {
+  transition: transform $t-base;
+}
+
+.groupChevronClosed {
+  transform: rotate(180deg);
+}
+
+.tree {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0.125rem 0 0.375rem 0.8125rem;
+  padding: 0 0 0 0.625rem;
+  list-style: none;
+  border-left: 1px solid $border-strong;
+}
+
+.treeItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $fg-soft;
+  font-size: $font-size-sm;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.treeItemActive {
+  background: $active;
+  color: $fg;
+  font-weight: 500;
+  box-shadow: inset 0 0 0 1px $border-strong;
+}
+
+.treeName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sideNewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.375rem;
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $fg;
+  font-size: $font-size-base;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background $t-fast;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+// ── Main area ────────────────────────────────────────────────────────────
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem 1.75rem;
+  background: $main;
+
+  @include bp.tablet {
+    padding: 1.25rem;
+  }
+
+  @include bp.phone {
+    overflow: visible;
+    padding: 1rem 1rem 2rem;
+  }
+}
+
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  font-size: $font-size-xs;
+}
+
+.crumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  color: $fg-muted-strong;
+}
+
+.crumbCurrent {
+  color: $fg;
+  font-weight: 500;
+}
+
+.synced {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $fg-muted-strong;
+  font-variant-numeric: tabular-nums;
+}
+
+.dotLive {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  background: $mint;
+  box-shadow: 0 0 0 3px $mint-glow;
+}
+
+.headingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  margin: 1.125rem 0 0.875rem;
+
+  @include bp.phone {
+    margin: 0.75rem 0;
+  }
+}
+
+.title {
+  min-width: 0;
+  margin: 0;
+  font-size: $font-size-title;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
+  color: $fg;
+
+  @include bp.phone {
+    font-size: 1.375rem;
+  }
+}
+
+.renameBtn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $fg-muted-strong;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+// ── Toolbar ──────────────────────────────────────────────────────────────
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.toolbarLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.toolbarRight {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+
+  @include bp.phone {
+    width: 100%;
+    gap: 0.375rem;
+  }
+}
+
+.toolbarPrimaryBtn {
+  @include bp.phone {
+    flex: 1 1 auto;
+    padding: 0 0.6875rem;
+  }
+}
+
+.vsep {
+  width: 1px;
+  height: 1.25rem;
+  background: $border-strong;
+
+  @include bp.phone {
+    display: none;
+  }
+}
+
+.autoFollow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $fg-soft;
+
+  > svg {
+    flex-shrink: 0;
+    color: $fg-muted-strong;
+  }
+}
+
+.toolbarIconBtn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: $field-h;
+  height: $field-h;
+  padding: 0;
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  background: $card;
+  color: $fg-soft;
+  box-shadow: $card-shadow-hairline;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    border-color $t-fast,
+    color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.toolbarIconBtnActive {
+  border-color: $accent;
+  background: $accent-soft;
+  color: $accent-text-strong;
+}
+
+.layoutSelect {
+  min-width: 5.75rem;
+
+  @include bp.phone {
+    min-width: 4.5rem;
+  }
+}
+
+.compactFilters {
+  display: none;
+
+  @include bp.below-desktop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.compactSearch {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.filterStrip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.875rem;
+}
+
+.filterLabel {
+  margin: 0;
+  font-size: $font-size-xs;
+  line-height: 1;
+  color: $fg-muted-strong;
+}
+
+// ── 5 KPI Tiles Row ──────────────────────────────────────────────────────
+.kpiRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  @include bp.below-desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include bp.phone {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+}
+
+.kpiTile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.875rem 1rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  color: $fg;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color $t-fast,
+    box-shadow $t-fast;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+
+  @include bp.phone {
+    padding: 0.75rem;
+  }
+}
+
+.kpiTileActive {
+  border-color: $accent;
+  box-shadow: 0 0 0 2px $accent-soft;
+}
+
+.kpiTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.kpiLabel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $fg-muted;
+}
+
+.iconMuted {
+  flex-shrink: 0;
+  color: $fg-muted;
+}
+
+.iconWarn {
+  flex-shrink: 0;
+  color: $warning;
+}
+
+.iconDanger {
+  flex-shrink: 0;
+  color: $danger;
+}
+
+.iconSuccess {
+  flex-shrink: 0;
+  color: $success;
+}
+
+.kpiBottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.kpiValue {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  color: $fg;
+
+  @include bp.phone {
+    font-size: 1.25rem;
+  }
+}
+
+.kpiMeta {
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.dangerMeta {
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: $danger;
+}
+
+// ── 3-Column Kanban Board ────────────────────────────────────────────────
+.boardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.875rem;
+  align-items: start;
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── List View Table ──────────────────────────────────────────────────────
+.rowBtn {
+  cursor: pointer;
+}
+
+.vendorCell {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.monogramSm {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  line-height: 1;
+  color: $ink;
+}
+
+@each $name, $color in ('lavender': $lavender, 'peach': $peach, 'mint': $mint, 'lemon': $lemon, 'rose': $rose, 'sky': $sky) {
+  .tone-#{$name} {
+    background: $color;
+    color: $ink;
+  }
+}
+
+.vendorCellText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  strong {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: $fg;
+  }
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: $font-size-xs;
+    color: $fg-muted;
+  }
+}
+
+.vendorRowBtn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover strong {
+    text-decoration: underline;
+  }
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.mutedCell {
+  color: $fg-muted;
+}
+
+.hideSm {
+  @include bp.phone {
+    display: none;
+  }
+}
+
+.hideMd {
+  @include bp.below-desktop {
+    display: none;
+  }
+}
+
+// ── Empty State ──────────────────────────────────────────────────────────
+.emptyContent {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+// ── Detail Drawer & Modals ───────────────────────────────────────────────
+.drawerLead {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid $border;
+}
+
+.drawerLeadText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+
+  strong {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: $fg;
+  }
+
+  span {
+    font-size: $font-size-sm;
+    color: $fg-muted;
+  }
+}
+
+.dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  margin: 0;
+  font-size: $font-size-base;
+
+  dt {
+    color: $fg-muted;
+    font-size: $font-size-sm;
+  }
+
+  dd {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin: 0;
+    text-align: right;
+    color: $fg;
+  }
+}
+
+.noteBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.noteLabel {
+  font-size: $font-size-xs;
+  font-weight: 600;
+  color: $fg-muted-strong;
+}
+
+.noteText {
+  margin: 0;
+  font-size: $font-size-sm;
+  line-height: 1.45;
+  color: $fg-soft;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+
+  @include bp.phone {
+    grid-template-columns: 1fr;
+  }
+}

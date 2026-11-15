@@ -10,14 +10,26 @@ const ActivityPage = lazy(() => import('./pages/ActivityPage').then((m) => ({ de
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage })));
 const AuditLogPage = lazy(() => import('./pages/AuditLogPage').then((m) => ({ default: m.AuditLogPage })));
 const BessPage = lazy(() => import('./pages/Bess/BessPage').then((m) => ({ default: m.BessPage })));
-const ComponentsPage = lazy(() => import('./pages/Components/ComponentsPage').then((m) => ({ default: m.ComponentsPage })));
+const ComponentsPage = lazy(() =>
+  import('./pages/Components/ComponentsPage').then((m) => ({ default: m.ComponentsPage })),
+);
 const CustomersPage = lazy(() => import('./pages/CustomersPage').then((m) => ({ default: m.CustomersPage })));
-const FinancePage = lazy(() => import('./pages/Finance/FinancePage').then((m) => ({ default: m.FinancePage })));
+const EstimatesPage = lazy(() =>
+  import('./pages/Estimates/EstimatesPage').then((m) => ({ default: m.EstimatesPage })),
+);
+const FinancePage = lazy(() =>
+  import('./pages/Finance/FinancePage').then((m) => ({ default: m.FinancePage })),
+);
 const HelpPage = lazy(() => import('./pages/HelpPage').then((m) => ({ default: m.HelpPage })));
-const IntegrationsPage = lazy(() => import('./pages/Integrations/IntegrationsPage').then((m) => ({ default: m.IntegrationsPage })));
+const HomePage = lazy(() => import('./pages/Home/HomePage').then((m) => ({ default: m.HomePage })));
+const IntegrationsPage = lazy(() =>
+  import('./pages/Integrations/IntegrationsPage').then((m) => ({ default: m.IntegrationsPage })),
+);
 const NotFoundPage = lazy(() => import('./pages/SystemPages').then((m) => ({ default: m.NotFoundPage })));
 const SignedOutPage = lazy(() => import('./pages/SystemPages').then((m) => ({ default: m.SignedOutPage })));
-const NotificationsPage = lazy(() => import('./pages/NotificationsPage').then((m) => ({ default: m.NotificationsPage })));
+const NotificationsPage = lazy(() =>
+  import('./pages/NotificationsPage').then((m) => ({ default: m.NotificationsPage })),
+);
 const OrdersPage = lazy(() => import('./pages/OrdersPage').then((m) => ({ default: m.OrdersPage })));
 const OverviewPage = lazy(() => import('./pages/OverviewPage').then((m) => ({ default: m.OverviewPage })));
 const PatternsPage = lazy(() => import('./pages/PatternsPage').then((m) => ({ default: m.PatternsPage })));
@@ -27,8 +39,15 @@ const ReportsPage = lazy(() => import('./pages/ReportsPage').then((m) => ({ defa
 const RequestsPage = lazy(() => import('./pages/RequestsPage').then((m) => ({ default: m.RequestsPage })));
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
 const TemplatesPage = lazy(() => import('./pages/TemplatesPage').then((m) => ({ default: m.TemplatesPage })));
-const TrafficPage = lazy(() => import('./pages/Traffic/TrafficPage').then((m) => ({ default: m.TrafficPage })));
-const TopologyPage = lazy(() => import('./pages/Topology/TopologyPage').then((m) => ({ default: m.TopologyPage })));
+const TrafficPage = lazy(() =>
+  import('./pages/Traffic/TrafficPage').then((m) => ({ default: m.TrafficPage })),
+);
+const TopologyPage = lazy(() =>
+  import('./pages/Topology/TopologyPage').then((m) => ({ default: m.TopologyPage })),
+);
+const VendorsPage = lazy(() =>
+  import('./pages/Vendors/VendorsPage').then((m) => ({ default: m.VendorsPage })),
+);
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -40,6 +59,9 @@ createRoot(document.getElementById('root')!).render(
             <Route element={<Shell />}>
               <Route index element={<Navigate to="/overview" replace />} />
               <Route path="/overview" element={<OverviewPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/vendors" element={<VendorsPage />} />
+              <Route path="/estimates" element={<EstimatesPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/customers" element={<CustomersPage />} />
@@ -66,5 +88,5 @@ createRoot(document.getElementById('root')!).render(
         </Suspense>
       </BrowserRouter>
     </AppProvider>
-  </StrictMode>
+  </StrictMode>,
 );

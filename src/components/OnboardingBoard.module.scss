@@ -1,0 +1,330 @@
+@use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
+
+// ── AvatarStack ──────────────────────────────────────────────────────────
+.avatarStack {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  > * {
+    box-shadow: 0 0 0 2px $card;
+  }
+}
+
+.avatarStack-sm > * + * {
+  margin-left: -0.25rem;
+}
+
+.avatarStack-md > * + * {
+  margin-left: -0.3125rem;
+}
+
+.avatarExtra {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: $active;
+  color: $fg-soft;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 2px $card;
+}
+
+.avatarExtra-sm {
+  width: 1.375rem;
+  height: 1.375rem;
+  font-size: 0.5625rem;
+}
+
+.avatarExtra-md {
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 0.6875rem;
+}
+
+// ── OnboardingCard ───────────────────────────────────────────────────────
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  min-width: 0;
+  padding: 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  transition:
+    border-color $t-fast,
+    box-shadow $t-fast;
+
+  &:has(.cardMainBtn:focus-visible) {
+    outline: 2px solid $sky;
+    outline-offset: 2px;
+  }
+
+  @include bp.phone {
+    padding: 0.75rem;
+  }
+}
+
+.cardInteractive:hover {
+  border-color: $border-strong;
+}
+
+.cardSelected {
+  border-color: color-mix(in srgb, $sky 52%, $border-strong);
+  box-shadow: 0 0 0 1px color-mix(in srgb, $sky 20%, transparent);
+
+  :global([data-theme='light']) & {
+    border-color: color-mix(in srgb, $accent 55%, $border-strong);
+    box-shadow: 0 0 0 2px $accent-soft;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.monogram {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: 700;
+  line-height: 1;
+  color: $ink;
+}
+
+@each $name, $color in ('lavender': $lavender, 'peach': $peach, 'mint': $mint, 'lemon': $lemon, 'rose': $rose, 'sky': $sky) {
+  .tone-#{$name} {
+    background: $color;
+    color: $ink;
+  }
+}
+
+.spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.iconBtn {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: $fg-muted;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.cardMainBtn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+}
+
+.cardTitle {
+  display: block;
+  margin: 0.125rem 0 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  color: $fg;
+}
+
+.cardSummary {
+  margin: -0.25rem 0 0;
+  font-size: $font-size-sm;
+  line-height: 1.45;
+  color: $fg-muted;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.progressTrack {
+  flex: 1;
+  height: 0.375rem;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: $tag-bg;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  transition: width $t-base;
+}
+
+.progress-lemon {
+  background: $lemon;
+}
+
+.progress-rose {
+  background: $rose;
+}
+
+.progress-mint {
+  background: $mint;
+}
+
+.progressPct {
+  flex-shrink: 0;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  color: $fg-muted;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.125rem;
+}
+
+.cardMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  line-height: 1;
+}
+
+// ── KanbanColumn ─────────────────────────────────────────────────────────
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+}
+
+.colHeaderLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.colTitle {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: $fg;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.colBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.moreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  width: 100%;
+  height: 2.375rem;
+  padding: 0 0.75rem;
+  border: 1px dashed $border-strong;
+  border-radius: $radius-md;
+  background: transparent;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    border-color $t-fast,
+    color $t-fast;
+
+  &:hover {
+    border-color: $fg-muted;
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.chevron {
+  transition: transform $t-base;
+}
+
+.chevronExpanded {
+  transform: rotate(180deg);
+}
