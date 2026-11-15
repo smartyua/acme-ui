@@ -1,0 +1,643 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+.topBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.breadcrumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.topActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  @include bp.phone {
+    width: 100%;
+
+    > * {
+      flex: 1 1 auto;
+    }
+  }
+}
+
+.heroBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  margin-bottom: 1.25rem;
+
+  h1 {
+    margin: 0;
+    color: $fg;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.18;
+  }
+
+  p {
+    margin: 0;
+    color: $fg-muted;
+    font-size: $font-size-base;
+  }
+}
+
+.heroHighlight {
+  color: $danger;
+}
+
+// ── 5-tile KPI strip ─────────────────────────────────────────────────────
+.kpiStrip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  margin-bottom: 1rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  overflow: hidden;
+
+  @include bp.below-desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include bp.phone {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.kpiCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.3125rem;
+  padding: 0.875rem 1rem;
+  border: 0;
+  border-right: 1px solid $border;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background $t-fast;
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  &:hover {
+    background: $hover;
+  }
+
+  @include bp.phone {
+    border-bottom: 1px solid $border;
+  }
+}
+
+.kpiCellActive {
+  background: $well;
+}
+
+.kpiLabel {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.kpiValueRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4375rem;
+}
+
+.kpiNumber {
+  color: $fg;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.kpiSub {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.kpiSubDanger {
+  color: $danger;
+  font-weight: 500;
+}
+
+// ── Split rows ───────────────────────────────────────────────────────────
+.splitGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(19rem, 1fr);
+  gap: 1rem;
+  align-items: stretch;
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panelCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  min-width: 0;
+}
+
+.panelHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.panelTitle {
+  margin: 0;
+  color: $fg;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.panelMeta {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.legendList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: $font-size-xs;
+  color: $fg-soft;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dotInbound {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: $fg;
+}
+
+.dotOutbound {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: $fg-muted;
+}
+
+.dotInternal {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: $bar-hover;
+}
+
+.dotMissedHollow {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  border: 2px solid $danger;
+  background: transparent;
+}
+
+// ── 24-hour Calls by time of day chart ───────────────────────────────────
+.timeChartWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding-top: 0.25rem;
+}
+
+.zoneHeaderRow {
+  display: grid;
+  grid-template-columns: 2.5rem 37.5fr 37.5fr 25fr;
+  align-items: center;
+  font-size: 0.6875rem;
+  color: $fg-muted;
+  text-align: center;
+}
+
+.chartCanvasRow {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 0.375rem;
+  align-items: stretch;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 10.5rem;
+  color: $fg-muted;
+  font-size: 0.6875rem;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.plotArea {
+  position: relative;
+  height: 10.5rem;
+  border-bottom: 1px solid $border-strong;
+  background:
+    linear-gradient(to bottom, $border 1px, transparent 1px) 0 0 / 100% 50%;
+  overflow: hidden;
+}
+
+.afterHoursBandLeft {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 37.5%;
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, $fg 5%, transparent),
+    color-mix(in srgb, $fg 5%, transparent) 3px,
+    transparent 3px,
+    transparent 7px
+  );
+  border-right: 1px solid $border;
+}
+
+.afterHoursBandRight {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 25%;
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, $fg 5%, transparent),
+    color-mix(in srgb, $fg 5%, transparent) 3px,
+    transparent 3px,
+    transparent 7px
+  );
+  border-left: 1px solid $border;
+}
+
+.callBar {
+  position: absolute;
+  bottom: 0;
+  width: 0.5rem;
+  border-radius: 3px 3px 0 0;
+}
+
+.callBar-inbound {
+  background: $fg;
+}
+
+.callBar-outbound {
+  background: $fg-muted;
+}
+
+.callBar-internal {
+  background: $bar-hover;
+}
+
+.missedMarkerLeft {
+  position: absolute;
+  bottom: 0.375rem;
+  left: 3.5%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.missedMarkerRight {
+  position: absolute;
+  bottom: 0.375rem;
+  right: 3.5%;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.missedCircle {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 999px;
+  border: 2px solid $danger;
+  background: $card;
+  flex-shrink: 0;
+}
+
+.missedPill {
+  display: inline-flex;
+  align-items: center;
+  height: 1.375rem;
+  padding: 0 0.4375rem;
+  border: 1px solid $border;
+  border-radius: $radius-xs;
+  background: $card;
+  color: $danger;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: $card-shadow-hairline;
+}
+
+.xAxis {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 2.875rem;
+  color: $fg-muted;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+// ── After hours card ─────────────────────────────────────────────────────
+.afterHoursLead {
+  margin: -0.25rem 0 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  line-height: 1.45;
+}
+
+.missedList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.missedItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.missedItemText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+
+  strong {
+    color: $fg;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  span {
+    color: $fg-muted;
+    font-size: $font-size-xs;
+  }
+}
+
+.auraBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.auraText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+
+  strong {
+    color: $fg;
+    font-size: $font-size-xs;
+    font-weight: 600;
+  }
+
+  span {
+    color: $fg-muted-strong;
+    font-size: 0.6875rem;
+  }
+}
+
+// ── Recent calls table ───────────────────────────────────────────────────
+.textBtn {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.callRowActive {
+  background: $well;
+}
+
+.numberCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  color: $fg;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.topicCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.topicMissed {
+  color: $danger;
+}
+
+.topicDot-danger {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  background: $danger;
+}
+
+.topicDot-success {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  background: $success;
+}
+
+.topicDot-neutral {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  background: $fg-muted;
+}
+
+.topicDot-missed {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 999px;
+  border: 1.5px solid $danger;
+  background: transparent;
+}
+
+.playCircleBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background: $well;
+  color: $fg;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    border-color: $border-strong;
+  }
+}
+
+.playCircleBtnActive {
+  border-color: $fg;
+  background: $fg;
+  color: $frame;
+
+  &:hover {
+    background: $fg-soft;
+    color: $frame;
+  }
+}
+
+.actionCellRight {
+  text-align: right;
+}
+
+// ── Now playing card ─────────────────────────────────────────────────────
+.nowTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+
+  h3 {
+    margin: 0;
+    color: $fg;
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+}
+
+.nowSub {
+  margin: -0.5rem 0 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.waveformRow {
+  display: grid;
+  grid-template-columns: repeat(44, minmax(0, 1fr));
+  gap: 2px;
+  align-items: center;
+  height: 3rem;
+  padding: 0.25rem 0;
+  cursor: pointer;
+}
+
+.waveBar {
+  width: 100%;
+  border-radius: 2px;
+  background: $bar;
+  transition: background $t-fast;
+}
+
+.waveBarPlayed {
+  background: $fg;
+}
+
+.playerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+  color: $fg-muted;
+}
+
+.playerLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $fg;
+  font-weight: 600;
+}
+
+.aiSummaryBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.aiLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  color: $fg-muted-strong;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.aiBody {
+  margin: 0;
+  color: $fg;
+  font-size: $font-size-xs;
+  line-height: 1.45;
+}

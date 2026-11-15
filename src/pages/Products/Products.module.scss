@@ -1,0 +1,1268 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+.workbench {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr) 20rem;
+  gap: 1rem;
+  align-items: start;
+  min-width: 0;
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.workbenchCollapsedRight {
+  grid-template-columns: 18rem minmax(0, 1fr);
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.columnCard {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+}
+
+.colHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.colTitle {
+  margin: 0;
+  color: $fg;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.iconAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card;
+  color: $fg-soft;
+  cursor: pointer;
+  transition: background $t-fast, border-color $t-fast, color $t-fast;
+
+  &:hover {
+    background: $hover;
+    border-color: $border-strong;
+    color: $fg;
+  }
+}
+
+// ── Left column: Product Overview ────────────────────────────────────────
+.galleryMain {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 13.5rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, $card-raised 85%, $peach),
+    $well
+  );
+  overflow: hidden;
+}
+
+.garmentSvg {
+  width: 82%;
+  height: 86%;
+  display: block;
+}
+
+.favBtn {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card;
+  color: $fg-soft;
+  cursor: pointer;
+  box-shadow: $card-shadow-hairline;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.favBtnActive {
+  color: $warning;
+  border-color: color-mix(in srgb, $warning 45%, $border);
+}
+
+.slideCounter {
+  position: absolute;
+  bottom: 0.625rem;
+  left: 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid $border;
+  border-radius: $radius-xs;
+  background: $card;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.thumbRow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.375rem;
+}
+
+.thumbBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 3.125rem;
+  padding: 0.25rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $well;
+  color: $fg-soft;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color $t-fast, background $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.thumbBtnActive {
+  border-color: $fg;
+  background: $card-raised;
+  color: $fg;
+}
+
+.thumbSwatch {
+  width: 1.375rem;
+  height: 1.375rem;
+  border-radius: $radius-xs;
+  border: 1px solid $border-strong;
+  background: color-mix(in srgb, $peach 55%, $well);
+}
+
+.skuLine {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.productHeading {
+  margin: 0;
+  color: $fg;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.32;
+  letter-spacing: -0.015em;
+}
+
+.productSub {
+  margin: -0.375rem 0 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.kpiBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+  padding: 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.kpiMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpiValue {
+  color: $fg;
+  font-size: 1.125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+
+.segmentBar {
+  display: grid;
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+  gap: 0.2rem;
+}
+
+.segmentTick {
+  height: 0.3125rem;
+  border-radius: 2px;
+  background: $bar;
+}
+
+.segmentTickFilled {
+  background: $fg;
+}
+
+.sectionDivider {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid $border;
+}
+
+.eyebrow {
+  margin: 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.idList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+}
+
+.idRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: $font-size-xs;
+}
+
+.idLabel {
+  color: $fg-muted;
+}
+
+.idValueWrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: $fg-muted;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.taxonomyWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.taxChip {
+  display: inline-flex;
+  align-items: center;
+  height: 1.625rem;
+  padding: 0 0.5rem;
+  border: 1px solid $border;
+  border-radius: $radius-xs;
+  background: $card-raised;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border-strong;
+    background: $hover;
+  }
+}
+
+.ownerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.ownerPerson {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  color: $fg;
+  font-weight: 500;
+}
+
+.overviewActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+// ── Center column ────────────────────────────────────────────────────────
+.centerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.centerTopBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+}
+
+.crumbPill {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 0.3125rem 0.625rem;
+  border-radius: $radius-sm;
+  background: $well;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.navBtns {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.activityCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1rem 1.125rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  min-width: 0;
+}
+
+.activityHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.activityTitle {
+  margin: 0;
+  color: $fg;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.activityMetricRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.bigCount {
+  color: $fg;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.deltaUp {
+  color: $trend-up;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.deltaSub {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.legendRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 0.875rem;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+}
+
+.legendItems {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: $fg-soft;
+}
+
+.dotSwatch {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.dotApproved {
+  background: $success;
+}
+
+.dotReview {
+  background: $warning;
+}
+
+.dotNeedsInfo {
+  background: $lemon;
+}
+
+.dotProjected {
+  background: $bar-hover;
+}
+
+.dotEmpty {
+  background: $well;
+}
+
+.projectedCallout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background: $well;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.matrixWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-bottom: 0.25rem;
+}
+
+.matrixGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+
+.matrixRow {
+  display: grid;
+  grid-template-columns: repeat(32, minmax(0, 1fr));
+  gap: 0.1875rem;
+}
+
+.matrixDot {
+  height: 0.4375rem;
+  border-radius: 2px;
+}
+
+.matrixTodayMarker {
+  box-shadow: 0 0 0 1px $fg;
+}
+
+.matrixAxis {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  width: 100%;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.axisToday {
+  color: $fg;
+  font-weight: 600;
+}
+
+// ── Section tabs & Attributes panel ──────────────────────────────────────
+.attributesPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 0.875rem 1rem 1rem;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  background: $card;
+  min-width: 0;
+}
+
+.sectionTabBar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border-bottom: 1px solid $border;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sectionTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.5rem 0.125rem 0.6875rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: $fg-muted;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.sectionTabActive {
+  border-bottom-color: $fg;
+  color: $fg;
+  font-weight: 600;
+}
+
+.attrToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.attrSearch {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.attrActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 1.75rem;
+  padding: 0 0.625rem;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background: $card;
+  color: $fg-soft;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background $t-fast, border-color $t-fast, color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.filterChipActive {
+  border-color: $fg;
+  background: $fg;
+  color: $frame;
+}
+
+.filterDot {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: $danger;
+}
+
+.groupCard {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $card;
+  overflow: hidden;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.6875rem 0.875rem;
+  border: 0;
+  background: $well;
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.groupHeaderLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.groupFraction {
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.miniSegments {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.miniSeg {
+  width: 0.4375rem;
+  height: 0.25rem;
+  border-radius: 1px;
+  background: $bar;
+}
+
+.miniSegFilled {
+  background: $fg;
+}
+
+.attrGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid $border;
+
+  @include bp.phone {
+    grid-template-columns: 1fr;
+  }
+}
+
+.attrCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+  padding: 0.75rem 0.875rem;
+  border-right: 1px solid $border;
+  border-bottom: 1px solid $border;
+
+  &:nth-child(2n) {
+    border-right: 0;
+  }
+
+  @include bp.phone {
+    border-right: 0;
+  }
+}
+
+.attrLabelRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.reqTag {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.localeBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 1.125rem;
+  padding: 0 0.3125rem;
+  border-radius: 3px;
+  background: $tag-bg;
+  color: $fg-soft;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.attrValueRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-height: 1.625rem;
+}
+
+.attrValue {
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.attrMissing {
+  color: $fg-muted;
+}
+
+.addValueBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border: 1px solid color-mix(in srgb, $warning 40%, $border);
+  border-radius: $radius-xs;
+  background: $tint-peach;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $warning;
+  }
+}
+
+.swatchRow,
+.sizeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.colorChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 1.625rem;
+  padding: 0 0.5rem;
+  border: 1px solid $border;
+  border-radius: $radius-xs;
+  background: $well;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.swatchDotBrown {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 2px;
+  background: color-mix(in srgb, $peach 55%, $ink);
+}
+
+.swatchDotBeige {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 2px;
+  border: 1px solid $border-strong;
+  background: $peach;
+}
+
+.sizeChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.875rem;
+  height: 1.625rem;
+  padding: 0 0.375rem;
+  border: 1px solid $border;
+  border-radius: $radius-xs;
+  background: $card;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    border-color: $border-strong;
+  }
+}
+
+.sizeChipActive {
+  border-color: $fg;
+  background: $card-raised;
+  font-weight: 600;
+}
+
+// ── Right column: Workflows ──────────────────────────────────────────────
+.rightHeaderLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+}
+
+.rightHeaderControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.subPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.subPanelTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.subPanelTitle {
+  margin: 0;
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.subPanelMeta {
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+}
+
+.healthBar {
+  display: flex;
+  height: 0.5rem;
+  border-radius: $radius-xs;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.healthSegReview {
+  width: 14%;
+  background: $fg;
+}
+
+.healthSegEnrich {
+  width: 52%;
+  background: $fg-muted;
+}
+
+.healthSegWait {
+  width: 34%;
+  background: $bar;
+}
+
+.healthLegend {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.healthStat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  font-size: $font-size-xs;
+  color: $fg-muted-strong;
+
+  strong {
+    color: $fg;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.cycleChart {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: end;
+}
+
+.cycleYAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 5.5rem;
+  color: $fg-muted-strong;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cycleBarsWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+}
+
+.cycleBars {
+  display: grid;
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+  gap: 0.1875rem;
+  align-items: end;
+  height: 5.5rem;
+}
+
+.cycleCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.cycleSegWait {
+  background: $bar;
+}
+
+.cycleSegHands {
+  background: $warning;
+}
+
+.cycleXAxis {
+  display: flex;
+  justify-content: space-between;
+  color: $fg-muted-strong;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.cycleMetrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid $border;
+}
+
+.cycleMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $fg;
+    font-size: 1rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.stepProgressRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    color: $fg;
+  }
+}
+
+.stepSegments {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.stepSeg {
+  height: 0.3125rem;
+  border-radius: 2px;
+  background: $bar;
+}
+
+.stepSegDone {
+  background: $fg;
+}
+
+.stepList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+}
+
+.stepTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 600;
+}
+
+.stepBadgeDone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border-radius: $radius-xs;
+  background: $fg;
+  color: $frame;
+}
+
+.stepBadgeCurrent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border: 1px solid $fg;
+  border-radius: $radius-xs;
+  background: $card;
+  color: $fg;
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+.stepBadgeUpcoming {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border: 1px solid $border-strong;
+  border-radius: $radius-xs;
+  background: $card;
+  color: $fg-muted;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+.approvalNote {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  margin-left: 1.75rem;
+  padding: 0.5rem 0.625rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  line-height: 1.38;
+
+  strong {
+    color: $fg;
+  }
+}
+
+.activeStepBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-left: 1.75rem;
+  padding: 0.625rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card;
+}
+
+.assigneeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.assigneeInfo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.assigneeRoleLabel {
+  display: block;
+  color: $fg-muted;
+  font-size: 0.6875rem;
+}
+
+.stepBtnRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.375rem;
+}
+
+.assetGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  @include bp.phone {
+    grid-template-columns: 1fr;
+  }
+}
+
+.assetCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+}
+
+.assetMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+
+  strong {
+    color: $fg;
+    font-size: $font-size-sm;
+  }
+
+  span {
+    color: $fg-muted-strong;
+    font-size: $font-size-xs;
+  }
+}
+
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}

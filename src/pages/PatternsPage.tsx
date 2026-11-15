@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import {
+  BookOpen,
   ClipboardList,
   FileSpreadsheet,
+  FolderKanban,
   House,
   Layers,
+  Lightbulb,
+  Package,
+  PhoneCall,
   Receipt,
   ScrollText,
   Store,
@@ -25,6 +30,36 @@ import s from './pages.module.scss';
 type Recipe = { title: string; description: string; path: string; icon: LucideIcon };
 
 const RECIPES: Recipe[] = [
+  {
+    title: 'Product enrichment',
+    description: '3-column PIM workbench, dot-matrix activity chart, attributes and workflow health',
+    path: '/products',
+    icon: Package,
+  },
+  {
+    title: 'Project task tracker',
+    description: 'Grouped sprint list, docked issue sheet, subtasks and activity stream',
+    path: '/projects',
+    icon: FolderKanban,
+  },
+  {
+    title: 'Executive insights',
+    description: 'Auto-generated opportunity/risk cards, focus score gauge and daily alerts',
+    path: '/insights',
+    icon: Lightbulb,
+  },
+  {
+    title: 'PBX call history',
+    description: '24h after-hours timeline, missed call callbacks and AI waveform player',
+    path: '/calls',
+    icon: PhoneCall,
+  },
+  {
+    title: 'Help & support center',
+    description: 'Guide categories, popular articles, support SLA banner and 30-day uptime bars',
+    path: '/help',
+    icon: BookOpen,
+  },
   {
     title: 'Vendor onboarding board',
     description: 'Contextual views rail, 5 KPI tiles, Kanban columns and detail drawer',

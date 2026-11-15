@@ -1,0 +1,702 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 31rem;
+  gap: 1.25rem;
+  align-items: start;
+  min-width: 0;
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.workbenchFull {
+  grid-template-columns: 1fr;
+}
+
+// ── Left/Main column: Project task list ──────────────────────────────────
+.mainCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.breadcrumbs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.projectHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.titleRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+
+  h1 {
+    margin: 0;
+    color: $fg;
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+}
+
+.folderBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background: $card;
+  color: $accent-text-strong;
+}
+
+.projectLead {
+  margin: 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+}
+
+.progressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+  color: $fg-muted;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.progressTrack {
+  display: flex;
+  flex: 1 1 8rem;
+  max-width: 14rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: $bar;
+  overflow: hidden;
+}
+
+.progressFillGreen {
+  width: 44%;
+  background: $success;
+}
+
+.progressFillPurple {
+  width: 18%;
+  background: $lavender;
+}
+
+.viewTabBar {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  border-bottom: 1px solid $border;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.viewTab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.125rem 0.625rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.viewTabActive {
+  border-bottom-color: $fg;
+  color: $fg;
+  font-weight: 600;
+}
+
+.filterPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.filterPillsLeft {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  height: 1.75rem;
+  padding: 0 0.6875rem;
+  border: 1px solid $border-strong;
+  border-radius: 999px;
+  background: $card;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.filterPillActive {
+  border-color: $fg;
+  background: $active;
+}
+
+// ── Status group sections ────────────────────────────────────────────────
+.groupSection {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $card;
+  overflow: hidden;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 0;
+  border-bottom: 1px solid $border;
+  background: $well;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.groupHeaderLeft {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+}
+
+.groupCount {
+  color: $fg-muted-strong;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.statusIconProgress {
+  color: $accent-text-strong;
+}
+
+.statusIconReview {
+  color: $warning;
+}
+
+.statusIconBacklog {
+  color: $fg-muted-strong;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.taskRow {
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.taskRowBtn {
+  display: grid;
+  grid-template-columns: 1.125rem 4.125rem 1.125rem minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  align-items: center;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition: background $t-fast;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.taskRowSelected {
+  background: $active;
+
+  .taskCode {
+    color: $fg;
+  }
+}
+
+.urgentSquare {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 3px;
+  background: $warning;
+  color: $ink;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.priorityBars {
+  color: $fg-soft;
+}
+
+.taskCode {
+  color: $fg-soft;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.taskTitle {
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.addTaskBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+// ── Right column: Docked Task Detail Sheet ───────────────────────────────
+.detailSheet {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  padding: 1.25rem 1.375rem;
+  border: 1px solid $border-strong;
+  border-radius: $radius-lg;
+  background: $card;
+  box-shadow: $shadow-card;
+  min-width: 0;
+}
+
+.sheetTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sheetCrumb {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.sheetActions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.sheetIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: $fg-muted;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.sheetTitle {
+  margin: -0.375rem 0 0;
+  color: $fg;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.28;
+}
+
+.propGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.propRow {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.75rem;
+  font-size: $font-size-xs;
+}
+
+.propLabel {
+  color: $fg-muted;
+}
+
+.propValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4375rem;
+  color: $fg;
+  font-weight: 500;
+}
+
+.propInteractiveBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.1875rem 0.4375rem;
+  margin-left: -0.4375rem;
+  border: 1px solid transparent;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border;
+    background: $hover;
+  }
+}
+
+.mutedSpan {
+  color: $fg-muted;
+  font-weight: 400;
+}
+
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid $border;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sectionTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  margin: 0;
+  color: $fg;
+  font-size: $font-size-xs;
+  font-weight: 600;
+}
+
+.sectionCount {
+  color: $fg-muted;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.subtaskMiniMeter {
+  width: 4rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: $bar;
+  overflow: hidden;
+}
+
+.subtaskMiniFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: $success;
+}
+
+.descText {
+  margin: 0;
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  line-height: 1.55;
+
+  code {
+    padding: 0.125rem 0.375rem;
+    border: 1px solid $border;
+    border-radius: $radius-xs;
+    background: $well;
+    color: $fg;
+    font-size: 0.6875rem;
+  }
+}
+
+// ── Subtasks list ────────────────────────────────────────────────────────
+.subtaskList {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subtaskRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid $border;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.subtaskBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5625rem;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: $fg;
+  font-size: $font-size-xs;
+  text-align: left;
+  cursor: pointer;
+}
+
+.checkBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  border: 1px solid $border-strong;
+  border-radius: 4px;
+  background: $card;
+  color: $frame;
+}
+
+.checkBoxDone {
+  border-color: $fg;
+  background: $fg;
+}
+
+.subtaskDoneText {
+  color: $fg-muted;
+  text-decoration: line-through;
+}
+
+.subtaskRight {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.runningLabel {
+  color: $accent-text-strong;
+  font-size: 0.6875rem;
+  font-weight: 600;
+}
+
+// ── Activity timeline ────────────────────────────────────────────────────
+.activityTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activityItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  font-size: $font-size-xs;
+}
+
+.activityRowTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.activityActor {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: $fg-muted;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.timelineDotAccent {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  margin: 0 0.25rem;
+  border-radius: 999px;
+  background: $lavender;
+}
+
+.timelineDotMuted {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  margin: 0 0.25rem;
+  border-radius: 999px;
+  background: $fg-muted;
+}
+
+.activityTime {
+  color: $fg-muted;
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.commentBubble {
+  margin-left: 1.75rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+  color: $fg;
+  font-size: $font-size-xs;
+  line-height: 1.48;
+}
+
+.commentForm {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.commentInputWrap {
+  flex: 1 1 auto;
+}
+
+.boardColumns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  @include bp.phone {
+    grid-template-columns: 1fr;
+  }
+}
+
+.boardCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.6875rem;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $well;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border-strong;
+  }
+}
+
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}

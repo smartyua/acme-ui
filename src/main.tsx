@@ -10,6 +10,9 @@ const ActivityPage = lazy(() => import('./pages/ActivityPage').then((m) => ({ de
 const AnalyticsPage = lazy(() => import('./pages/AnalyticsPage').then((m) => ({ default: m.AnalyticsPage })));
 const AuditLogPage = lazy(() => import('./pages/AuditLogPage').then((m) => ({ default: m.AuditLogPage })));
 const BessPage = lazy(() => import('./pages/Bess/BessPage').then((m) => ({ default: m.BessPage })));
+const CallsPage = lazy(() =>
+  import('./pages/Calls/CallsPage').then((m) => ({ default: m.CallsPage })),
+);
 const ComponentsPage = lazy(() =>
   import('./pages/Components/ComponentsPage').then((m) => ({ default: m.ComponentsPage })),
 );
@@ -22,6 +25,9 @@ const FinancePage = lazy(() =>
 );
 const HelpPage = lazy(() => import('./pages/HelpPage').then((m) => ({ default: m.HelpPage })));
 const HomePage = lazy(() => import('./pages/Home/HomePage').then((m) => ({ default: m.HomePage })));
+const InsightsPage = lazy(() =>
+  import('./pages/Insights/InsightsPage').then((m) => ({ default: m.InsightsPage })),
+);
 const IntegrationsPage = lazy(() =>
   import('./pages/Integrations/IntegrationsPage').then((m) => ({ default: m.IntegrationsPage })),
 );
@@ -34,7 +40,13 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage').then((m) => ({ defaul
 const OverviewPage = lazy(() => import('./pages/OverviewPage').then((m) => ({ default: m.OverviewPage })));
 const PatternsPage = lazy(() => import('./pages/PatternsPage').then((m) => ({ default: m.PatternsPage })));
 const PaymentsPage = lazy(() => import('./pages/PaymentsPage').then((m) => ({ default: m.PaymentsPage })));
+const ProductsPage = lazy(() =>
+  import('./pages/Products/ProductsPage').then((m) => ({ default: m.ProductsPage })),
+);
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage })));
+const ProjectsPage = lazy(() =>
+  import('./pages/Projects/ProjectsPage').then((m) => ({ default: m.ProjectsPage })),
+);
 const ReportsPage = lazy(() => import('./pages/ReportsPage').then((m) => ({ default: m.ReportsPage })));
 const RequestsPage = lazy(() => import('./pages/RequestsPage').then((m) => ({ default: m.RequestsPage })));
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
@@ -60,8 +72,12 @@ createRoot(document.getElementById('root')!).render(
               <Route index element={<Navigate to="/overview" replace />} />
               <Route path="/overview" element={<OverviewPage />} />
               <Route path="/home" element={<HomePage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
+              <Route path="/products" element={<ProductsPage />} />
               <Route path="/vendors" element={<VendorsPage />} />
               <Route path="/estimates" element={<EstimatesPage />} />
+              <Route path="/insights" element={<InsightsPage />} />
+              <Route path="/calls" element={<CallsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/customers" element={<CustomersPage />} />
