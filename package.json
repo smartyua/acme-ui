@@ -14,7 +14,8 @@
     "format": "prettier --check src",
     "test": "vitest run",
     "test:cov": "vitest run --coverage",
-    "check": "npm run typecheck && npm run lint && npm run lint:design && npm run test",
+    "test:gaps": "vitest run --coverage --coverage.reporter=json-summary --coverage.reporter=text-summary && node scripts/cov-report.mjs",
+    "check": "npm run typecheck && npm run lint && npm run lint:design && npm run test:cov",
     "e2e": "playwright test",
     "e2e:update": "playwright test --update-snapshots",
     "verify": "npm run check && npm run build && npm run e2e"

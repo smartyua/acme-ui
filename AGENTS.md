@@ -35,6 +35,7 @@ npm run verify   # check + build + e2e — must pass before you call a task done
 | Demo content | `src/content/*.ts`, `src/data.ts` |
 | Browser tests and screenshot baselines | `e2e/`, `playwright.config.ts` |
 | Contract tests (token parity, route wiring) | `tests/`; unit tests sit next to the source as `*.test.ts(x)` |
+| jsdom render harness for specs (`mount`, `click`, `press`, …) | `src/test/harness.tsx` (+ `setup.ts`, `dom.ts`, `media.ts`) |
 | Agent team | `.claude/agents/*.md` (read by Cursor, Claude Code and Empryo) |
 | Stop-hook gate for agents | `.claude/settings.json` → `scripts/agent-gate.mjs` |
 | Recorded debt the gate tolerates | `eslint-suppressions.json`, `stylelint-suppressions.json`, `e2e/a11y-debt.ts` |
