@@ -6,6 +6,7 @@ import { Button, Modal, Toaster, cx, srOnly } from '../components/ui';
 import { Count, Switch } from '../components/primitives';
 import { ALL_ROUTES, RAIL_PRIMARY, RAIL_SECONDARY, type RailItem } from '../data';
 import { CATEGORY_TOTALS } from '../content/templates';
+import { getTitleSuffix } from '../embed';
 import { useApp } from '../lib/app';
 import styles from './Shell.module.scss';
 
@@ -71,7 +72,8 @@ export const Shell = () => {
 
   const current = ALL_ROUTES.find((r) => location.pathname.startsWith(r.path));
   useEffect(() => {
-    document.title = current ? `${current.label} · Acme` : 'Acme';
+    const suffix = getTitleSuffix();
+    document.title = current ? `${current.label} · ${suffix}` : suffix;
   }, [current]);
 
   const pendingOrders = transactions.filter((t) => t.status === 'pending').length;

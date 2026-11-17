@@ -2,6 +2,7 @@ import { StrictMode, Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { getEmbedContext } from './embed';
 import { Shell } from './layout/Shell';
 import { AppProvider } from './lib/app';
 import './styles/globals.scss';
@@ -61,10 +62,13 @@ const VendorsPage = lazy(() =>
   import('./pages/Vendors/VendorsPage').then((m) => ({ default: m.VendorsPage })),
 );
 
+/** `/en/acme-ui` when served by kylypko.com, undefined standalone. */
+const routerBasename = getEmbedContext()?.basename;
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AppProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={routerBasename}>
         <Suspense fallback={null}>
           <Routes>
             <Route path="/signed-out" element={<SignedOutPage />} />
