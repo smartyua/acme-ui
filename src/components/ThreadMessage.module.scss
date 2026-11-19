@@ -1,0 +1,253 @@
+@use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
+
+.message {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.avatarCol {
+  padding-top: 0.125rem;
+}
+
+.bodyCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.author {
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.time {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.paragraph {
+  margin: 0;
+  color: $fg;
+  font-size: $font-size-sm;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.mention,
+.mentionStatic {
+  color: $accent-text-strong;
+  font-weight: 500;
+}
+
+.mention {
+  display: inline;
+  padding: 0 0.125rem;
+  margin: 0 -0.125rem;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  transition: background $t-fast;
+
+  &:hover {
+    background: $accent-soft;
+  }
+}
+
+.attachmentSlot {
+  padding-top: 0.25rem;
+}
+
+// ── Attachment preview card ──────────────────────────────────────────────
+.attachment {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: 24rem;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $panel;
+
+  @include bp.phone {
+    max-width: none;
+  }
+}
+
+.attachmentLead {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  flex: 1 1 11rem;
+}
+
+.attachmentIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background: $card;
+  color: $fg-soft;
+}
+
+.attachmentMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.0625rem;
+  min-width: 0;
+}
+
+.attachmentTitle {
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachmentSub {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ── Reaction bar ─────────────────────────────────────────────────────────
+.reactions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  padding-top: 0.125rem;
+}
+
+.reactionPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3125rem;
+  height: 1.625rem;
+  padding: 0 0.5rem;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background: $panel;
+  color: $fg-soft;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    border-color $t-fast,
+    color $t-fast;
+
+  &:hover {
+    border-color: $border-strong;
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.reactionPillActive {
+  border-color: color-mix(in srgb, $accent 40%, $border);
+  background: $accent-soft;
+  color: $accent-text-strong;
+}
+
+.reactionIcon {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+
+.reactionCount {
+  line-height: 1;
+}
+
+.pickerWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.addReactionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: $fg-muted;
+  cursor: pointer;
+  transition:
+    background $t-fast,
+    color $t-fast;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}
+
+.pickerPopover {
+  position: absolute;
+  bottom: calc(100% + 0.375rem);
+  left: 0;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border: 1px solid $border-strong;
+  border-radius: $radius-md;
+  background: $card;
+  box-shadow: $shadow-float;
+}
+
+.pickerOption {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  border-radius: $radius-xs;
+  background: transparent;
+  color: $fg-soft;
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+    color: $fg;
+  }
+}

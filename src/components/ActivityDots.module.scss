@@ -1,0 +1,38 @@
+@use '../styles/tokens' as *;
+
+.strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.1875rem;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+
+.dot {
+  width: 0.375rem;
+  height: 0.375rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  transition: transform $t-fast;
+
+  &:hover {
+    transform: scale(1.25);
+  }
+}
+
+.level-0 {
+  background: $bar;
+}
+
+.level-1 {
+  background: color-mix(in srgb, $lavender 45%, $bar);
+}
+
+.level-2 {
+  background: $lavender;
+}
+
+.level-3 {
+  background: $accent;
+}

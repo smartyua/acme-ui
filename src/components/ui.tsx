@@ -165,13 +165,21 @@ export const PillTabs = <T extends string>({
   onChange,
   items,
   label,
+  size = 'md',
+  fullWidth,
 }: {
   value: T;
   onChange: (v: T) => void;
   items: Array<{ value: T; label: string; count?: number | string }>;
   label: string;
+  size?: 'sm' | 'md';
+  fullWidth?: boolean;
 }) => (
-  <div className={styles.pills} role="tablist" aria-label={label}>
+  <div
+    className={cx(styles.pills, size === 'sm' && styles.pillsSm, fullWidth && styles.pillsFull)}
+    role="tablist"
+    aria-label={label}
+  >
     {items.map((it) => (
       <button
         key={it.value}

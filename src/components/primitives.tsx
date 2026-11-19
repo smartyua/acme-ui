@@ -13,8 +13,19 @@ export const Count = ({ value, tone }: { value: ReactNode; tone?: Tone | 'muted'
   </span>
 );
 
-export const Avatar = ({ initials, size = 'md' }: { initials: string; size?: 'sm' | 'md' }) => (
-  <span className={cx(styles.avatar, styles[`avatar-${size}`], styles[`tone-${AVATAR_TONE[initials] ?? 'sky'}`])} aria-hidden>
+export const Avatar = ({
+  initials,
+  size = 'md',
+  tone,
+}: {
+  initials: string;
+  size?: 'sm' | 'md' | 'lg';
+  tone?: Tone | 'muted';
+}) => (
+  <span
+    className={cx(styles.avatar, styles[`avatar-${size}`], styles[`tone-${tone ?? AVATAR_TONE[initials] ?? 'sky'}`])}
+    aria-hidden
+  >
     {initials}
   </span>
 );

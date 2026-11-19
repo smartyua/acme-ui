@@ -1,8 +1,31 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { Bell, Inbox, Pencil, Plus, Trash2, Users } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Bell,
+  Calendar,
+  Check,
+  CircleCheck,
+  Inbox,
+  Pencil,
+  Plus,
+  Sparkles,
+  Star,
+  Thermometer,
+  Timer,
+  Trash2,
+  UserRound,
+  Users,
+  Warehouse,
+  Zap,
+} from 'lucide-react';
 
+import { ActivityDots } from '../../components/ActivityDots';
 import { BarChart } from '../../components/BarChart';
 import { EstimateCard } from '../../components/EstimateCard';
+import { EventTimeline } from '../../components/EventTimeline';
+import { JourneyBar } from '../../components/JourneyBar';
+import { MessageComposer } from '../../components/MessageComposer';
+import { MetricStrip } from '../../components/MetricStrip';
 import { AvatarStack, KanbanColumn, OnboardingCard } from '../../components/OnboardingBoard';
 import { Avatar, Checkbox, Count, Segmented, Switch } from '../../components/primitives';
 import {
@@ -14,6 +37,10 @@ import {
 import { Callout, CalloutDescription, CalloutTitle } from '../../components/primitives/Callout';
 import { Skeleton } from '../../components/primitives/Skeleton';
 import { Spinner } from '../../components/primitives/Spinner';
+import { MemberRow, PropertyList, PropertyRow } from '../../components/PropertyList';
+import { RouteMap } from '../../components/RouteMap';
+import { AttachmentCard, ThreadMessage } from '../../components/ThreadMessage';
+import { ThresholdChart } from '../../components/ThresholdChart';
 import {
   AppChip,
   Badge,
@@ -38,6 +65,15 @@ import { Page } from '../../layout/Page';
 import { useApp } from '../../lib/app';
 import { INITIAL_ESTIMATES } from '../Estimates/estimatesData';
 import s from '../pages.module.scss';
+import {
+  EXCURSION_RANGE,
+  ROUTE_LANDMARKS,
+  ROUTE_SEGMENTS,
+  ROUTE_TIMELINE_EVENTS,
+  ROUTE_WAYPOINTS,
+  TEMPERATURE_READINGS,
+  TEMPERATURE_X_TICKS,
+} from '../Shipments/shipmentsData';
 import { INITIAL_VENDORS } from '../Vendors/vendorsData';
 import { KPIS, MEMBERS, STATUS_TONE, WEEKLY, type Member, type MemberStatus } from './componentsData';
 import c from './Components.module.scss';
@@ -80,6 +116,12 @@ const Catalog = () => {
   const [digest, setDigest] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [composerDraft, setComposerDraft] = useState('Looks great! Ready for review ');
+  const [demoEventId, setDemoEventId] = useState('peak');
+  const [demoReactions, setDemoReactions] = useState([
+    { id: 'zap', label: 'Energy', icon: <Zap size={14} aria-hidden />, count: 3, reacted: true },
+    { id: 'star', label: 'Star', icon: <Star size={14} aria-hidden />, count: 4, reacted: false },
+  ]);
 
   return (
     <div className={c.grid}>
@@ -388,6 +430,223 @@ const Catalog = () => {
               toast({ title: 'Invoice draw started', description: est.client, tone: 'success' })
             }
             onMore={(est) => toast({ title: `Options for ${est.code}` })}
+          />
+        </div>
+      </Demo>
+
+      <Demo
+        title="ThreadMessage, AttachmentCard and ReactionBar"
+        source="components/ThreadMessage"
+        description="Conversation message with inline @mentions, embedded link preview card and toggleable reaction pills."
+        code={`<ThreadMessage author="Ravi I." initials="RI" timestamp="4h ago" paragraphs={[…]} attachment={<AttachmentCard … />} reactions={[…]} />`}
+      >
+        <div className={c.full}>
+          <ThreadMessage
+            author="Ravi I."
+            initials="RI"
+            timestamp="4h ago"
+            paragraphs={[
+              'Mapped all five screens against the new design tokens. @Sofia K., could you review screens 2 and 4?',
+            ]}
+            onMentionClick={(mention) => toast({ title: mention })}
+            attachment={
+              <AttachmentCard
+                app="figma"
+                title="Orbitly onboarding · v4.0"
+                subtitle="figma.com"
+                actionLabel="Quick view"
+                onAction={() => toast({ title: 'Opened attachment preview' })}
+              />
+            }
+            reactions={demoReactions}
+            onToggleReaction={(id) =>
+              setDemoReactions((prev) =>
+                prev.map((r) =>
+                  r.id === id ? { ...r, reacted: !r.reacted, count: r.reacted ? r.count - 1 : r.count + 1 } : r,
+                ),
+              )
+            }
+          />
+        </div>
+      </Demo>
+
+      <Demo
+        title="MessageComposer"
+        source="components/MessageComposer"
+        description="Reply box with @mention autocomplete suggestions, toolbar actions and expand toggle."
+        code={`<MessageComposer value={draft} onChange={setDraft} onSend={send} mentions={[…]} />`}
+      >
+        <div className={c.full}>
+          <MessageComposer
+            value={composerDraft}
+            onChange={setComposerDraft}
+            onSend={() => {
+              toast({ title: 'Reply sent', tone: 'success' });
+              setComposerDraft('');
+            }}
+            onDiscard={() => setComposerDraft('')}
+            mentions={[
+              { id: 'sk', name: 'Sofia Kim', initials: 'SK' },
+              { id: 'sp', name: 'Samuel Park', initials: 'SP', offline: true },
+            ]}
+            onToolbarAction={(action) => toast({ title: `Composer action: ${action}` })}
+          />
+        </div>
+      </Demo>
+
+      <Demo
+        title="PropertyList, MemberRow and ActivityDots"
+        source="components/PropertyList · ActivityDots"
+        description="Inspector key-value rows, person directory rows with role badges and 1D activity intensity strips."
+        code={`<PropertyList><PropertyRow icon={…} label="Status" value={<Count tone="lavender" value="In review" />} /></PropertyList>\n<ActivityDots items={[0, 1, 2, 3, …]} label="Thread activity" />`}
+      >
+        <div className={c.formStack}>
+          <PropertyList>
+            <PropertyRow
+              icon={<UserRound size={14} aria-hidden />}
+              label="Creator"
+              value="Leah C."
+            />
+            <PropertyRow
+              icon={<Calendar size={14} aria-hidden />}
+              label="Created"
+              value="14 Oct"
+            />
+            <PropertyRow
+              icon={<Sparkles size={14} aria-hidden />}
+              label="Status"
+              value={<Count tone="lavender" value="In review" />}
+            />
+          </PropertyList>
+          <ActivityDots
+            items={[0, 0, 1, 2, 1, 3, 2, 1, 2, 3, 2, 1, 0, 1, 2, 1]}
+            label="Sample thread activity"
+          />
+          <MemberRow
+            initials="LC"
+            name="Leah Chen"
+            role="Product lead"
+            badge={{ label: 'Management', tone: 'lemon' }}
+          />
+          <MemberRow initials="SP" name="Samuel Park" role="QA engineer" offline />
+        </div>
+      </Demo>
+
+      <Demo
+        title="MetricStrip and JourneyBar"
+        source="components/MetricStrip · JourneyBar"
+        description="Divided KPI strip and multi-segment trip bar with inline excursion badge."
+        code={`<MetricStrip items={[…]} />\n<JourneyBar origin={…} destination={…} segments={[…]} />`}
+      >
+        <div className={c.formStack}>
+          <MetricStrip
+            items={[
+              {
+                id: 'peak',
+                label: 'Peak',
+                icon: <Thermometer size={14} aria-hidden />,
+                value: '10.2 °C',
+                detail: 'at 11:00',
+                tone: 'danger',
+              },
+              {
+                id: 'over',
+                label: 'Over limit',
+                icon: <ArrowUpRight size={14} aria-hidden />,
+                value: '+2.2 °C',
+                detail: 'limit 8 °C',
+                tone: 'danger',
+              },
+              {
+                id: 'dur',
+                label: 'Out of range',
+                icon: <Timer size={14} aria-hidden />,
+                value: '1 h 10 min',
+                detail: '10:25–11:35',
+              },
+              {
+                id: 'del',
+                label: 'At delivery',
+                icon: <CircleCheck size={14} aria-hidden />,
+                value: '5.6 °C',
+                detail: 'back in range',
+              },
+            ]}
+          />
+          <JourneyBar
+            origin={{
+              title: 'Venlo DC',
+              detail: 'Departed 07:05',
+              icon: <Warehouse size={14} aria-hidden />,
+            }}
+            destination={{
+              title: 'Antwerp',
+              detail: 'Delivered 12:10',
+              icon: <Check size={14} aria-hidden />,
+              tone: 'success',
+            }}
+            segments={[
+              { id: 'b', weight: 66, tone: 'success', label: 'In range' },
+              {
+                id: 'e',
+                weight: 23,
+                tone: 'danger',
+                label: '1 h 10 min above 8 °C',
+                pill: { icon: <Thermometer size={14} aria-hidden />, text: '1 h 10 min' },
+                onClick: () => toast({ title: 'Excursion: 1 h 10 min', description: 'Peak 10.2 °C at 11:00.' }),
+              },
+              { id: 'a', weight: 11, tone: 'success', label: 'Recovered' },
+            ]}
+          />
+        </div>
+      </Demo>
+
+      <Demo
+        title="ThresholdChart"
+        source="components/ThresholdChart"
+        description="Reading matrix chart with threshold line, highlighted excursion columns and hover callout."
+        code={`<ThresholdChart readings={…} threshold={8} min={3.5} max={11} yTicks={[4, 6, 8, 10]} xTicks={…} />`}
+      >
+        <div className={c.full}>
+          <ThresholdChart
+            readings={TEMPERATURE_READINGS}
+            threshold={8}
+            min={3.5}
+            max={11}
+            yTicks={[4, 6, 8, 10]}
+            xTicks={TEMPERATURE_X_TICKS}
+            excursionRange={EXCURSION_RANGE}
+            excursionCallout={{
+              rangeLabel: '10:25–11:35',
+              durationLabel: '1 h 10 min',
+              peakLabel: 'peak 10.2 °C',
+            }}
+            legend={{ inRange: 'In range', aboveRange: 'Above range', limit: 'Limit 8 °C' }}
+            ariaLabel="Sample temperature threshold chart"
+          />
+        </div>
+      </Demo>
+
+      <Demo
+        title="RouteMap and EventTimeline"
+        source="components/RouteMap · EventTimeline"
+        description="Stylized telemetry route map synced with an interactive vertical milestone timeline."
+        code={`<RouteMap segments={…} waypoints={…} activeWaypointId={id} onSelectWaypoint={setId} />\n<EventTimeline events={…} activeId={id} onSelect={setId} />`}
+      >
+        <div className={c.formStack}>
+          <RouteMap
+            segments={ROUTE_SEGMENTS}
+            waypoints={ROUTE_WAYPOINTS}
+            landmarks={ROUTE_LANDMARKS}
+            activeWaypointId={demoEventId}
+            onSelectWaypoint={setDemoEventId}
+            ariaLabel="Sample shipment route map"
+          />
+          <EventTimeline
+            events={ROUTE_TIMELINE_EVENTS}
+            activeId={demoEventId}
+            onSelect={setDemoEventId}
+            ariaLabel="Sample shipment milestones"
           />
         </div>
       </Demo>

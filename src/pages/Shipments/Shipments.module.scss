@@ -1,0 +1,178 @@
+@use '../../styles/tokens' as *;
+@use '../../styles/breakpoints' as bp;
+
+.pageStack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+// ── Shipment header ──────────────────────────────────────────────────────
+.headerRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.titleLine {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+
+  h1 {
+    margin: 0;
+    color: $fg;
+    font-size: 1.375rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.statusBar {
+  width: 0.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: $warning;
+}
+
+.lead {
+  margin: 0;
+  color: $fg-muted;
+  font-size: $font-size-sm;
+  font-variant-numeric: tabular-nums;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+  }
+}
+
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+
+  @include bp.phone {
+    width: 100%;
+
+    > * {
+      flex: 1;
+    }
+  }
+}
+
+// ── Underline tabs (Overview / Route) ────────────────────────────────────
+.tabBar {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border-bottom: 1px solid $border;
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding: 0.5rem 0.125rem 0.6875rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  background: transparent;
+  color: $fg-muted;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    color $t-fast,
+    border-color $t-fast;
+
+  &:hover {
+    color: $fg;
+  }
+}
+
+.tabBtnActive {
+  border-bottom-color: $accent;
+  color: $fg;
+  font-weight: 600;
+}
+
+// ── Main telemetry panel ─────────────────────────────────────────────────
+.telemetryPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+}
+
+.routeSplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.journeyFooter {
+  padding-top: 0.875rem;
+  border-top: 1px solid $border;
+}
+
+.boldTime {
+  color: $fg;
+  font-weight: 600;
+}
+
+// ── Overview tab grid ────────────────────────────────────────────────────
+.overviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+
+  @include bp.below-desktop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.budgetBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.budgetHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: $font-size-xs;
+  color: $fg-muted;
+
+  strong {
+    color: $fg;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.overviewNote {
+  margin: 0;
+  color: $fg-muted;
+  font-size: $font-size-sm;
+  line-height: 1.5;
+}

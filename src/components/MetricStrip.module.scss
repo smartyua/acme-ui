@@ -1,0 +1,83 @@
+@use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
+
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid $border;
+  border-radius: $radius-md;
+  background: $well;
+  overflow: hidden;
+
+  @include bp.below-desktop {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+  padding: 0.875rem 1rem;
+  border-right: 1px solid $border;
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  @include bp.below-desktop {
+    border-bottom: 1px solid $border;
+
+    &:nth-child(2n) {
+      border-right: 0;
+    }
+
+    &:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+  }
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-weight: 500;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: $fg-muted-strong;
+}
+
+.value {
+  color: $fg;
+  font-size: $font-size-lg;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+
+.tone-danger {
+  color: $danger;
+}
+
+.tone-success {
+  color: $success;
+}
+
+.tone-warning {
+  color: $warning;
+}
+
+.detail {
+  color: $fg-muted-strong;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+}

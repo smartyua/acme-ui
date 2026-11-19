@@ -1,0 +1,193 @@
+@use '../styles/tokens' as *;
+
+.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  position: relative;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1.5rem minmax(0, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  background: transparent;
+  text-align: left;
+  transition:
+    background $t-fast,
+    border-color $t-fast;
+}
+
+.rowInteractive {
+  cursor: pointer;
+
+  &:hover {
+    background: $hover;
+  }
+}
+
+.rowActive {
+  border-color: $border;
+  background: $card-raised;
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.node {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.625rem;
+  height: 0.625rem;
+  margin-top: 0.25rem;
+  border: 2px solid $border-strong;
+  border-radius: 999px;
+  background: $card;
+  flex-shrink: 0;
+}
+
+.node-neutral {
+  border-color: $fg-muted;
+}
+
+.node-danger {
+  border-color: $danger;
+}
+
+.node-success {
+  border-color: $success;
+}
+
+.node-accent {
+  border-color: $accent;
+}
+
+.nodeActive {
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-top: 0.125rem;
+  box-shadow: 0 0 0 3px color-mix(in srgb, $danger 22%, transparent);
+
+  &.node-danger {
+    background: $danger;
+    border-color: $card;
+  }
+
+  &.node-success {
+    background: $success;
+    border-color: $card;
+    box-shadow: 0 0 0 3px color-mix(in srgb, $success 22%, transparent);
+  }
+
+  &.node-neutral {
+    background: $fg;
+    border-color: $card;
+    box-shadow: 0 0 0 3px $hover;
+  }
+}
+
+.nodeCompleted {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: 0.0625rem;
+  border-width: 1px;
+  border-color: color-mix(in srgb, $success 45%, $border);
+  background: color-mix(in srgb, $success 16%, transparent);
+  color: $success;
+}
+
+.line {
+  position: absolute;
+  top: 1.125rem;
+  bottom: -1.5rem;
+  width: 2px;
+  border-radius: 999px;
+  background: $border;
+}
+
+.line-danger {
+  background: $danger;
+}
+
+.line-success {
+  background: $success;
+}
+
+.line-accent {
+  background: $accent;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1875rem;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.title {
+  color: $fg;
+  font-size: $font-size-sm;
+  font-weight: 600;
+}
+
+.time {
+  color: $fg-muted;
+  font-size: $font-size-xs;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.subRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3125rem;
+  font-size: $font-size-xs;
+  line-height: 1.4;
+}
+
+.val {
+  color: $fg;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.val-danger {
+  color: $danger;
+}
+
+.val-success {
+  color: $success;
+}
+
+.val-accent {
+  color: $accent-text-strong;
+}
+
+.sep,
+.detail {
+  color: $fg-muted;
+}

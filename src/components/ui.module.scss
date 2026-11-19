@@ -462,6 +462,26 @@
   }
 }
 
+.pillsFull {
+  width: 100%;
+
+  .pill {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+}
+
+.pillsSm {
+  padding: 0.1875rem;
+
+  .pill {
+    height: 1.75rem;
+    padding: 0 0.5rem;
+    font-size: $font-size-xs;
+    font-weight: 500;
+  }
+}
+
 .pill {
   display: inline-flex;
   flex-shrink: 0;

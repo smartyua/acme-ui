@@ -51,7 +51,13 @@ const ProjectsPage = lazy(() =>
 const ReportsPage = lazy(() => import('./pages/ReportsPage').then((m) => ({ default: m.ReportsPage })));
 const RequestsPage = lazy(() => import('./pages/RequestsPage').then((m) => ({ default: m.RequestsPage })));
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then((m) => ({ default: m.SettingsPage })));
+const ShipmentsPage = lazy(() =>
+  import('./pages/Shipments/ShipmentsPage').then((m) => ({ default: m.ShipmentsPage })),
+);
 const TemplatesPage = lazy(() => import('./pages/TemplatesPage').then((m) => ({ default: m.TemplatesPage })));
+const ThreadsPage = lazy(() =>
+  import('./pages/Threads/ThreadsPage').then((m) => ({ default: m.ThreadsPage })),
+);
 const TrafficPage = lazy(() =>
   import('./pages/Traffic/TrafficPage').then((m) => ({ default: m.TrafficPage })),
 );
@@ -82,6 +88,8 @@ createRoot(document.getElementById('root')!).render(
               <Route path="/estimates" element={<EstimatesPage />} />
               <Route path="/insights" element={<InsightsPage />} />
               <Route path="/calls" element={<CallsPage />} />
+              <Route path="/threads" element={<ThreadsPage />} />
+              <Route path="/shipments" element={<ShipmentsPage />} />
               <Route path="/templates" element={<TemplatesPage />} />
               <Route path="/orders" element={<OrdersPage />} />
               <Route path="/customers" element={<CustomersPage />} />

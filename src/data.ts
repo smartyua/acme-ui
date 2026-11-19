@@ -16,6 +16,7 @@ import {
   LayoutTemplate,
   Lightbulb,
   LineChart,
+  MessageSquare,
   Network,
   Package,
   PhoneCall,
@@ -26,6 +27,7 @@ import {
   Shapes,
   Store,
   TrendingUp,
+  Truck,
   UserRound,
   Users,
   Wallet,
@@ -46,6 +48,8 @@ export const RAIL_PRIMARY: RailItem[] = [
   { id: 'estimates', label: 'Estimates', icon: FileSpreadsheet, path: '/estimates' },
   { id: 'insights', label: 'Insights', icon: Lightbulb, path: '/insights' },
   { id: 'calls', label: 'Call history', icon: PhoneCall, path: '/calls' },
+  { id: 'threads', label: 'Threads', icon: MessageSquare, path: '/threads' },
+  { id: 'shipments', label: 'Shipments', icon: Truck, path: '/shipments' },
   { id: 'templates', label: 'Templates', icon: LayoutTemplate, path: '/templates' },
   { id: 'orders', label: 'Orders', icon: CreditCard, path: '/orders' },
   { id: 'customers', label: 'Customers', icon: Users, path: '/customers' },
@@ -314,6 +318,11 @@ export const AVATAR_TONE: Record<string, Tone> = {
   SO: 'mint',
   ST: 'sky',
   DW: 'peach',
+  LC: 'peach',
+  RI: 'lavender',
+  SK: 'rose',
+  MO: 'sky',
+  SP: 'sky',
 };
 
 export const DOC_ICON = FileText;

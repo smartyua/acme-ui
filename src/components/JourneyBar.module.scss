@@ -1,0 +1,217 @@
+@use '../styles/tokens' as *;
+@use '../styles/breakpoints' as bp;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.trackRow {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.endpointBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background: $well;
+  color: $fg-muted-strong;
+}
+
+.badge-success {
+  border-color: transparent;
+  background: $success;
+  color: $accent-fg;
+
+  :global([data-theme='dark']) & {
+    color: $ink;
+  }
+}
+
+.badge-danger {
+  border-color: transparent;
+  background: $danger;
+  color: $accent-fg;
+
+  :global([data-theme='dark']) & {
+    color: $ink;
+  }
+}
+
+.segments {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+  height: 1.75rem;
+}
+
+.segSlot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-basis: 0;
+  min-width: 0.75rem;
+  height: 100%;
+}
+
+.segBtn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+
+  &:hover .bar {
+    filter: brightness(1.08);
+  }
+}
+
+.bar {
+  width: 100%;
+  height: 0.4375rem;
+  border-radius: 999px;
+  transition: filter $t-fast;
+}
+
+.bar-success {
+  background: $success;
+}
+
+.bar-danger {
+  background: $danger;
+}
+
+.bar-neutral {
+  background: $bar;
+}
+
+.bar-accent {
+  background: $accent;
+}
+
+.pill {
+  position: absolute;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 1.5rem;
+  padding: 0 0.5625rem;
+  border-radius: 999px;
+  font-size: $font-size-xs;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  box-shadow: $pop-shadow;
+}
+
+.pill-danger {
+  background: $danger;
+  color: $accent-fg;
+
+  :global([data-theme='dark']) & {
+    color: $ink;
+  }
+}
+
+.pill-success {
+  background: $success;
+  color: $accent-fg;
+
+  :global([data-theme='dark']) & {
+    color: $ink;
+  }
+}
+
+.pill-accent {
+  background: $accent;
+  color: $accent-fg;
+}
+
+.pill-neutral {
+  background: $active;
+  color: $fg;
+}
+
+.marker {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid $card;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px $danger;
+}
+
+.marker-danger {
+  background: $danger;
+  box-shadow: 0 0 0 2px $danger;
+}
+
+.marker-success {
+  background: $success;
+  box-shadow: 0 0 0 2px $success;
+}
+
+.marker-accent {
+  background: $accent;
+  box-shadow: 0 0 0 2px $accent;
+}
+
+.marker-neutral {
+  background: $fg-muted;
+  box-shadow: 0 0 0 2px $border-strong;
+}
+
+.endpointsRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+
+  @include bp.phone {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}
+
+.endpointMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+
+  strong {
+    color: $fg;
+    font-size: $font-size-sm;
+    font-weight: 600;
+  }
+
+  span {
+    color: $fg-muted;
+    font-size: $font-size-xs;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.endpointMetaRight {
+  align-items: flex-end;
+  text-align: right;
+
+  @include bp.phone {
+    align-items: flex-start;
+    text-align: left;
+  }
+}

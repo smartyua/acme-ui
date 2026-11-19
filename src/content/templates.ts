@@ -14,6 +14,7 @@ export type AppId =
   | 'jira'
   | 'notion'
   | 'docusign'
+  | 'figma'
   | 'ai';
 
 // Integration chips are drawn as neutral monograms, not vendor marks.
@@ -31,6 +32,7 @@ export const APPS: Record<AppId, { name: string; mono: string; hue: string }> = 
   jira: { name: 'Jira', mono: 'Ji', hue: '#1d5bbf' },
   notion: { name: 'Notion', mono: 'No', hue: '#55555b' },
   docusign: { name: 'DocuSign', mono: 'Ds', hue: '#8a6209' },
+  figma: { name: 'Figma', mono: 'Fg', hue: '#6d28d9' },
   ai: { name: 'AI step', mono: 'AI', hue: '#1366ba' },
 };
 
